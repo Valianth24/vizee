@@ -1,0 +1,3509 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Programlama Temelleri - Vizeden 100 Aldıracak Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Header */
+        .hero-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease;
+        }
+
+            .hero-header h1 {
+                font-size: 3.5em;
+                color: white;
+                text-shadow: 0 5px 30px rgba(0,0,0,0.3);
+                margin-bottom: 15px;
+                font-weight: 800;
+                letter-spacing: -1px;
+            }
+
+            .hero-header .subtitle {
+                font-size: 1.4em;
+                color: rgba(255,255,255,0.95);
+                text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                font-weight: 500;
+            }
+
+            .hero-header .badge {
+                display: inline-block;
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                padding: 12px 30px;
+                border-radius: 50px;
+                margin-top: 20px;
+                font-weight: 600;
+                font-size: 1.1em;
+                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+                animation: pulse 2s infinite;
+            }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(16, 185, 129, 0.6);
+            }
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+            .nav-tab:hover {
+                transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-tab.active {
+                background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+                color: var(--primary);
+                border-color: white;
+                box-shadow: 0 15px 50px rgba(255, 255, 255, 0.3);
+            }
+
+            .nav-tab .icon {
+                font-size: 2em;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+        /* Content Cards */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+            .content-section.active {
+                display: block;
+            }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .week-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .week-title h2 {
+            color: var(--dark);
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .week-title p {
+            color: #64748b;
+            font-size: 1.1em;
+        }
+
+        /* Topic Sections */
+        .topic {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+            border-radius: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .topic-title {
+            color: var(--primary);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+        }
+
+            .topic-title .emoji {
+                font-size: 1.3em;
+            }
+
+        .subtopic {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+            .subtopic h4 {
+                color: var(--secondary);
+                font-size: 1.4em;
+                margin-bottom: 15px;
+                position: relative;
+                padding-left: 20px;
+            }
+
+                .subtopic h4::before {
+                    content: '▶';
+                    position: absolute;
+                    left: 0;
+                    color: var(--primary);
+                }
+
+            .subtopic ul {
+                list-style: none;
+                margin-left: 0;
+            }
+
+            .subtopic li {
+                padding: 12px 20px;
+                margin-bottom: 10px;
+                background: linear-gradient(90deg, rgba(102,126,234,0.08) 0%, rgba(255,255,255,0) 100%);
+                border-left: 4px solid var(--info);
+                border-radius: 8px;
+                line-height: 1.8;
+                font-size: 1.05em;
+            }
+
+                .subtopic li strong {
+                    color: var(--secondary);
+                    font-weight: 700;
+                }
+
+        /* Code Examples */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+            .code-block::before {
+                content: 'Python';
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                background: var(--success);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 6px;
+                font-size: 0.75em;
+                font-weight: 600;
+            }
+
+            .code-block .comment {
+                color: #94a3b8;
+                font-style: italic;
+            }
+
+            .code-block .keyword {
+                color: #c792ea;
+                font-weight: 600;
+            }
+
+            .code-block .string {
+                color: #c3e88d;
+            }
+
+            .code-block .function {
+                color: #82aaff;
+            }
+
+        /* Quiz Section */
+        .quiz-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .filter-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+            }
+
+            .filter-btn.active {
+                background: white;
+                color: var(--primary);
+                border-color: white;
+            }
+
+        .question-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+            .question-card:hover {
+                border-color: var(--primary);
+                box-shadow: 0 15px 50px rgba(102,126,234,0.2);
+            }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .question-topic {
+            background: rgba(102,126,234,0.1);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 18px 25px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(255,255,255,1));
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+            .option:hover {
+                border-color: var(--primary);
+                background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(255,255,255,1));
+                transform: translateX(10px);
+            }
+
+            .option.selected {
+                border-color: var(--info);
+                background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(255,255,255,1));
+                font-weight: 600;
+            }
+
+            .option.correct {
+                border-color: var(--success);
+                background: linear-gradient(135deg, var(--success), #059669);
+                color: white;
+                font-weight: 700;
+            }
+
+            .option.incorrect {
+                border-color: var(--danger);
+                background: linear-gradient(135deg, var(--danger), #dc2626);
+                color: white;
+                font-weight: 700;
+            }
+
+        .explanation {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(255,255,255,1));
+            border-left: 5px solid var(--success);
+            border-radius: 15px;
+        }
+
+            .explanation.show {
+                display: block;
+                animation: slideDown 0.5s ease;
+            }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation-title {
+            color: var(--success);
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .explanation-content {
+            color: var(--dark);
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .explanation-steps {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .step {
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, rgba(102,126,234,0.08) 0%, rgba(255,255,255,0) 100%);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+        }
+
+            .step strong {
+                color: var(--primary);
+            }
+
+        /* Action Buttons */
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 40px rgba(102,126,234,0.4);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+
+            .btn-success:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 40px rgba(16,185,129,0.4);
+            }
+
+        /* Score Display */
+        .score-card {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 20px 60px rgba(16,185,129,0.4);
+            display: none;
+        }
+
+            .score-card.show {
+                display: block;
+                animation: bounceIn 0.8s ease;
+            }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .score-card h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .score-card p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            height: 15px;
+            border-radius: 50px;
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #34d399);
+            border-radius: 50px;
+            transition: width 0.5s ease;
+            width: 0%;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .progress-bar::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-header h1 {
+                font-size: 2em;
+            }
+
+            .nav-tabs {
+                grid-template-columns: 1fr;
+            }
+
+            .glass-card {
+                padding: 20px;
+            }
+
+            .question-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Highlight Effect */
+        .highlight {
+            background: linear-gradient(90deg, rgba(255,215,0,0.3), rgba(255,215,0,0.6), rgba(255,215,0,0.3));
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 700;
+            color: #92400e;
+        }
+
+        /* Important Box */
+        .important-box {
+            background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(255,255,255,1));
+            border-left: 5px solid var(--danger);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+            .important-box strong {
+                color: var(--danger);
+                font-size: 1.2em;
+            }
+
+        /* Success Box */
+        .success-box {
+            background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(255,255,255,1));
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+            .success-box strong {
+                color: var(--success);
+                font-size: 1.2em;
+            }
+
+        /* Table */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+            .styled-table thead tr {
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+                text-align: left;
+                font-weight: 700;
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 15px 20px;
+            }
+
+            .styled-table tbody tr {
+                border-bottom: 1px solid #e2e8f0;
+                transition: background 0.3s ease;
+            }
+
+                .styled-table tbody tr:hover {
+                    background: rgba(102,126,234,0.05);
+                }
+
+                .styled-table tbody tr:nth-child(even) {
+                    background: #f8fafc;
+                }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Hero Header -->
+        <div class="hero-header">
+            <h1>🎓 Programlama Temelleri</h1>
+            <p class="subtitle">Vizeden 100 Aldıracak Kapsamlı Platform</p>
+            <div class="badge">✨ ALLAH'IN İZNİYLE 100 ALACAKSINIZ! ✨</div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('hafta1')">
+                <span class="icon">📚</span>
+                1. Hafta
+            </div>
+            <div class="nav-tab" onclick="showSection('hafta2')">
+                <span class="icon">🐍</span>
+                2. Hafta
+            </div>
+            <div class="nav-tab" onclick="showSection('hafta3')">
+                <span class="icon">💾</span>
+                3. Hafta
+            </div>
+            <div class="nav-tab" onclick="showSection('hafta4')">
+                <span class="icon">⌨️</span>
+                4. Hafta
+            </div>
+            <div class="nav-tab" onclick="showSection('quiz')">
+                <span class="icon">✍️</span>
+                Sorular
+            </div>
+        </div>
+
+        <!-- Week 1 Content -->
+        <div id="hafta1" class="content-section active">
+            <div class="glass-card">
+                <div class="week-header">
+                    <div class="week-number">1</div>
+                    <div class="week-title">
+                        <h2>Programlamaya Giriş</h2>
+                        <p>Algoritma, Akış Diyagramları ve Temel Kavramlar</p>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">💻</span> Bilgisayar ve Programlama</h3>
+
+                    <div class="subtopic">
+                        <h4>Bilgisayarın Temel Bileşenleri</h4>
+                        <ul>
+                            <li><strong>Girdi Birimleri:</strong> Klavye, fare, sensörler → Bilgisayara bilgi girişi yapar</li>
+                            <li><strong>İşlem Birimi (CPU):</strong> Gelen bilgiyi işler, mantıksal kararlar verir ve hesaplamalar yapar</li>
+                            <li><strong>Çıktı Birimleri:</strong> Ekran, yazıcı, hoparlör → İşlenmiş sonuçları kullanıcıya gösterir</li>
+                        </ul>
+
+                        <div class="important-box">
+                            <strong>⚠️ ÖNEMLİ NOT:</strong> Bilgisayar kendi başına düşünemez! Yalnızca programlar tarafından verilen komutları uygular.
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Programlama Nedir?</h4>
+                        <ul>
+                            <li><strong>Tanım:</strong> Belirli bir problemi çözmek veya bir işi otomatikleştirmek için bilgisayara verdiğimiz <span class="highlight">adım adım talimatlar</span> bütünüdür</li>
+                            <li>
+                                <strong>Programlamanın Amaçları:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>✅ İşleri otomatikleştirmek</li>
+                                    <li>✅ Hata riskini azaltmak</li>
+                                    <li>✅ Karmaşık işlemleri basitleştirmek</li>
+                                    <li>✅ Tekrar eden görevleri hızlıca yapmak</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Programlama Dilleri</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Dil Seviyesi</th>
+                                    <th>Özellikler</th>
+                                    <th>Örnekler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Düşük Seviye</strong></td>
+                                    <td>
+                                        • Makine dili (0 ve 1'ler)<br>
+                                        • Bilgisayara en yakın<br>
+                                        • Anlaşılması çok zor
+                                    </td>
+                                    <td>Assembly, Makine Kodu</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Yüksek Seviye</strong></td>
+                                    <td>
+                                        • İnsan diline yakın<br>
+                                        • Anlaşılması kolay<br>
+                                        • Derleyici/Yorumlayıcı kullanır
+                                    </td>
+                                    <td>Python, Java, C++, C#</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🔄</span> Algoritma Kavramı</h3>
+
+                    <div class="subtopic">
+                        <h4>Algoritma Nedir?</h4>
+                        <ul>
+                            <li><strong>Tanım:</strong> Bir problemi çözmek için belirli, net ve sıralı adımlar dizisidir</li>
+                            <li><strong>Önemli:</strong> Algoritmanın bir bilgisayar programı olmak zorunda <strong>DEĞİLDİR</strong>. Günlük hayatta da algoritmalar vardır!</li>
+                        </ul>
+
+                        <div class="success-box">
+                            <strong>💡 GÜNLÜK HAYAT ÖRNEĞİ - Çay Demleme Algoritması:</strong><br>
+                            1️⃣ Su kaynatılır<br>
+                            2️⃣ Çaydanlığa çay eklenir<br>
+                            3️⃣ Kaynar su çayın üzerine dökülür<br>
+                            4️⃣ Belirli süre demlenmeye bırakılır<br>
+                            5️⃣ Çay fincana dökülür
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Algoritmanın 5 Temel Özelliği</h4>
+                        <ul>
+                            <li><strong>1️⃣ Sonluluk (Finiteness):</strong> Algoritma <span class="highlight">mutlaka bir süre sonra sonlanmalı</span>. Sonsuz döngüler algoritma değildir!</li>
+                            <li><strong>2️⃣ Açıklık ve Belirlilik:</strong> Her adımın anlamı <span class="highlight">net olmalı</span>, yoruma açık olmamalı</li>
+                            <li><strong>3️⃣ Girdi ve Çıktı:</strong> Algoritma bir veya daha fazla <span class="highlight">girdi alabilir</span> ve sonuç olarak <span class="highlight">çıktı üretir</span></li>
+                            <li><strong>4️⃣ Etkinlik:</strong> Her adım <span class="highlight">uygulanabilir</span> olmalı</li>
+                            <li><strong>5️⃣ Doğruluk:</strong> Algoritma <span class="highlight">her zaman doğru sonuç</span> üretmeli</li>
+                        </ul>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZEDE ÇIKACAK:</strong> Algoritmanın özellikleri sıkça sorulur! Özellikle "Sonluluk" özelliğini unutmayın.
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>ATM'den Para Çekme Algoritması Örneği</h4>
+                        <div class="success-box">
+                            <strong>💳 Adım Adım:</strong><br>
+                            1️⃣ Kart yerleştirilir<br>
+                            2️⃣ PIN girilir<br>
+                            3️⃣ Para çekme seçeneği seçilir<br>
+                            4️⃣ Miktar girilir ve onaylanır<br>
+                            5️⃣ Para ve fiş verilir
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">📊</span> Akış Diyagramları</h3>
+
+                    <div class="subtopic">
+                        <h4>Akış Diyagramı Nedir?</h4>
+                        <ul>
+                            <li><strong>Tanım:</strong> Algoritmaların <span class="highlight">şekillerle ve oklarla</span> ifade edildiği görsel gösterim yöntemidir</li>
+                            <li>
+                                <strong>Faydaları:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>✅ Karmaşık algoritmaların görselleştirilmesini sağlar</li>
+                                    <li>✅ Mantık hatalarını tespit etmeyi kolaylaştırır</li>
+                                    <li>✅ Hataları önceden görme imkanı sunar</li>
+                                    <li>✅ Algoritmanın mantığını başkalarına anlatmayı kolaylaştırır</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Akış Diyagramı Sembolleri (EZBERLE!)</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Sembol</th>
+                                    <th>Şekil</th>
+                                    <th>Anlamı</th>
+                                    <th>Kullanım</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Oval</strong></td>
+                                    <td>⭕</td>
+                                    <td>Başla / Bitir</td>
+                                    <td>Algoritmanın başlangıcı ve sonu</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dikdörtgen</strong></td>
+                                    <td>▭</td>
+                                    <td>İşlem</td>
+                                    <td>Atama, toplama, çarpma gibi işlemler</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Paralelkenar</strong></td>
+                                    <td>▱</td>
+                                    <td>Girdi / Çıktı</td>
+                                    <td>Kullanıcıdan veri alma, ekrana yazdırma</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Eşkenar Dörtgen</strong></td>
+                                    <td>◇</td>
+                                    <td>Karar (Koşul)</td>
+                                    <td>if/else, koşullu ifadeler (Evet/Hayır)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ok</strong></td>
+                                    <td>→</td>
+                                    <td>Akış Yönü</td>
+                                    <td>Adımların sırasını gösterir</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZE İPUCU:</strong> Semboller karışabilir! <br>
+                            • <strong>Paralelkenar</strong> → Girdi/Çıktı (input/print)<br>
+                            • <strong>Eşkenar Dörtgen</strong> → Karar/Koşul (if/else)
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>📝 Örnek: İki Sayının Toplamı Akış Diyagramı</h4>
+                        <div class="code-block">
+                            <span class="comment"># Akış Diyagramı Adımları:</span>
+
+                            <span class="keyword">Başla</span> (Oval)
+                            ↓
+                            <span class="keyword">sayı1 ve sayı2'yi al</span> (Paralelkenar - Girdi)
+                            ↓
+                            <span class="keyword">toplam = sayı1 + sayı2</span> (Dikdörtgen - İşlem)
+                            ↓
+                            <span class="keyword">toplamı ekrana yazdır</span> (Paralelkenar - Çıktı)
+                            ↓
+                            <span class="keyword">Bitir</span> (Oval)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">📱</span> Gerçek Hayat: Sensor Uygulamaları</h3>
+
+                    <div class="subtopic">
+                        <h4>Akıllı Telefon Sensörleri ve Uygulamaları</h4>
+                        <ul>
+                            <li><strong>🧭 Pusula Uygulaması:</strong> Telefonun manyetometre sensörü kuzeyi tespit eder, ekranda pusula ibresi gösterilir</li>
+                            <li><strong>🔍 Metal Dedektörü:</strong> Manyetik alan sensörü metal yakınlığını tespit eder, grafik/ses ile uyarı verir</li>
+                            <li><strong>👆 Parmak İzi Okuyucu:</strong> Biyometrik sensör ile güvenlik (kilit açma, ödeme, uygulama kilidi)</li>
+                            <li><strong>❤️ Kalp Atışı Ölçer:</strong> Telefonun arka kamerasındaki sensör nabız ölçer (sağlık uygulamaları)</li>
+                            <li><strong>📡 NFC:</strong> Temassız ödeme, veri transferi, toplu taşıma kartı yükleme</li>
+                            <li><strong>🎤 Mikrofon:</strong> Sesli asistan (Google), ses kaydı, gürültü ölçer, şarkı tanıma (Shazam)</li>
+                            <li><strong>📷 Kamera:</strong> Barkod/QR kod okuma, metin tanıma (OCR), artırılmış gerçeklik (AR)</li>
+                            <li><strong>😴 Uyku Takibi:</strong> İvmeölçer ve mikrofon ile uyku evrelerini analiz eder</li>
+                        </ul>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Android Studio'da Sensor Uygulaması Çalıştırma</h4>
+                        <div class="success-box">
+                            <strong>📱 Telefonu Geliştirici Moduna Alma:</strong><br>
+                            1️⃣ Ayarlar > Hakkında Telefon > Yapı numarasına 7 kere tıkla<br>
+                            2️⃣ "Artık bir geliştiricisiniz!" mesajı gelecek<br>
+                            3️⃣ Ayarlar > Geliştirici Seçenekleri > USB hata ayıklama açık<br>
+                            4️⃣ Telefonu USB ile bilgisayara bağla<br>
+                            5️⃣ Android Studio'da uygulamayı çalıştır (Run ▶️)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 2 Content -->
+        <div id="hafta2" class="content-section">
+            <div class="glass-card">
+                <div class="week-header">
+                    <div class="week-number">2</div>
+                    <div class="week-title">
+                        <h2>Python'a Giriş</h2>
+                        <p>İlk Program, PyCharm IDE ve Temel Sözdizimi</p>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🐍</span> Python Nedir?</h3>
+
+                    <div class="subtopic">
+                        <h4>Python'un Özellikleri</h4>
+                        <ul>
+                            <li><strong>Yüksek Seviyeli:</strong> İnsan diline yakın, anlaşılması kolay</li>
+                            <li><strong>Yorumlamalı (Interpreted):</strong> <span class="highlight">Kod satır satır çalışır</span>, hata anında durur (derleme gerekmez)</li>
+                            <li><strong>Nesne Yönelimli:</strong> Class ve objelerle çalışabilir</li>
+                            <li><strong>Çapraz Platform:</strong> Windows, MacOS, Linux'ta çalışır (OS bağımsız)</li>
+                            <li><strong>Açık Kaynak:</strong> Ücretsiz ve geniş topluluk desteği</li>
+                        </ul>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZEDE SORULUYOR:</strong> Python <span class="highlight">yorumlamalı</span> bir dildir! Bu ne demek?<br>
+                            → Kod satır satır çalışır, derleme aşaması yoktur.
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Python'un Avantajları</h4>
+                        <ul>
+                            <li><strong>✅ Okunabilirlik:</strong> Basit sözdizimi, ingilizce cümleler gibi</li>
+                            <li><strong>✅ Yazım Kolaylığı:</strong> Az kod ile çok iş yapılır</li>
+                            <li>
+                                <strong>✅ Geniş Kullanım Alanları:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>🌐 Web geliştirme (Django, Flask)</li>
+                                    <li>📊 Veri analizi ve yapay zeka (NumPy, Pandas, TensorFlow)</li>
+                                    <li>🎮 Oyun geliştirme (Pygame)</li>
+                                    <li>🤖 Otomasyon ve betik yazımı</li>
+                                </ul>
+                            </li>
+                            <li><strong>✅ Büyük Kütüphane Desteği:</strong> Her iş için hazır kütüphane</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">💻</span> PyCharm IDE</h3>
+
+                    <div class="subtopic">
+                        <h4>PyCharm Nedir?</h4>
+                        <ul>
+                            <li><strong>Tanım:</strong> JetBrains tarafından geliştirilen güçlü Python IDE'si (Entegre Geliştirme Ortamı)</li>
+                            <li>
+                                <strong>Sürümler:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>🆓 <strong>Community Edition:</strong> Ücretsiz, temel özellikler</li>
+                                    <li>💎 <strong>Professional Edition:</strong> Ücretli, gelişmiş özellikler</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>PyCharm Arayüz Bileşenleri</h4>
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Bileşen</th>
+                                    <th>Açıklama</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Project Explorer</strong></td>
+                                    <td>Dosya ve klasör yapısını gösterir</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Editor Window</strong></td>
+                                    <td>Kodların yazıldığı ana alan</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Run/Debug Tool</strong></td>
+                                    <td>Programın çıktılarının görüntülendiği bölüm</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Toolbar & Menu</strong></td>
+                                    <td>Proje, dosya, ayarlar menüleri</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>PyCharm'ın Temel Özellikleri</h4>
+                        <ul>
+                            <li><strong>💡 Kod Tamamlama (Auto-completion):</strong> Yazmaya başladığınızda öneriler gelir</li>
+                            <li><strong>🐛 Hata Ayıklama (Debugging):</strong> Kodunuzdaki hataları bulur ve gösterir</li>
+                            <li><strong>📦 Paket Yönetimi:</strong> pip entegrasyonu, kütüphane kurulumu</li>
+                            <li><strong>🎨 Kod Düzenleme:</strong> Renklendirme, otomatik girinti (indentation)</li>
+                        </ul>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>PyCharm'da Proje Oluşturma</h4>
+                        <div class="success-box">
+                            <strong>📝 Adım Adım:</strong><br>
+                            1️⃣ <strong>File > New Project</strong> tıkla<br>
+                            2️⃣ Proje adını ve konumunu belirle<br>
+                            3️⃣ Python interpreter'ı seç<br>
+                            4️⃣ <strong>Create</strong> butonuna tıkla<br>
+                            5️⃣ Proje içinde: <strong>Right Click > New > Python File</strong><br>
+                            6️⃣ Dosya adı ver (örn: hello.py)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">👋</span> İlk Python Programı</h3>
+
+                    <div class="subtopic">
+                        <h4>Merhaba Dünya Programı</h4>
+                        <div class="code-block">
+                            <span class="comment"># İlk Python programımız</span>
+                            <span class="function">print</span>(<span class="string">"Merhaba Dünya!"</span>)
+
+                            <span class="comment"># Çıktı: Merhaba Dünya!</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 AÇIKLAMA:</strong><br>
+                            • <code>print()</code> fonksiyonu ekrana yazı yazdırır<br>
+                            • Tırnak içindeki metin (string) aynen ekrana basılır<br>
+                            • <code>#</code> işareti yorum satırıdır, çalıştırılmaz
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Kullanıcıdan İsim Alma</h4>
+                        <div class="code-block">
+                            <span class="comment"># Kullanıcıdan veri alma</span>
+                            isim = <span class="function">input</span>(<span class="string">"Adınızı girin: "</span>)
+                            <span class="function">print</span>(<span class="string">"Merhaba"</span>, isim)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Adınızı girin: Ali</span>
+                            <span class="comment"># Çıktı: Merhaba Ali</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ ÖNEMLİ:</strong> <code>input()</code> fonksiyonu <span class="highlight">HER ZAMAN string (metin) döndürür!</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Basit Toplama Programı</h4>
+                        <div class="code-block">
+                            <span class="comment"># İki sayıyı toplama</span>
+                            a = <span class="keyword">5</span>
+                            b = <span class="keyword">3</span>
+                            <span class="function">print</span>(<span class="string">"Toplam:"</span>, a + b)
+
+                            <span class="comment"># Çıktı: Toplam: 8</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Yorum Satırları</h4>
+                        <div class="code-block">
+                            <span class="comment"># Bu bir yorum satırıdır</span>
+                            <span class="comment"># Yorum satırları kodu etkilemez</span>
+                            <span class="comment"># Python tarafından çalıştırılmaz</span>
+
+                            <span class="function">print</span>(<span class="string">"Bu çalışır"</span>)  <span class="comment"># Satır sonunda da yorum yazılabilir</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 YORUM SATIRI KULLANIMI:</strong><br>
+                            • Kodu açıklamak için kullanılır<br>
+                            • Gelecekte kodu anlamayı kolaylaştırır<br>
+                            • Başkalarının kodunuzu anlamasına yardımcı olur<br>
+                            • <code>#</code> işareti ile başlar
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🔄</span> Algoritmadan Koda Örnekler</h3>
+
+                    <div class="subtopic">
+                        <h4>Örnek 1: İki Sayının Toplamı</h4>
+
+                        <div class="success-box">
+                            <strong>📋 ALGORİTMA:</strong><br>
+                            1️⃣ Başla<br>
+                            2️⃣ Kullanıcıdan sayı1 ve sayı2 al<br>
+                            3️⃣ toplam = sayı1 + sayı2<br>
+                            4️⃣ Sonucu ekrana yazdır<br>
+                            5️⃣ Bitir
+                        </div>
+
+                        <div class="code-block">
+                            <span class="comment"># Python Kodu</span>
+                            sayi1 = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Birinci sayıyı girin: "</span>))
+                            sayi2 = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"İkinci sayıyı girin: "</span>))
+
+                            toplam = sayi1 + sayi2
+
+                            <span class="function">print</span>(<span class="string">"Toplam:"</span>, toplam)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Birinci sayıyı girin: 10</span>
+                            <span class="comment"># İkinci sayıyı girin: 25</span>
+                            <span class="comment"># Çıktı: Toplam: 35</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ DİKKAT:</strong> <code>int(input())</code> kullanmak <span class="highlight">ZORUNLU!</span><br>
+                            Çünkü input() string döndürür, matematikte kullanmak için int'e çevirmeliyiz.
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 2: Sayının Karesi</h4>
+
+                        <div class="success-box">
+                            <strong>📋 ALGORİTMA:</strong><br>
+                            1️⃣ Başla<br>
+                            2️⃣ Kullanıcıdan sayı al<br>
+                            3️⃣ karesi = sayı × sayı<br>
+                            4️⃣ Sonucu ekrana yazdır<br>
+                            5️⃣ Bitir
+                        </div>
+
+                        <div class="code-block">
+                            <span class="comment"># Python Kodu</span>
+                            sayi = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Bir sayı girin: "</span>))
+
+                            karesi = sayi * sayi
+                            <span class="comment"># veya</span>
+                            karesi = sayi ** <span class="keyword">2</span>  <span class="comment"># ** üs alma operatörü</span>
+
+                            <span class="function">print</span>(<span class="string">"Sayının karesi:"</span>, karesi)
+
+                            <span class="comment"># Örnek: 5 girilirse → Çıktı: 25</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 3: Not Ortalaması (3 Ders)</h4>
+
+                        <div class="success-box">
+                            <strong>📋 ALGORİTMA:</strong><br>
+                            1️⃣ Başla<br>
+                            2️⃣ 3 ders notu al (not1, not2, not3)<br>
+                            3️⃣ ortalama = (not1 + not2 + not3) / 3<br>
+                            4️⃣ Ortalamayı ekrana yazdır<br>
+                            5️⃣ Bitir
+                        </div>
+
+                        <div class="code-block">
+                            <span class="comment"># Python Kodu</span>
+                            not1 = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"1. ders notu: "</span>))
+                            not2 = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"2. ders notu: "</span>))
+                            not3 = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"3. ders notu: "</span>))
+
+                            ortalama = (not1 + not2 + not3) / <span class="keyword">3</span>
+
+                            <span class="function">print</span>(<span class="string">"Not Ortalamanız:"</span>, ortalama)
+
+                            <span class="comment"># Örnek: 80, 90, 70 girilirse → Çıktı: 80.0</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 NEDEN float():</strong> Not ondalıklı olabilir (85.5 gibi), bu yüzden float kullanıyoruz!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 3 Content -->
+        <div id="hafta3" class="content-section">
+            <div class="glass-card">
+                <div class="week-header">
+                    <div class="week-number">3</div>
+                    <div class="week-title">
+                        <h2>Değişkenler ve Veri Tipleri</h2>
+                        <p>Operatörler, Aritmetik ve Mantıksal İşlemler</p>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">💾</span> Değişkenler (Variables)</h3>
+
+                    <div class="subtopic">
+                        <h4>Değişken Nedir?</h4>
+                        <ul>
+                            <li><strong>Tanım:</strong> Programda verileri saklamak için kullanılan <span class="highlight">isimlendirilmiş hafıza alanlarıdır</span></li>
+                            <li>
+                                <strong>Özellikler:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>📊 Sayısal değerleri tutabilir (int, float)</li>
+                                    <li>📝 Metinsel değerleri tutabilir (str)</li>
+                                    <li>✅ Mantıksal değerleri tutabilir (bool)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="code-block">
+                            <span class="comment"># Değişken örnekleri</span>
+                            x = <span class="keyword">5</span>           <span class="comment"># tam sayı (int)</span>
+                            y = <span class="keyword">3.14</span>        <span class="comment"># ondalıklı sayı (float)</span>
+                            ad = <span class="string">"Anıl"</span>       <span class="comment"># metin (string)</span>
+                            aktif = <span class="keyword">True</span>    <span class="comment"># mantıksal değer (bool)</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Değişken Adlandırma Kuralları (ÇOK ÖNEMLİ!)</h4>
+                        <ul>
+                            <li>
+                                <strong>✅ KURAL 1:</strong> Değişken isimleri <span class="highlight">harf veya alt çizgi (_)</span> ile başlamalıdır.
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>✅ Doğru: isim, _sayi, ad_soyad</li>
+                                    <li>❌ Yanlış: 1sayi, say!, ad-soyad</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>✅ KURAL 2:</strong> Değişken isimleri <span class="highlight">sayı ile başlayamaz</span> (içinde bulunabilir)
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>✅ Doğru: sayi1, not2</li>
+                                    <li>❌ Yanlış: 1sayi, 2not</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>✅ KURAL 3:</strong> Python <span class="highlight">Case Sensitive</span> (büyük/küçük harf duyarlı)
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><code>sayi</code> ≠ <code>Sayi</code> ≠ <code>SAYI</code> (3 farklı değişken!)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>❌ KURAL 4:</strong> Python'un anahtar kelimeleri (keywords) değişken adı olamaz
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>❌ Kullanılamaz: <code>if, else, for, while, def, class, True, False</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZEDE SIKÇA SORULUYOR:</strong><br>
+                            • "Hangi değişken adı geçerlidir?" soruları çok çıkıyor!<br>
+                            • Case Sensitive özelliği mutlaka sorulur!<br>
+                            • Sayı ile başlayan değişkenler tuzak olarak sorulur!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🔢</span> Veri Tipleri (Data Types)</h3>
+
+                    <div class="subtopic">
+                        <h4>Python'da Temel Veri Tipleri</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Veri Tipi</th>
+                                    <th>İngilizce</th>
+                                    <th>Açıklama</th>
+                                    <th>Örnekler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>int</strong></td>
+                                    <td>Integer</td>
+                                    <td>Tam sayılar</td>
+                                    <td>10, -5, 0, 1000</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>float</strong></td>
+                                    <td>Float</td>
+                                    <td>Ondalıklı sayılar</td>
+                                    <td>3.14, -2.5, 0.01</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>str</strong></td>
+                                    <td>String</td>
+                                    <td>Metin (tırnak içinde)</td>
+                                    <td>"Merhaba", 'Python', "123"</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>bool</strong></td>
+                                    <td>Boolean</td>
+                                    <td>Mantıksal değer</td>
+                                    <td>True, False</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>list</strong></td>
+                                    <td>List</td>
+                                    <td>Liste (değiştirilebilir)</td>
+                                    <td>[1, 2, 3], ["a", "b"]</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>tuple</strong></td>
+                                    <td>Tuple</td>
+                                    <td>Demet (değiştirilemez)</td>
+                                    <td>(4, 5, 6), (1,)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>dict</strong></td>
+                                    <td>Dictionary</td>
+                                    <td>Sözlük (anahtar-değer)</td>
+                                    <td>{"ad":"Ali", "yas":20}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Tip Öğrenme ve Dönüşüm</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Değişkenin tipini öğrenme</span>
+                            x = <span class="keyword">42</span>
+                            <span class="function">print</span>(<span class="function">type</span>(x))  <span class="comment"># Çıktı: <class 'int'></span>
+
+                            <span class="comment"># Tip dönüşümleri</span>
+                            y = <span class="function">float</span>(x)        <span class="comment"># int → float dönüşüm</span>
+                            <span class="function">print</span>(y)            <span class="comment"># Çıktı: 42.0</span>
+
+                            z = <span class="function">str</span>(x)          <span class="comment"># int → string dönüşüm</span>
+                            <span class="function">print</span>(z)            <span class="comment"># Çıktı: "42"</span>
+
+                            a = <span class="function">int</span>(<span class="string">"100"</span>)     <span class="comment"># string → int dönüşüm</span>
+                            <span class="function">print</span>(a)            <span class="comment"># Çıktı: 100</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ DİKKAT:</strong> <code>type()</code> fonksiyonu vizede sıkça sorulur!<br>
+                            <code>x = 5.0</code> ise <code>type(x)</code> → <code>float</code><br>
+                            <code>x = "5"</code> ise <code>type(x)</code> → <code>str</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">➕</span> Operatörler</h3>
+
+                    <div class="subtopic">
+                        <h4>Atama Operatörleri</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Temel atama</span>
+                            a = <span class="keyword">5</span>      <span class="comment"># a değişkenine 5 atanır</span>
+
+                            <span class="comment"># Kısa yoldan atama operatörleri</span>
+                            a += <span class="keyword">2</span>     <span class="comment"># a = a + 2 → 7</span>
+                            a *= <span class="keyword">3</span>     <span class="comment"># a = a * 3 → 21</span>
+                            a -= <span class="keyword">1</span>     <span class="comment"># a = a - 1 → 20</span>
+                            a /= <span class="keyword">4</span>     <span class="comment"># a = a / 4 → 5.0</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 İPUCU:</strong> Kısa yoldan atama operatörleri (<code>+=, -=, *=, /=</code>) kod yazmayı hızlandırır ve vizede sık kullanılır!
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Aritmetik Operatörler</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Operatör</th>
+                                    <th>Açıklama</th>
+                                    <th>Örnek</th>
+                                    <th>Sonuç</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>+</strong></td>
+                                    <td>Toplama</td>
+                                    <td>5 + 3</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>-</strong></td>
+                                    <td>Çıkarma</td>
+                                    <td>5 - 3</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>*</strong></td>
+                                    <td>Çarpma</td>
+                                    <td>5 * 3</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>/</strong></td>
+                                    <td>Bölme (float döner)</td>
+                                    <td>5 / 2</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>//</strong></td>
+                                    <td>Tam bölme (tamsayı kısmı)</td>
+                                    <td>5 // 2</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>%</strong></td>
+                                    <td>Mod (kalan bulma)</td>
+                                    <td>5 % 2</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>**</strong></td>
+                                    <td>Üs alma</td>
+                                    <td>2 ** 3</td>
+                                    <td>8</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZEDE SIKÇA ÇIKAN TUZAKLAR:</strong><br>
+                            • <code>5 / 2 = 2.5</code> (float döner!)<br>
+                            • <code>5 // 2 = 2</code> (sadece tamsayı kısmı)<br>
+                            • <code>5 % 2 = 1</code> (kalan bulma - tek/çift kontrolünde kullanılır!)<br>
+                            • <code>2 ** 3 = 8</code> (2³ = 2×2×2)
+                        </div>
+
+                        <div class="code-block">
+                            <span class="comment"># Mod (%) operatörü - Çift/Tek kontrolü</span>
+                            sayi = <span class="keyword">7</span>
+
+                            <span class="keyword">if</span> sayi % <span class="keyword">2</span> == <span class="keyword">0</span>:
+                            <span class="function">print</span>(<span class="string">"Sayı çifttir"</span>)
+                            <span class="keyword">else</span>:
+                            <span class="function">print</span>(<span class="string">"Sayı tektir"</span>)  <span class="comment"># Bu çalışır → 7 % 2 = 1</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Karşılaştırma Operatörleri</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Operatör</th>
+                                    <th>Açıklama</th>
+                                    <th>Örnek</th>
+                                    <th>Sonuç</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>==</strong></td>
+                                    <td>Eşit mi?</td>
+                                    <td>5 == 5</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>!=</strong></td>
+                                    <td>Eşit değil mi?</td>
+                                    <td>5 != 3</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>&gt;</strong></td>
+                                    <td>Büyük mü?</td>
+                                    <td>5 &gt; 3</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>&lt;</strong></td>
+                                    <td>Küçük mü?</td>
+                                    <td>5 &lt; 3</td>
+                                    <td>False</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>&gt;=</strong></td>
+                                    <td>Büyük veya eşit mi?</td>
+                                    <td>5 &gt;= 5</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>&lt;=</strong></td>
+                                    <td>Küçük veya eşit mi?</td>
+                                    <td>3 &lt;= 5</td>
+                                    <td>True</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="important-box">
+                            <strong>⚠️ ÇOK ÖNEMLİ TUZAK:</strong><br>
+                            • <code>=</code> → Atama operatörü (değişkene değer atar)<br>
+                            • <code>==</code> → Karşılaştırma operatörü (eşit mi diye kontrol eder)<br>
+                            <code>x = 5</code> → x'e 5 ata<br>
+                            <code>x == 5</code> → x, 5'e eşit mi? (True/False döner)
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Mantıksal Operatörler</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Operatör</th>
+                                    <th>Açıklama</th>
+                                    <th>Örnek</th>
+                                    <th>Sonuç</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>and</strong></td>
+                                    <td>Ve (her iki koşul da doğru olmalı)</td>
+                                    <td>True and False</td>
+                                    <td>False</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>or</strong></td>
+                                    <td>Veya (en az biri doğru olmalı)</td>
+                                    <td>True or False</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>not</strong></td>
+                                    <td>Değil (tersini alır)</td>
+                                    <td>not True</td>
+                                    <td>False</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="code-block">
+                            <span class="comment"># Mantıksal operatörler örneği</span>
+                            yas = <span class="keyword">20</span>
+                            ogrenci = <span class="keyword">True</span>
+
+                            <span class="comment"># AND operatörü - Her iki koşul da doğru olmalı</span>
+                            <span class="keyword">if</span> yas &gt;= <span class="keyword">18</span> <span class="keyword">and</span> ogrenci:
+                            <span class="function">print</span>(<span class="string">"Öğrenci indirimi kazandınız!"</span>)
+
+                            <span class="comment"># OR operatörü - En az biri doğru olmalı</span>
+                            <span class="keyword">if</span> yas &lt; <span class="keyword">12</span> <span class="keyword">or</span> yas &gt; <span class="keyword">65</span>:
+                            <span class="function">print</span>(<span class="string">"Ücretsiz giriş hakkınız var"</span>)
+
+                            <span class="comment"># NOT operatörü - Tersini alır</span>
+                            aktif = <span class="keyword">False</span>
+                            <span class="keyword">if</span> <span class="keyword">not</span> aktif:
+                            <span class="function">print</span>(<span class="string">"Hesap aktif değil"</span>)
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 MANTIKSAL OPERATÖR DOĞRULUK TABLOLARı:</strong><br><br>
+                            <strong>AND:</strong> Sadece her ikisi de True ise True<br>
+                            True and True = True<br>
+                            True and False = False<br>
+                            False and False = False<br><br>
+                            <strong>OR:</strong> En az biri True ise True<br>
+                            True or True = True<br>
+                            True or False = True<br>
+                            False or False = False<br><br>
+                            <strong>NOT:</strong> Tersini alır<br>
+                            not True = False<br>
+                            not False = True
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🧮</span> Uygulama Örnekleri</h3>
+
+                    <div class="subtopic">
+                        <h4>Örnek 1: Yaş Kontrolü ve Mantıksal İşlem</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Kullanıcıdan yaş alıp reşit kontrolü yapma</span>
+                            yas = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Yaşınızı giriniz: "</span>))
+
+                            <span class="keyword">if</span> yas &gt;= <span class="keyword">18</span>:
+                            <span class="function">print</span>(<span class="string">"Reşitsiniz."</span>)
+                            <span class="keyword">else</span>:
+                            <span class="function">print</span>(<span class="string">"Reşit değilsiniz."</span>)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Yaşınızı giriniz: 20</span>
+                            <span class="comment"># Çıktı: Reşitsiniz.</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 2: Aritmetik İşlemler</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Temel aritmetik işlemler</span>
+                            sayi1 = <span class="keyword">10</span>
+                            sayi2 = <span class="keyword">3</span>
+
+                            sonuc = (sayi1 + sayi2) * <span class="keyword">2</span>
+                            <span class="function">print</span>(<span class="string">"Sonuç:"</span>, sonuc)  <span class="comment"># Çıktı: 26</span>
+
+                            <span class="comment"># İşlem önceliği: Parantez içi önce hesaplanır</span>
+                            <span class="comment"># (10 + 3) * 2 = 13 * 2 = 26</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 3: Öğrenci İndirimi Kontrolü</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Yaş ve öğrenci durumu kontrolü</span>
+                            yas = <span class="keyword">20</span>
+                            ogrenci = <span class="keyword">True</span>
+
+                            <span class="keyword">if</span> yas &gt; <span class="keyword">18</span> <span class="keyword">and</span> ogrenci:
+                            <span class="function">print</span>(<span class="string">"Ücretsiz giriş hakkınız var."</span>)
+                            <span class="keyword">else</span>:
+                            <span class="function">print</span>(<span class="string">"Normal ücret ödemelisiniz."</span>)
+
+                            <span class="comment"># Çıktı: Ücretsiz giriş hakkınız var.</span>
+                            <span class="comment"># Çünkü: (20 > 18) True ve (ogrenci) True → True and True = True</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 4 Content -->
+        <div id="hafta4" class="content-section">
+            <div class="glass-card">
+                <div class="week-header">
+                    <div class="week-number">4</div>
+                    <div class="week-title">
+                        <h2>Girdi/Çıktı İşlemleri</h2>
+                        <p>input(), print(), Formatlı Çıktı ve Güvenli Dönüşüm</p>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">⌨️</span> input() — Kullanıcıdan Veri Alma</h3>
+
+                    <div class="subtopic">
+                        <h4>input() Fonksiyonunun Temelleri</h4>
+                        <ul>
+                            <li><strong>Kullanım:</strong> <code>input(prompt)</code> kullanıcıdan bir satır okur ve <span class="highlight">string (metin) döndürür</span></li>
+                            <li><strong>ÖNEMLİ:</strong> input() fonksiyonu <span class="highlight">HER ZAMAN string döner!</span> Sayı işlemi yapacaksanız dönüştürme gerekir!</li>
+                        </ul>
+
+                        <div class="code-block">
+                            <span class="comment"># Temel kullanım</span>
+                            isim = <span class="function">input</span>(<span class="string">"Adın nedir? "</span>)
+                            <span class="function">print</span>(<span class="string">"Hoş geldin,"</span>, isim)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Adın nedir? Ali</span>
+                            <span class="comment"># Çıktı: Hoş geldin, Ali</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ KRİTİK NOT:</strong> input() her zaman string döner!<br>
+                            <code>x = input("Sayı: ")</code> → "5" yazarsanız x = <span class="highlight">"5"</span> (string)<br>
+                            Matematiksel işlem için: <code>x = int(input("Sayı: "))</code>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Tip Dönüşümleri (Type Casting)</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># String'i tam sayıya çevirme</span>
+                            yas = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Yaşını gir: "</span>))
+                            <span class="comment"># UYARI: Sayı dışında bir şey girilirse ValueError hatası verir!</span>
+
+                            <span class="comment"># String'i ondalıklı sayıya çevirme</span>
+                            boy = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Boy (m): "</span>))
+
+                            <span class="comment"># Örnek kullanım</span>
+                            kilo = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Kilo (kg): "</span>))
+                            bmi = kilo / (boy ** <span class="keyword">2</span>)
+                            <span class="function">print</span>(<span class="string">f"BMI Değerin: {bmi:.2f}"</span>)
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ ValueError Hatası:</strong><br>
+                            Kullanıcı sayı yerine harf girerse program çöker!<br>
+                            <code>int("abc")</code> → ValueError: invalid literal for int()<br>
+                            Çözüm: try/except ile güvenli dönüşüm (aşağıda anlatılıyor)
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Temizlik ve Önişleme</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Fazladan boşlukları kaldırma</span>
+                            s = <span class="function">input</span>(<span class="string">"Adınız: "</span>).<span class="function">strip</span>()
+                            <span class="comment"># "   Ali   " → "Ali"</span>
+
+                            <span class="comment"># Küçük harfe çevirme</span>
+                            cevap = <span class="function">input</span>(<span class="string">"Evet mi? "</span>).<span class="function">lower</span>()
+                            <span class="comment"># "EVET", "Evet", "evet" → hepsi "evet" olur</span>
+
+                            <span class="comment"># Büyük harfe çevirme</span>
+                            sehir = <span class="function">input</span>(<span class="string">"Şehir: "</span>).<span class="function">upper</span>()
+                            <span class="comment"># "istanbul" → "ISTANBUL"</span>
+
+                            <span class="comment"># Her kelimenin ilk harfini büyük yapma</span>
+                            isim = <span class="function">input</span>(<span class="string">"Ad Soyad: "</span>).<span class="function">title</span>()
+                            <span class="comment"># "ali veli" → "Ali Veli"</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 String Metotları Özet:</strong><br>
+                            • <code>.strip()</code> → Baş ve sondaki boşlukları siler<br>
+                            • <code>.lower()</code> → Tümünü küçük harf yapar<br>
+                            • <code>.upper()</code> → Tümünü büyük harf yapar<br>
+                            • <code>.title()</code> → Her kelimenin ilk harfini büyük yapar
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Birden Fazla Değer Alma (split ve map)</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Tek satırda iki değer alma</span>
+                            a, b = <span class="function">input</span>(<span class="string">"İki sayı gir (boşlukla): "</span>).<span class="function">split</span>()
+                            <span class="comment"># Kullanıcı: 10 20</span>
+                            <span class="comment"># a = "10" (string), b = "20" (string)</span>
+
+                            <span class="comment"># String'leri int'e çevirme</span>
+                            a, b = <span class="function">map</span>(<span class="function">int</span>, <span class="function">input</span>(<span class="string">"İki sayı: "</span>).<span class="function">split</span>())
+                            <span class="comment"># Kullanıcı: 10 20</span>
+                            <span class="comment"># a = 10 (int), b = 20 (int)</span>
+                            <span class="function">print</span>(a + b)  <span class="comment"># Çıktı: 30</span>
+
+                            <span class="comment"># Virgülle ayrılmış değerler</span>
+                            nums = <span class="function">input</span>(<span class="string">"Sayıları virgülle ayırarak girin: "</span>).<span class="function">split</span>(<span class="string">","</span>)
+                            <span class="comment"># Kullanıcı: 5,10,15,20</span>
+                            <span class="comment"># nums = ["5", "10", "15", "20"] (string listesi)</span>
+
+                            <span class="comment"># List comprehension ile temizleme ve int'e çevirme</span>
+                            nums = [<span class="function">int</span>(x.<span class="function">strip</span>()) <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x.<span class="function">strip</span>() != <span class="string">""</span>]
+                            <span class="comment"># nums = [5, 10, 15, 20] (int listesi)</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 split() ve map() Açıklaması:</strong><br>
+                            • <code>.split()</code> → Metni boşluklara göre ayırır, liste döner<br>
+                            • <code>.split(",")</code> → Metni virgüllere göre ayırır<br>
+                            • <code>map(int, liste)</code> → Listenin her elemanını int'e çevirir<br>
+                            • <code>a, b = ...</code> → İki değeri iki değişkene atar (unpacking)
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Güvenli Dönüşüm (Validation) - ÇOK ÖNEMLİ!</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Kullanıcı yanlış giriş yapsa bile program çökmez!</span>
+                            <span class="keyword">while</span> <span class="keyword">True</span>:
+                            s = <span class="function">input</span>(<span class="string">"Pozitif bir tam sayı gir: "</span>).<span class="function">strip</span>()
+                            <span class="keyword">try</span>:
+                            n = <span class="function">int</span>(s)
+                            <span class="keyword">if</span> n > <span class="keyword">0</span>:
+                            <span class="keyword">break</span>  <span class="comment"># Doğru giriş, döngüden çık</span>
+                            <span class="keyword">else</span>:
+                            <span class="function">print</span>(<span class="string">"Pozitif olmalı."</span>)
+                            <span class="keyword">except</span> ValueError:
+                            <span class="function">print</span>(<span class="string">"Geçersiz sayı, tekrar dene."</span>)
+
+                            <span class="function">print</span>(<span class="string">f"Girdiğiniz sayı: {n}"</span>)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Pozitif bir tam sayı gir: abc</span>
+                            <span class="comment"># Geçersiz sayı, tekrar dene.</span>
+                            <span class="comment"># Pozitif bir tam sayı gir: -5</span>
+                            <span class="comment"># Pozitif olmalı.</span>
+                            <span class="comment"># Pozitif bir tam sayı gir: 10</span>
+                            <span class="comment"># Girdiğiniz sayı: 10</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZEDE ÇIKACAK: try-except Yapısı!</strong><br>
+                            • <code>try:</code> bloğunda hata oluşabilecek kod yazılır<br>
+                            • <code>except ValueError:</code> bloğunda hata olduğunda ne yapılacağı belirtilir<br>
+                            • Bu sayede program çökmez, kullanıcı tekrar giriş yapabilir!<br>
+                            • <code>while True:</code> ve <code>break</code> ile doğru giriş gelene kadar döngü devam eder
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Birden Çok Satır Okuma</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Kullanıcı boş satır girene kadar metin topla</span>
+                            satirlar = []
+                            <span class="function">print</span>(<span class="string">"Metin girin (boş satırla bitir):"</span>)
+
+                            <span class="keyword">while</span> <span class="keyword">True</span>:
+                            l = <span class="function">input</span>()
+                            <span class="keyword">if</span> l == <span class="string">""</span>:
+                            <span class="keyword">break</span>  <span class="comment"># Boş satır geldi, dur</span>
+                            satirlar.<span class="function">append</span>(l)
+
+                            <span class="function">print</span>(<span class="string">f"\n{len(satirlar)} satır girdiniz:"</span>)
+                            <span class="keyword">for</span> satir <span class="keyword">in</span> satirlar:
+                            <span class="function">print</span>(satir)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Metin girin (boş satırla bitir):</span>
+                            <span class="comment"># Python</span>
+                            <span class="comment"># Programlama</span>
+                            <span class="comment"># [Enter]</span>
+                            <span class="comment"># </span>
+                            <span class="comment"># 2 satır girdiniz:</span>
+                            <span class="comment"># Python</span>
+                            <span class="comment"># Programlama</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">🖨️</span> print() — Çıktıyı Verme</h3>
+
+                    <div class="subtopic">
+                        <h4>print() Fonksiyonunun Temelleri</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Temel kullanım</span>
+                            <span class="function">print</span>(<span class="string">"Merhaba"</span>)  <span class="comment"># Çıktı: Merhaba</span>
+
+                            <span class="comment"># Birden çok argüman (default boşluk ile ayrılır)</span>
+                            <span class="function">print</span>(<span class="string">"Python"</span>, <span class="string">"Programlama"</span>, <span class="string">"Dili"</span>)
+                            <span class="comment"># Çıktı: Python Programlama Dili</span>
+
+                            <span class="comment"># Değişken ve metin karışık</span>
+                            isim = <span class="string">"Ali"</span>
+                            yas = <span class="keyword">20</span>
+                            <span class="function">print</span>(<span class="string">"Adım"</span>, isim, <span class="string">"ve"</span>, yas, <span class="string">"yaşındayım"</span>)
+                            <span class="comment"># Çıktı: Adım Ali ve 20 yaşındayım</span>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>print() Parametreleri (VİZEDE SORULUR!)</h4>
+
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Parametre</th>
+                                    <th>Açıklama</th>
+                                    <th>Default Değer</th>
+                                    <th>Örnek</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>sep</strong></td>
+                                    <td>Argümanlar arası ayırıcı</td>
+                                    <td><code>' '</code> (boşluk)</td>
+                                    <td><code>sep="-"</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>end</strong></td>
+                                    <td>Satır sonu karakteri</td>
+                                    <td><code>'\n'</code> (alt satır)</td>
+                                    <td><code>end="!"</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>file</strong></td>
+                                    <td>Çıktı hedefi</td>
+                                    <td><code>sys.stdout</code></td>
+                                    <td><code>file=sys.stderr</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>flush</strong></td>
+                                    <td>Hemen yazdırma</td>
+                                    <td><code>False</code></td>
+                                    <td><code>flush=True</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="code-block">
+                            <span class="comment"># sep parametresi - Ayırıcı değiştirme</span>
+                            <span class="function">print</span>(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, sep=<span class="string">"-"</span>)
+                            <span class="comment"># Çıktı: A-B-C</span>
+
+                            <span class="comment"># end parametresi - Satır sonu değiştirme</span>
+                            <span class="function">print</span>(<span class="string">"İşlem:"</span>, end=<span class="string">" "</span>)
+                            <span class="function">print</span>(<span class="string">"bitti"</span>)
+                            <span class="comment"># Çıktı: İşlem: bitti (aynı satırda!)</span>
+
+                            <span class="comment"># sep ve end birlikte kullanımı</span>
+                            <span class="function">print</span>(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, sep=<span class="string">"-"</span>, end=<span class="string">"!\n"</span>)
+                            <span class="comment"># Çıktı: A-B-C!</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ VİZE TUZAĞI:</strong><br>
+                            <code>print("A", "B")</code> → Çıktı: "A B" (arada boşluk var!)<br>
+                            <code>print("A", "B", sep="")</code> → Çıktı: "AB" (boşluk yok!)<br>
+                            <code>print("A", end="")</code> → Alt satıra geçmez!
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Formatlı Çıktı - f-string (ÇOK ÖNEMLİ!)</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># f-string kullanımı (Python 3.6+)</span>
+                            isim = <span class="string">"Anıl"</span>
+                            ortalama = <span class="keyword">87.3456</span>
+
+                            <span class="function">print</span>(<span class="string">f"Merhaba {isim}, not ortalaman {ortalama:.2f}"</span>)
+                            <span class="comment"># Çıktı: Merhaba Anıl, not ortalaman 87.35</span>
+
+                            <span class="comment"># Açıklama:</span>
+                            <span class="comment"># {isim} → değişkenin değerini yazar</span>
+                            <span class="comment"># {ortalama:.2f} → ondalık kısmı 2 basamağa yuvarlar</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 f-string Format Kodları:</strong><br>
+                            • <code>{x:.2f}</code> → Ondalık kısmı 2 basamak (87.35)<br>
+                            • <code>{x:.0f}</code> → Tam sayı gibi yazar (87)<br>
+                            • <code>{x:.4f}</code> → Ondalık kısmı 4 basamak (87.3456)<br>
+                            • <code>f"Sonuç: {5+3}"</code> → İşlem yapabilir (Sonuç: 8)
+                        </div>
+
+                        <div class="code-block">
+                            <span class="comment"># Hizalama ve padding</span>
+                            s = <span class="string">"kelime"</span>
+
+                            <span class="comment"># Sola yasla (10 karakter genişlik)</span>
+                            <span class="function">print</span>(<span class="string">f"|{s:<10}|"</span>)
+                            <span class="comment"># Çıktı: |kelime    |</span>
+
+                            <span class="comment"># Ortala</span>
+                            <span class="function">print</span>(<span class="string">f"|{s:^10}|"</span>)
+                            <span class="comment"># Çıktı: |  kelime  |</span>
+
+                            <span class="comment"># Sağa yasla</span>
+                            <span class="function">print</span>(<span class="string">f"|{s:>10}|"</span>)
+                            <span class="comment"># Çıktı: |    kelime|</span>
+
+                            <span class="comment"># Üç farklı hizalama yan yana</span>
+                            <span class="function">print</span>(<span class="string">f"|{s:<10}|{s:^10}|{s:>10}|"</span>)
+                            <span class="comment"># Çıktı: |kelime    |  kelime  |    kelime|</span>
+                        </div>
+
+                        <div class="important-box">
+                            <strong>⚠️ Hizalama Sembolleri EZBER:</strong><br>
+                            • <code>&lt;</code> → Sola yasla (sol ok)<br>
+                            • <code>^</code> → Ortala (yukarı ok - ortada)<br>
+                            • <code>&gt;</code> → Sağa yasla (sağ ok)<br>
+                            • <code>:10</code> → Toplam genişlik 10 karakter
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Eski Stil format() Metodu</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># .format() metodu ile formatlama</span>
+                            isim = <span class="string">"Anıl"</span>
+                            ortalama = <span class="keyword">87.3456</span>
+
+                            <span class="comment"># Sıralı argümanlar (0, 1, 2...)</span>
+                            <span class="function">print</span>(<span class="string">"Merhaba {0}, ort: {1:.2f}"</span>.<span class="function">format</span>(isim, ortalama))
+                            <span class="comment"># Çıktı: Merhaba Anıl, ort: 87.35</span>
+
+                            <span class="comment"># İsimli argümanlar</span>
+                            <span class="function">print</span>(<span class="string">"Ad: {name}, Puan: {score:.1f}"</span>.<span class="function">format</span>(name=isim, score=ortalama))
+                            <span class="comment"># Çıktı: Ad: Anıl, Puan: 87.3</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 HANGISINI KULLANALIM?</strong><br>
+                            • f-string <strong>(ÖNERİLEN)</strong> → Daha kısa, daha okunabilir<br>
+                            • .format() → Eski projeler için uyumluluk<br>
+                            • Vizede her ikisi de sorulabilir!
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Tablolaştırma Örneği</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Ürün listesini tablo şeklinde yazdırma</span>
+                            items = [
+                            (<span class="string">"elma"</span>, <span class="keyword">2</span>, <span class="keyword">0.5</span>),
+                            (<span class="string">"armut"</span>, <span class="keyword">10</span>, <span class="keyword">0.75</span>),
+                            (<span class="string">"muz"</span>, <span class="keyword">5</span>, <span class="keyword">1.2</span>)
+                            ]
+
+                            <span class="comment"># Başlık satırı</span>
+                            <span class="function">print</span>(<span class="string">f"{'Ürün':<10}{'Adet':>6}{'Fiyat':>8}"</span>)
+                            <span class="function">print</span>(<span class="string">"-"</span> * <span class="keyword">24</span>)
+
+                            <span class="comment"># Veri satırları</span>
+                            <span class="keyword">for</span> urun, adet, fiyat <span class="keyword">in</span> items:
+                            <span class="function">print</span>(<span class="string">f"{urun:<10}{adet:>6}{fiyat:>8.2f}"</span>)
+
+                            <span class="comment"># Çıktı:</span>
+                            <span class="comment"># Ürün          Adet   Fiyat</span>
+                            <span class="comment"># ------------------------</span>
+                            <span class="comment"># elma             2    0.50</span>
+                            <span class="comment"># armut           10    0.75</span>
+                            <span class="comment"># muz             5    1.20</span>
+                        </div>
+
+                        <div class="success-box">
+                            <strong>💡 Tablo Formatlama İpuçları:</strong><br>
+                            • Başlıklar ve veriler aynı genişlikte olmalı<br>
+                            • Sayılar genellikle sağa yaslanır <code>:&gt;6</code><br>
+                            • Metinler genellikle sola yaslanır <code>:&lt;10</code><br>
+                            • Ondalıklı sayılar için <code>:.2f</code> kullan
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic">
+                    <h3 class="topic-title"><span class="emoji">📝</span> Kapsamlı Uygulama Örnekleri</h3>
+
+                    <div class="subtopic">
+                        <h4>Örnek 1: Kullanıcı Bilgisi Alma ve Doğum Yılı Hesaplama</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># İsim ve yaş bilgisi alıp doğum yılı hesaplama</span>
+                            isim = <span class="function">input</span>(<span class="string">"Adın: "</span>).<span class="function">strip</span>().<span class="function">title</span>()
+
+                            <span class="keyword">while</span> <span class="keyword">True</span>:
+                            <span class="keyword">try</span>:
+                            yas = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Yaşın: "</span>))
+                            <span class="keyword">break</span>
+                            <span class="keyword">except</span> ValueError:
+                            <span class="function">print</span>(<span class="string">"Lütfen geçerli bir tam sayı gir."</span>)
+
+                            dogum_yili = <span class="keyword">2025</span> - yas  <span class="comment"># Ders tarihine göre ayarla</span>
+                            <span class="function">print</span>(<span class="string">f"Merhaba {isim}, {dogum_yili} yılında doğmuşsun."</span>)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Adın: ali veli</span>
+                            <span class="comment"># Yaşın: abc</span>
+                            <span class="comment"># Lütfen geçerli bir tam sayı gir.</span>
+                            <span class="comment"># Yaşın: 20</span>
+                            <span class="comment"># Çıktı: Merhaba Ali Veli, 2005 yılında doğmuşsun.</span>
+                        </div>
+
+                        <div class="explanation-steps">
+                            <div class="step"><strong>Adım 1:</strong> <code>.strip()</code> ile baş/son boşluklar temizlenir</div>
+                            <div class="step"><strong>Adım 2:</strong> <code>.title()</code> ile her kelimenin ilk harfi büyük yapılır</div>
+                            <div class="step"><strong>Adım 3:</strong> try-except ile güvenli yaş girişi sağlanır</div>
+                            <div class="step"><strong>Adım 4:</strong> Doğum yılı hesaplanır ve f-string ile yazdırılır</div>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 2: Sayıların Ortalamasını Hesaplama</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># Boşlukla ayrılmış sayıların ortalamasını bulma</span>
+                            nums = <span class="function">input</span>(<span class="string">"Sayıları gir (boşlukla ayrılmış): "</span>).<span class="function">split</span>()
+                            nums = [<span class="function">float</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> nums]
+
+                            ortalama = <span class="function">sum</span>(nums) / <span class="function">len</span>(nums)
+                            <span class="function">print</span>(<span class="string">f"Girdiğin {len(nums)} sayının ortalaması: {ortalama:.2f}"</span>)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Sayıları gir (boşlukla ayrılmış): 10 20 30 40 50</span>
+                            <span class="comment"># Çıktı: Girdiğin 5 sayının ortalaması: 30.00</span>
+                        </div>
+
+                        <div class="explanation-steps">
+                            <div class="step"><strong>Adım 1:</strong> <code>.split()</code> ile girdi boşluklara göre ayrılır → ["10", "20", "30", "40", "50"]</div>
+                            <div class="step"><strong>Adım 2:</strong> List comprehension ile her eleman float'a çevrilir → [10.0, 20.0, 30.0, 40.0, 50.0]</div>
+                            <div class="step"><strong>Adım 3:</strong> <code>sum()</code> toplamı bulur, <code>len()</code> eleman sayısını verir</div>
+                            <div class="step"><strong>Adım 4:</strong> Ortalama hesaplanır ve .2f ile 2 ondalık basamak yazdırılır</div>
+                        </div>
+                    </div>
+
+                    <div class="subtopic">
+                        <h4>Örnek 3: Quiz Uygulaması</h4>
+
+                        <div class="code-block">
+                            <span class="comment"># 3 soruluk mini quiz</span>
+                            sorular = [
+                            (<span class="string">"Türkiye'nin başkenti neresi?"</span>, <span class="string">"ankara"</span>),
+                            (<span class="string">"5 + 7 kaçtır?"</span>, <span class="string">"12"</span>),
+                            (<span class="string">"Python dilinin yaratıcısı kimdir?"</span>, <span class="string">"guido"</span>)
+                            ]
+
+                            puan = <span class="keyword">0</span>
+
+                            <span class="keyword">for</span> soru, dogru <span class="keyword">in</span> sorular:
+                            cevap = <span class="function">input</span>(soru + <span class="string">" "</span>).<span class="function">strip</span>().<span class="function">lower</span>()
+
+                            <span class="keyword">if</span> cevap == dogru:
+                            <span class="function">print</span>(<span class="string">"✅ Doğru!"</span>)
+                            puan += <span class="keyword">1</span>
+                            <span class="keyword">else</span>:
+                            <span class="function">print</span>(<span class="string">f"❌ Yanlış. Doğru cevap: {dogru}"</span>)
+
+                            <span class="function">print</span>(<span class="string">f"\n🎯 Toplam puan: {puan}/{len(sorular)}"</span>)
+                            <span class="function">print</span>(<span class="string">f"📊 Başarı oranı: {(puan/len(sorular))*100:.1f}%"</span>)
+
+                            <span class="comment"># Örnek Çalışma:</span>
+                            <span class="comment"># Türkiye'nin başkenti neresi? ANKARA</span>
+                            <span class="comment"># ✅ Doğru!</span>
+                            <span class="comment"># 5 + 7 kaçtır? 13</span>
+                            <span class="comment"># ❌ Yanlış. Doğru cevap: 12</span>
+                            <span class="comment"># Python dilinin yaratıcısı kimdir? guido</span>
+                            <span class="comment"># ✅ Doğru!</span>
+                            <span class="comment"># </span>
+                            <span class="comment"># 🎯 Toplam puan: 2/3</span>
+                            <span class="comment"># 📊 Başarı oranı: 66.7%</span>
+                        </div>
+
+                        <div class="explanation-steps">
+                            <div class="step"><strong>Adım 1:</strong> Sorular ve cevaplar tuple listesi olarak saklanır</div>
+                            <div class="step"><strong>Adım 2:</strong> for döngüsü ile her soru tek tek sorulur</div>
+                            <div class="step"><strong>Adım 3:</strong> Cevap <code>.strip().lower()</code> ile temizlenir ve küçük harfe çevrilir</div>
+                            <div class="step"><strong>Adım 4:</strong> Doğruysa puan artırılır, yanlışsa doğru cevap gösterilir</div>
+                            <div class="step"><strong>Adım 5:</strong> Toplam puan ve yüzdelik başarı oranı hesaplanır</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <div class="glass-card">
+                <div class="week-header">
+                    <div class="week-number">✍️</div>
+                    <div class="week-title">
+                        <h2>Kapsamlı Test Bölümü</h2>
+                        <p>PDF'lerden Direkt Alınmış 50+ Soru - Allah'ın İzniyle 100 Alacaksınız!</p>
+                    </div>
+                </div>
+
+                <!-- Quiz Filters -->
+                <div class="quiz-filter">
+                    <button class="filter-btn active" onclick="filterQuestions('all')">🌐 Tüm Sorular</button>
+                    <button class="filter-btn" onclick="filterQuestions('hafta1')">📚 1. Hafta</button>
+                    <button class="filter-btn" onclick="filterQuestions('hafta2')">🐍 2. Hafta</button>
+                    <button class="filter-btn" onclick="filterQuestions('hafta3')">💾 3. Hafta</button>
+                    <button class="filter-btn" onclick="filterQuestions('hafta4')">⌨️ 4. Hafta</button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p id="progressText" style="text-align: center; color: white; font-size: 1.2em; margin-top: 10px; font-weight: 600;">0 / 50 soru tamamlandı</p>
+
+                <!-- Score Card -->
+                <div class="score-card" id="scoreCard">
+                    <h2>🎉 Tebrikler! 🎉</h2>
+                    <p id="finalScore"></p>
+                    <p id="successMessage"></p>
+                    <button class="btn btn-success" onclick="resetQuiz()" style="margin-top: 20px;">🔄 Testi Tekrar Çöz</button>
+                </div>
+
+                <!-- Questions Container -->
+                <div id="questionsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Add active to clicked tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        // Quiz Data - PDF'lerden Direkt Alınmış Sorular
+        const quizData = [
+            // 1. HAFTA SORULARI
+            {
+                id: 1,
+                week: 'hafta1',
+                question: 'Algoritmanın özellikleri arasında hangisi YER ALMAZ?',
+                options: [
+                    'Sonluluk - Algoritma bir süre sonra sonlanmalıdır',
+                    'Açıklık ve Belirlilik - Her adımın anlamı net olmalıdır',
+                    'Sonsuzluk - Algoritma sonsuz döngü içerebilir',
+                    'Girdi ve Çıktı - Algoritma girdi alır ve çıktı üretir'
+                ],
+                correct: 2,
+                explanation: 'Algoritmanın 5 temel özelliği vardır: Sonluluk, Açıklık ve Belirlilik, Girdi ve Çıktı, Etkinlik, Doğruluk. SONSUZLUK bir algoritma özelliği DEĞİLDİR! Aksine algoritma mutlaka SONLANMALIDIR.',
+                steps: [
+                    '✅ Sonluluk: Algoritma mutlaka bir süre sonra sonlanmalı',
+                    '✅ Açıklık: Her adımın anlamı net olmalı, yoruma açık olmamalı',
+                    '✅ Girdi/Çıktı: Algoritma girdi alır ve çıktı üretir',
+                    '❌ Sonsuzluk: Bu bir algoritma özelliği DEĞİL! Sonsuz döngüler algoritma sayılmaz'
+                ]
+            },
+            {
+                id: 2,
+                week: 'hafta1',
+                question: 'Akış diyagramında "Girdi/Çıktı" işlemleri için hangi şekil kullanılır?',
+                options: [
+                    'Oval',
+                    'Dikdörtgen',
+                    'Paralelkenar',
+                    'Eşkenar Dörtgen'
+                ],
+                correct: 2,
+                explanation: 'Girdi/Çıktı işlemleri (input/print gibi) için PARALELKENAR (▱) şekli kullanılır. Bu sıkça karıştırılan bir konudur!',
+                steps: [
+                    '⭕ Oval → Başla/Bitir',
+                    '▭ Dikdörtgen → İşlem (atama, toplama)',
+                    '▱ Paralelkenar → Girdi/Çıktı (input, print)',
+                    '◇ Eşkenar Dörtgen → Karar (if/else)'
+                ]
+            },
+            {
+                id: 3,
+                week: 'hafta1',
+                question: 'Akış diyagramında "Karar" (if/else gibi koşullu ifadeler) için hangi şekil kullanılır?',
+                options: [
+                    'Dikdörtgen',
+                    'Paralelkenar',
+                    'Eşkenar Dörtgen (Baklava Dilimi)',
+                    'Oval'
+                ],
+                correct: 2,
+                explanation: 'Karar yapıları (if/else, koşullu ifadeler) için EŞKENAR DÖRTGEN ◇ (baklava dilimi) kullanılır. Bu şekilden iki ok çıkar: Evet ve Hayır.',
+                steps: [
+                    'Eşkenar Dörtgen içine koşul yazılır: "x > 5?"',
+                    'Bir ok Evet (True) durumu için çıkar',
+                    'Diğer ok Hayır (False) durumu için çıkar',
+                    'Bu şekil if/else yapılarını temsil eder'
+                ]
+            },
+            {
+                id: 4,
+                week: 'hafta1',
+                question: 'Bilgisayarın temel bileşenleri arasında hangisi YER ALMAZ?',
+                options: [
+                    'Girdi Birimleri (Klavye, Fare)',
+                    'İşlem Birimi (CPU)',
+                    'Düşünme Birimi',
+                    'Çıktı Birimleri (Ekran, Yazıcı)'
+                ],
+                correct: 2,
+                explanation: 'Bilgisayarın 3 temel bileşeni vardır: Girdi Birimleri, İşlem Birimi (CPU), Çıktı Birimleri. Bilgisayar kendi başına DÜŞÜNEMEZ, sadece programların komutlarını uygular!',
+                steps: [
+                    '✅ Girdi Birimleri: Klavye, fare, sensörler - bilgi girişi',
+                    '✅ İşlem Birimi (CPU): Bilgiyi işler, karar verir',
+                    '✅ Çıktı Birimleri: Ekran, yazıcı - sonucu gösterir',
+                    '❌ Düşünme Birimi: YOKTUR! Bilgisayar kendi başına düşünemez'
+                ]
+            },
+            {
+                id: 5,
+                week: 'hafta1',
+                question: 'Düşük seviye programlama dilleri hakkında hangisi DOĞRUDUR?',
+                options: [
+                    'İnsan tarafından kolay anlaşılır',
+                    'Python ve Java bu gruba girer',
+                    'Makine diline çok yakındır ve anlaşılması zordur',
+                    'Derleyici veya yorumlayıcı kullanmaz'
+                ],
+                correct: 2,
+                explanation: 'Düşük seviye diller (Assembly, Makine Kodu) bilgisayara en yakın, 0 ve 1\'lerle çalışır ve insan için anlaşılması ÇOK ZORDUR. Python ve Java yüksek seviye dillerdir.',
+                steps: [
+                    'Düşük Seviye: Assembly, Makine Kodu (0 ve 1\'ler)',
+                    'Bilgisayara çok yakın, insana uzak',
+                    'Anlaşılması ve yazılması çok zor',
+                    'Yüksek Seviye: Python, Java, C++ - insana yakın'
+                ]
+            },
+
+            // 2. HAFTA SORULARI
+            {
+                id: 6,
+                week: 'hafta2',
+                question: 'Python programlama dilinin özellikleri arasında hangisi YER ALMAZ?',
+                options: [
+                    'Yüksek seviyeli bir dildir',
+                    'Yorumlamalı (interpreted) bir dildir',
+                    'Derlemeli (compiled) bir dildir',
+                    'Çapraz platform uyumluluğu vardır'
+                ],
+                correct: 2,
+                explanation: 'Python YORUMLAMALI (interpreted) bir dildir, DERLEMELI değildir! Bu çok önemli bir fark. Python kodu satır satır çalışır, derleme aşaması yoktur.',
+                steps: [
+                    '✅ Yüksek Seviyeli: İnsan diline yakın',
+                    '✅ Yorumlamalı: Kod satır satır çalışır, hata anında durur',
+                    '❌ Derlemeli DEĞİL: Python kodu derlenmez!',
+                    '✅ Çapraz Platform: Windows, Mac, Linux\'ta çalışır'
+                ]
+            },
+            {
+                id: 7,
+                week: 'hafta2',
+                question: 'PyCharm IDE\'nin bileşenleri arasında hangisi YOKTUR?',
+                options: [
+                    'Project Explorer - Dosya ve klasör yapısı',
+                    'Editor Window - Kodların yazıldığı alan',
+                    'Auto Compiler - Otomatik derleme',
+                    'Run/Debug Tool - Çıktıların görüntülendiği bölüm'
+                ],
+                correct: 2,
+                explanation: 'PyCharm\'da "Auto Compiler" diye bir bileşen YOKTUR çünkü Python yorumlamalı bir dildir, derleme gerekmez! Project Explorer, Editor Window ve Run/Debug Tool ana bileşenlerdir.',
+                steps: [
+                    '✅ Project Explorer: Dosya/klasör yapısını gösterir',
+                    '✅ Editor Window: Kodların yazıldığı ana alan',
+                    '✅ Run/Debug Tool: Çıktıların görüntülendiği yer',
+                    '❌ Auto Compiler: Python yorumlamalı, derlenmez!'
+                ]
+            },
+            {
+                id: 8,
+                week: 'hafta2',
+                question: 'print("Merhaba", "Dünya") komutunun çıktısı nedir?',
+                options: [
+                    'MerhabaDünya',
+                    'Merhaba Dünya',
+                    'Merhaba,Dünya',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'print() fonksiyonunda birden fazla argüman varsa, default olarak BOŞLUK ile ayrılır. Bu yüzden çıktı "Merhaba Dünya" olur (arada boşluk var).',
+                steps: [
+                    'print() birden fazla argümanı yazdırabilir',
+                    'Default ayırıcı (sep) boşluk karakteridir',
+                    'print("Merhaba", "Dünya") → "Merhaba Dünya"',
+                    'Boşluk istemiyorsanız: print("Merhaba", "Dünya", sep="")'
+                ]
+            },
+            {
+                id: 9,
+                week: 'hafta2',
+                question: 'input() fonksiyonu ne tür bir değer döndürür?',
+                options: [
+                    'int (tam sayı)',
+                    'float (ondalıklı sayı)',
+                    'str (string/metin)',
+                    'bool (mantıksal değer)'
+                ],
+                correct: 2,
+                explanation: 'input() fonksiyonu HER ZAMAN STRING (metin) döndürür! Kullanıcı sayı yazmış olsa bile string gelir. Sayısal işlem için int() veya float() ile dönüştürmelisiniz.',
+                steps: [
+                    'input() HER ZAMAN string döner',
+                    'Kullanıcı "5" yazsa bile sonuç: "5" (string)',
+                    'Matematiksel işlem için dönüştürün:',
+                    'x = int(input()) veya x = float(input())'
+                ]
+            },
+            {
+                id: 10,
+                week: 'hafta2',
+                question: 'Python\'da yorum satırı (comment) nasıl yazılır?',
+                options: [
+                    '// Bu bir yorum',
+                    '/* Bu bir yorum */',
+                    '# Bu bir yorum',
+                    '<!-- Bu bir yorum -->'
+                ],
+                correct: 2,
+                explanation: 'Python\'da yorum satırları # (diyez) işareti ile başlar. // C/Java, /* */ çok satırlı C/Java, <!-- --> HTML yorumudur.',
+                steps: [
+                    '# işareti ile başlar',
+                    'Python tarafından çalıştırılmaz',
+                    'Kod açıklaması yapmak için kullanılır',
+                    'Örnek: # Bu bir yorum satırıdır'
+                ]
+            },
+
+            // 3. HAFTA SORULARI
+            {
+                id: 11,
+                week: 'hafta3',
+                question: 'Aşağıdaki değişken isimlerinden hangisi GEÇERSİZDİR?',
+                options: [
+                    'isim',
+                    '_sayi',
+                    '1not',
+                    'ad_soyad'
+                ],
+                correct: 2,
+                explanation: 'Değişken isimleri SAYI İLE BAŞLAYAMAZ! "1not" geçersizdir. Harf veya _ ile başlamalıdır. "isim", "_sayi", "ad_soyad" geçerlidir.',
+                steps: [
+                    '✅ Harf veya _ ile başlayabilir: isim, _sayi',
+                    '❌ Sayı ile BAŞLAYAMAZ: 1not, 2ders',
+                    '✅ İçinde sayı olabilir: not1, ders2',
+                    '❌ Özel karakterler kullanılamaz: ad-soyad, not!'
+                ]
+            },
+            {
+                id: 12,
+                week: 'hafta3',
+                question: 'Python "Case Sensitive" bir dildir. Bu ne anlama gelir?',
+                options: [
+                    'Büyük/küçük harf farketmez',
+                    'Büyük/küçük harf duyarlıdır, sayi ≠ Sayi',
+                    'Sadece büyük harf kullanılabilir',
+                    'Sadece küçük harf kullanılabilir'
+                ],
+                correct: 1,
+                explanation: 'Python Case Sensitive\'dir, yani büyük/küçük harf DUYARLIDIR! "sayi", "Sayi", "SAYI" üç FARKLI değişkendir. Bu vizede çok sorulur!',
+                steps: [
+                    'Case Sensitive = Büyük/küçük harf duyarlı',
+                    'sayi ≠ Sayi ≠ SAYI (3 farklı değişken!)',
+                    'isim ≠ Isim ≠ ISIM (3 farklı değişken!)',
+                    'Değişken isimlerini dikkatli yazın!'
+                ]
+            },
+            {
+                id: 13,
+                week: 'hafta3',
+                question: 'x = 42 olduğunda type(x) sonucu nedir?',
+                options: [
+                    '<class \'str\'>',
+                    '<class \'int\'>',
+                    '<class \'float\'>',
+                    '<class \'bool\'>'
+                ],
+                correct: 1,
+                explanation: 'x = 42 tam sayı (integer) olduğu için type(x) sonucu <class \'int\'> döner. type() fonksiyonu değişkenin tipini öğrenmek için kullanılır.',
+                steps: [
+                    'x = 42 → int (tam sayı)',
+                    'x = 42.0 → float (ondalıklı)',
+                    'x = "42" → str (metin)',
+                    'type() fonksiyonu ile tip öğrenilir'
+                ]
+            },
+            {
+                id: 14,
+                week: 'hafta3',
+                question: '5 / 2 işleminin sonucu nedir?',
+                options: [
+                    '2',
+                    '2.5',
+                    '3',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'Tek slash (/) bölme operatörü HER ZAMAN FLOAT döndürür! 5 / 2 = 2.5 (ondalıklı). Tam bölme için çift slash (//) kullanılır: 5 // 2 = 2',
+                steps: [
+                    '/ operatörü: Normal bölme, float döner',
+                    '5 / 2 = 2.5 (ondalıklı sonuç)',
+                    '// operatörü: Tam bölme, sadece tamsayı kısmı',
+                    '5 // 2 = 2 (tam sayı kısmı)'
+                ]
+            },
+            {
+                id: 15,
+                week: 'hafta3',
+                question: '5 % 2 işleminin sonucu nedir ve bu operatör ne işe yarar?',
+                options: [
+                    '2.5 - Bölme yapar',
+                    '2 - Tam bölme yapar',
+                    '1 - Kalan bulur (Mod)',
+                    '10 - Yüzde hesaplar'
+                ],
+                correct: 2,
+                explanation: '% (Mod) operatörü bölme işleminden KALANI bulur. 5 ÷ 2 = 2 kalan 1, bu yüzden 5 % 2 = 1. Çift/tek sayı kontrolünde kullanılır!',
+                steps: [
+                    '% operatörü: Mod (kalan bulma)',
+                    '5 % 2 = 1 (5\'i 2\'ye böldüğümüzde kalan 1)',
+                    '10 % 3 = 1 (10\'u 3\'e böldüğümüzde kalan 1)',
+                    'Çift sayı: x % 2 == 0, Tek sayı: x % 2 == 1'
+                ]
+            },
+            {
+                id: 16,
+                week: 'hafta3',
+                question: '= ve == operatörleri arasındaki fark nedir?',
+                options: [
+                    'İkisi de aynıdır',
+                    '= atama, == karşılaştırma',
+                    '= karşılaştırma, == atama',
+                    'İkisi de karşılaştırma yapar'
+                ],
+                correct: 1,
+                explanation: 'Çok önemli fark! = ATAMA operatörü (değer atar), == KARŞILAŞTIRMA operatörü (eşit mi kontrol eder). x = 5 (x\'e 5 ata), x == 5 (x, 5\'e eşit mi?)',
+                steps: [
+                    '= (tek eşittir): Atama operatörü',
+                    'x = 5 → x değişkenine 5 değerini ata',
+                    '== (çift eşittir): Karşılaştırma operatörü',
+                    'x == 5 → x, 5\'e eşit mi? (True/False döner)'
+                ]
+            },
+            {
+                id: 17,
+                week: 'hafta3',
+                question: 'True and False işleminin sonucu nedir?',
+                options: [
+                    'True',
+                    'False',
+                    '1',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'AND operatörü: Her iki koşul da True olmalı, sonuç True olur. True and False = False (biri False olduğu için).',
+                steps: [
+                    'AND: Her ikisi de True ise True',
+                    'True and True = True',
+                    'True and False = False ✓',
+                    'False and False = False'
+                ]
+            },
+            {
+                id: 18,
+                week: 'hafta3',
+                question: 'True or False işleminin sonucu nedir?',
+                options: [
+                    'True',
+                    'False',
+                    '0',
+                    'Hata verir'
+                ],
+                correct: 0,
+                explanation: 'OR operatörü: En az biri True ise sonuç True. True or False = True (biri True olduğu için yeterli).',
+                steps: [
+                    'OR: En az biri True ise True',
+                    'True or True = True',
+                    'True or False = True ✓',
+                    'False or False = False (ikisi de False)'
+                ]
+            },
+            {
+                id: 19,
+                week: 'hafta3',
+                question: 'not True işleminin sonucu nedir?',
+                options: [
+                    'True',
+                    'False',
+                    '1',
+                    '0'
+                ],
+                correct: 1,
+                explanation: 'NOT operatörü değeri TERSİNE çevirir. not True = False, not False = True.',
+                steps: [
+                    'NOT: Tersini alır',
+                    'not True = False ✓',
+                    'not False = True',
+                    'not (5 > 3) = not True = False'
+                ]
+            },
+            {
+                id: 20,
+                week: 'hafta3',
+                question: '2 ** 3 işleminin sonucu nedir?',
+                options: [
+                    '5',
+                    '6',
+                    '8',
+                    '9'
+                ],
+                correct: 2,
+                explanation: '** üs alma operatörüdür. 2 ** 3 = 2³ = 2 × 2 × 2 = 8',
+                steps: [
+                    '** operatörü: Üs alma',
+                    '2 ** 3 = 2³ = 2 × 2 × 2',
+                    '= 4 × 2 = 8 ✓',
+                    '3 ** 2 = 3² = 9, 5 ** 2 = 25'
+                ]
+            },
+
+            // 4. HAFTA SORULARI
+            {
+                id: 21,
+                week: 'hafta4',
+                question: 'input() fonksiyonunun en önemli özelliği nedir?',
+                options: [
+                    'Her zaman int döndürür',
+                    'Her zaman float döndürür',
+                    'Her zaman string döndürür',
+                    'Otomatik tip dönüşümü yapar'
+                ],
+                correct: 2,
+                explanation: 'input() fonksiyonu HER ZAMAN STRING döndürür! Kullanıcı "5" yazsa bile sonuç "5" (string)dir. Matematiksel işlem için int() veya float() gerekir.',
+                steps: [
+                    'input() → HER ZAMAN STRING',
+                    'x = input("Sayı: ") → x string',
+                    'Kullanıcı "5" yazsa → x = "5" (string)',
+                    'Dönüşüm: int(input()) veya float(input())'
+                ]
+            },
+            {
+                id: 22,
+                week: 'hafta4',
+                question: 's = "  Ali  " ifadesinde s.strip() sonucu nedir?',
+                options: [
+                    '"  Ali  "',
+                    '"Ali"',
+                    '"ali"',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: '.strip() metodu string\'in BAŞ ve SONUNDAKİ boşlukları siler. "  Ali  " → "Ali"',
+                steps: [
+                    '.strip(): Baş ve sondaki boşlukları siler',
+                    '"  Ali  ".strip() → "Ali"',
+                    'Ortadaki boşluklara dokunmaz',
+                    '"Ali  Veli".strip() → "Ali  Veli"'
+                ]
+            },
+            {
+                id: 23,
+                week: 'hafta4',
+                question: '"PYTHON".lower() işleminin sonucu nedir?',
+                options: [
+                    '"PYTHON"',
+                    '"python"',
+                    '"Python"',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: '.lower() metodu TÜMIÜN küçük harfe çevirir. "PYTHON" → "python"',
+                steps: [
+                    '.lower(): Tümünü küçük harf yapar',
+                    '"PYTHON".lower() → "python" ✓',
+                    '.upper(): Tümünü büyük harf yapar',
+                    '.title(): Her kelimenin ilk harfi büyük'
+                ]
+            },
+            {
+                id: 24,
+                week: 'hafta4',
+                question: '"10 20".split() işleminin sonucu nedir?',
+                options: [
+                    '["10", "20"]',
+                    '[10, 20]',
+                    '"10", "20"',
+                    '["1020"]'
+                ],
+                correct: 0,
+                explanation: '.split() metodu string\'i boşluklara göre ayırır ve LİSTE döndürür. Elemanlar STRING olarak gelir: ["10", "20"]',
+                steps: [
+                    '.split(): Metni boşluklara göre ayırır',
+                    '"10 20".split() → ["10", "20"] (string listesi)',
+                    'İnt\'e çevirmek için: map(int, ...)',
+                    'a, b = "10 20".split() → a="10", b="20"'
+                ]
+            },
+            {
+                id: 25,
+                week: 'hafta4',
+                question: 'print("A", "B", "C", sep="-") çıktısı nedir?',
+                options: [
+                    'A B C',
+                    'ABC',
+                    'A-B-C',
+                    'A,B,C'
+                ],
+                correct: 2,
+                explanation: 'sep parametresi argümanlar arası AYIRICI\'yı değiştirir. Default boşluk, sep="-" ile tire kullanılır: A-B-C',
+                steps: [
+                    'sep: Argümanlar arası ayırıcı',
+                    'Default sep=" " (boşluk)',
+                    'sep="-" → Tire ile ayırır',
+                    'print("A", "B", "C", sep="-") → "A-B-C"'
+                ]
+            },
+            {
+                id: 26,
+                week: 'hafta4',
+                question: 'print("Python", end="!") çıktısında ne olur?',
+                options: [
+                    'Python yazdırır ve alt satıra geçer',
+                    'Python yazdırır ve alt satıra geçmez, ! ekler',
+                    'Python! yazdırır ve alt satıra geçer',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'end parametresi satır sonu karakterini değiştirir. Default "\\n" (alt satır), end="!" ile alt satıra geçmez, sona ! ekler.',
+                steps: [
+                    'end: Satır sonu karakteri',
+                    'Default end="\\n" (alt satıra geç)',
+                    'end="!" → Alt satıra geçme, sona ! ekle',
+                    'Bir sonraki print aynı satırda devam eder'
+                ]
+            },
+            {
+                id: 27,
+                week: 'hafta4',
+                question: 'x = 87.3456 için print(f"{x:.2f}") çıktısı nedir?',
+                options: [
+                    '87.3456',
+                    '87.34',
+                    '87.35',
+                    '87'
+                ],
+                correct: 2,
+                explanation: '.2f formatı ondalık kısmı 2 basamağa YUVARLAR. 87.3456 → 87.35 (3. basamak 5 olduğu için yukarı yuvarlanır)',
+                steps: [
+                    ':.2f → Ondalık kısmı 2 basamağa yuvarla',
+                    '87.3456 → 3. basamak: 5',
+                    '5 ve üzeri yukarı yuvarlanır',
+                    '87.3456 → 87.35 ✓'
+                ]
+            },
+            {
+                id: 28,
+                week: 'hafta4',
+                question: 'print(f"{\'Ali\':<10}") çıktısında kaç boşluk vardır?',
+                options: [
+                    '0 boşluk',
+                    '3 boşluk (sağda)',
+                    '7 boşluk (sağda)',
+                    '10 boşluk'
+                ],
+                correct: 2,
+                explanation: '<10 SOLA YASLA ve toplam 10 karakter yap demek. "Ali" 3 karakter, kalan 7 boşluk SAĞA eklenir: "Ali       "',
+                steps: [
+                    '<10: Sola yasla, toplam 10 karakter',
+                    '"Ali" = 3 karakter',
+                    'Kalan: 10 - 3 = 7 boşluk',
+                    '7 boşluk SAĞA eklenir: "Ali       "'
+                ]
+            },
+            {
+                id: 29,
+                week: 'hafta4',
+                question: 'try-except yapısının amacı nedir?',
+                options: [
+                    'Programı hızlandırmak',
+                    'Hata durumunda programın çökmesini engellemek',
+                    'Kod yazmayı kolaylaştırmak',
+                    'Ekrana çıktı vermek'
+                ],
+                correct: 1,
+                explanation: 'try-except yapısı HATA YÖNETİMİ için kullanılır. Kullanıcı yanlış veri girdiğinde (örn: sayı yerine harf) program ÇÖKMEZ, bunun yerine hata yakalanır ve kullanıcıdan tekrar giriş istenir.',
+                steps: [
+                    'try: bloğunda hata oluşabilecek kod yazılır',
+                    'except: bloğunda hata olduğunda ne yapılacağı belirtilir',
+                    'Örnek: int("abc") → ValueError',
+                    'try-except sayesinde program çökmez, hata mesajı verilir'
+                ]
+            },
+            {
+                id: 30,
+                week: 'hafta4',
+                question: 'a, b = map(int, input().split()) kodu ne yapar?',
+                options: [
+                    'Kullanıcıdan iki string alır',
+                    'Kullanıcıdan iki int sayı alır (boşlukla ayrılmış)',
+                    'Hata verir',
+                    'Sadece bir sayı alır'
+                ],
+                correct: 1,
+                explanation: 'Bu kod TEK SATIRDA İKİ SAYI almak için kullanılır! split() metni ayırır, map(int, ...) her elemanı int\'e çevirir, a, b = ... iki değişkene atar.',
+                steps: [
+                    'Kullanıcı: "10 20" girer',
+                    '.split() → ["10", "20"] (string listesi)',
+                    'map(int, ...) → [10, 20] (int listesi)',
+                    'a, b = ... → a=10, b=20 (unpacking)'
+                ]
+            },
+
+            // KARMA SORULAR (Tüm Haftalar)
+            {
+                id: 31,
+                week: 'hafta1',
+                question: 'Aşağıdaki ifadelerden hangisi algoritmayı EN İYİ tanımlar?',
+                options: [
+                    'Sadece bilgisayar programlarında kullanılan komutlar',
+                    'Belirli bir problemi çözmek için sıralı ve net adımlar',
+                    'Yalnızca matematiksel işlemler',
+                    'Bilgisayarın donanım bileşenleri'
+                ],
+                correct: 1,
+                explanation: 'Algoritma: Bir problemi çözmek için SIRALI, NET ve BELİRLİ adımlar dizisidir. Sadece bilgisayar programları için değil, günlük hayatta da kullanılır (çay demleme, ATM kullanma).',
+                steps: [
+                    'Algoritma = Adım adım çözüm yolu',
+                    'Bilgisayar programı olmak zorunda DEĞİL',
+                    'Günlük hayattan örnekler de algoritma sayılır',
+                    'Mutlaka sonlanmalı, net olmalı, doğru sonuç vermeli'
+                ]
+            },
+            {
+                id: 32,
+                week: 'hafta1',
+                question: 'Akış diyagramında "toplam = sayi1 + sayi2" işlemi hangi şekilde gösterilir?',
+                options: [
+                    'Oval',
+                    'Dikdörtgen',
+                    'Paralelkenar',
+                    'Eşkenar Dörtgen'
+                ],
+                correct: 1,
+                explanation: 'Atama ve aritmetik işlemler DİKDÖRTGEN (▭) ile gösterilir. toplam = sayi1 + sayi2 bir atama işlemidir.',
+                steps: [
+                    '⭕ Oval → Başla/Bitir',
+                    '▭ Dikdörtgen → İşlem (atama, toplama, çarpma)',
+                    '▱ Paralelkenar → Girdi/Çıktı (input, print)',
+                    '◇ Eşkenar Dörtgen → Karar (if/else)'
+                ]
+            },
+            {
+                id: 33,
+                week: 'hafta2',
+                question: 'Python\'da # işareti ne için kullanılır?',
+                options: [
+                    'Sayı belirtmek için',
+                    'Yorum satırı yazmak için',
+                    'Değişken tanımlamak için',
+                    'String başlatmak için'
+                ],
+                correct: 1,
+                explanation: '# işareti YORUM SATIRI (comment) için kullanılır. Python tarafından çalıştırılmaz, kod açıklaması yapmak için kullanılır.',
+                steps: [
+                    '# ile başlayan satırlar yorum satırıdır',
+                    'Python bu satırları çalıştırmaz',
+                    'Kodu açıklamak için kullanılır',
+                    'Örnek: # Bu bir yorum satırıdır'
+                ]
+            },
+            {
+                id: 34,
+                week: 'hafta3',
+                question: 'x = "5" ve y = 3 olduğunda x + y işlemi ne verir?',
+                options: [
+                    '8',
+                    '53',
+                    'Hata verir (TypeError)',
+                    '"53"'
+                ],
+                correct: 2,
+                explanation: 'x STRING ("5"), y INTEGER (3) olduğu için farklı tipleri toplayamazsınız! Python TypeError hatası verir. Önce tip dönüşümü yapmalısınız: int(x) + y',
+                steps: [
+                    'x = "5" → string (metin)',
+                    'y = 3 → int (tam sayı)',
+                    'String + int TOPLANAMAZ!',
+                    'Çözüm: int(x) + y = 5 + 3 = 8'
+                ]
+            },
+            {
+                id: 35,
+                week: 'hafta3',
+                question: 'x = 7 olduğunda x % 2 == 0 ifadesi ne döner?',
+                options: [
+                    'True',
+                    'False',
+                    '1',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: '7 % 2 = 1 (7\'yi 2\'ye böldüğümüzde kalan 1). 1 == 0 False\'dur. Bu ifade ÇİFT/TEK kontrolü yapar: çift sayılarda True, tek sayılarda False döner.',
+                steps: [
+                    '7 % 2 = 1 (kalan 1)',
+                    '1 == 0 ? → False',
+                    '7 tek sayı olduğu için False döner',
+                    'Çift sayı kontrolü: x % 2 == 0'
+                ]
+            },
+            {
+                id: 36,
+                week: 'hafta4',
+                question: 'print(f"{5+3}") çıktısı nedir?',
+                options: [
+                    '5+3',
+                    '8',
+                    '53',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'f-string içinde {} arasındaki ifadeler HESAPLANIR! {5+3} → 8 olur ve ekrana "8" yazdırılır.',
+                steps: [
+                    'f-string: {} içinde Python kodu çalıştırabilir',
+                    '{5+3} → Önce hesaplanır: 8',
+                    'Sonra ekrana yazdırılır: "8"',
+                    'Örnek: f"{2*3}" → "6"'
+                ]
+            },
+            {
+                id: 37,
+                week: 'hafta1',
+                question: 'Hangi akış diyagramı sembolü YANLIŞDIR?',
+                options: [
+                    'Oval → Başla/Bitir',
+                    'Dikdörtgen → Karar',
+                    'Paralelkenar → Girdi/Çıktı',
+                    'Ok → Akış yönü'
+                ],
+                correct: 1,
+                explanation: 'Dikdörtgen KARAR değil, İŞLEM sembolüdür! KARAR için EŞKENAR DÖRTGEN (◇) kullanılır. Bu çok karıştırılan bir konu!',
+                steps: [
+                    '❌ Dikdörtgen → İŞLEM (atama, toplama)',
+                    '✅ Eşkenar Dörtgen → KARAR (if/else)',
+                    'Bu ikisi çok karıştırılır, dikkat!',
+                    'Dikdörtgen düz kenar, Eşkenar dörtgen köşeli'
+                ]
+            },
+            {
+                id: 38,
+                week: 'hafta2',
+                question: 'Python YORUMLAMALI bir dildir. Bu ne anlama gelir?',
+                options: [
+                    'Kod derlenir ve sonra çalışır',
+                    'Kod satır satır yorumlanır ve çalışır',
+                    'Sadece yorumlar çalıştırılır',
+                    'Makine diline çevrilir'
+                ],
+                correct: 1,
+                explanation: 'Python YORUMLAMALI (interpreted) bir dildir. Kod SATIR SATIR çalışır, hata bulunduğunda o satırda DURUR. Derleme aşaması YOKTUR!',
+                steps: [
+                    'Yorumlamalı: Kod satır satır çalışır',
+                    'Hata anında program durur',
+                    'Derleme gerekmez (C/C++ gibi değil)',
+                    'Avantaj: Hızlı test, kolay hata ayıklama'
+                ]
+            },
+            {
+                id: 39,
+                week: 'hafta3',
+                question: 'Aşağıdaki değişken tanımlamalarından hangisi GEÇERLİDİR?',
+                options: [
+                    'for = 5',
+                    '_toplam = 10',
+                    '2sayi = 20',
+                    'ad-soyad = "Ali"'
+                ],
+                correct: 1,
+                explanation: 'Sadece _toplam = 10 GEÇERLİDİR! Alt çizgi (_) ile başlayabilir. "for" anahtar kelime, "2sayi" sayı ile başlıyor, "ad-soyad" tire içeriyor (hepsi geçersiz).',
+                steps: [
+                    '✅ _toplam = 10 → _ ile başlayabilir',
+                    '❌ for = 5 → "for" anahtar kelime',
+                    '❌ 2sayi = 20 → Sayı ile başlayamaz',
+                    '❌ ad-soyad → Tire kullanılamaz'
+                ]
+            },
+            {
+                id: 40,
+                week: 'hafta4',
+                question: '"5,10,15".split(",") işleminin sonucu nedir?',
+                options: [
+                    '[5, 10, 15]',
+                    '["5", "10", "15"]',
+                    '"5" "10" "15"',
+                    '5 10 15'
+                ],
+                correct: 1,
+                explanation: '.split(",") metni VIRGÜLE GÖRE ayırır ve STRING LİSTESİ döndürür! Elemanlar int değil, STRING olarak gelir: ["5", "10", "15"]',
+                steps: [
+                    '.split(","): Virgüle göre ayırır',
+                    'Sonuç: ["5", "10", "15"] (string listesi)',
+                    'Int\'e çevirmek için: map(int, ...)',
+                    'veya: [int(x) for x in liste]'
+                ]
+            },
+            {
+                id: 41,
+                week: 'hafta1',
+                question: 'Algoritmanın "Sonluluk" özelliği ne demektir?',
+                options: [
+                    'Algoritma sonsuz döngü içerebilir',
+                    'Algoritma mutlaka bir süre sonra sonlanmalıdır',
+                    'Algoritma sonuçsuz kalabilir',
+                    'Algoritmanın sonu belirsizdir'
+                ],
+                correct: 1,
+                explanation: 'SONLULUK: Algoritma mutlaka BİR SÜRE SONRA SONLANMALIDIR! Sonsuz döngüler algoritma SAYILMAZ. Bu algoritmanın 5 temel özelliğinden biridir.',
+                steps: [
+                    'Sonluluk = Algoritma mutlaka sonlanmalı',
+                    'Sonsuz döngüler algoritma DEĞİLDİR',
+                    'Örnek: while True: → Sonsuz döngü (yanlış)',
+                    'Doğru: Belirli koşulda durmalı (break, for 10 kez)'
+                ]
+            },
+            {
+                id: 42,
+                week: 'hafta2',
+                question: 'PyCharm\'da "Project Explorer" ne işe yarar?',
+                options: [
+                    'Kodları çalıştırır',
+                    'Dosya ve klasör yapısını gösterir',
+                    'Hataları ayıklar',
+                    'Paket yükler'
+                ],
+                correct: 1,
+                explanation: 'Project Explorer: Projedeki DOSYA ve KLASÖR yapısını gösterir. Sol tarafta görünen dosya ağacıdır. Yeni dosya/klasör oluşturma, silme gibi işlemler buradan yapılır.',
+                steps: [
+                    'Project Explorer: Dosya/klasör ağacı',
+                    'Sol tarafta görünür',
+                    'Yeni dosya oluşturma: Sağ tık > New',
+                    'Dosyaları organize etmek için kullanılır'
+                ]
+            },
+            {
+                id: 43,
+                week: 'hafta3',
+                question: '5 // 2 ve 5 / 2 işlemlerinin farkı nedir?',
+                options: [
+                    'İkisi de aynı sonucu verir',
+                    '// tam bölme (2), / float bölme (2.5)',
+                    '// float bölme, / tam bölme',
+                    'İkisi de hata verir'
+                ],
+                correct: 1,
+                explanation: 'ÇOK ÖNEMLİ FARK! // (çift slash) TAM BÖLME: 5 // 2 = 2. / (tek slash) FLOAT BÖLME: 5 / 2 = 2.5. Vizede kesinlikle sorulur!',
+                steps: [
+                    '/ (tek slash): Normal bölme → float döner',
+                    '5 / 2 = 2.5 (ondalıklı)',
+                    '// (çift slash): Tam bölme → sadece tamsayı kısmı',
+                    '5 // 2 = 2 (ondalık kısmı atar)'
+                ]
+            },
+            {
+                id: 44,
+                week: 'hafta4',
+                question: 's = "Python" için print(f"{s:>10}") çıktısı nasıldır?',
+                options: [
+                    '"Python    " (sağda 4 boşluk)',
+                    '"    Python" (solda 4 boşluk)',
+                    '"Python" (boşluk yok)',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: ':>10 SAĞA YASLA ve toplam 10 karakter yap demek. "Python" 6 karakter, kalan 4 boşluk SOLA eklenir: "    Python"',
+                steps: [
+                    ':>10: Sağa yasla, toplam 10 karakter',
+                    '"Python" = 6 karakter',
+                    'Kalan: 10 - 6 = 4 boşluk',
+                    '4 boşluk SOLA eklenir: "    Python"'
+                ]
+            },
+            {
+                id: 45,
+                week: 'hafta1',
+                question: 'Bilgisayarın temel bileşenleri sırasıyla nelerdir?',
+                options: [
+                    'Girdi → İşlem → Çıktı',
+                    'İşlem → Girdi → Çıktı',
+                    'Çıktı → İşlem → Girdi',
+                    'Girdi → Çıktı → İşlem'
+                ],
+                correct: 0,
+                explanation: 'Bilgisayarın temel çalışma sırası: GİRDİ (klavye, fare) → İŞLEM (CPU) → ÇIKTI (ekran, yazıcı). Bu sıra değiştirilemez!',
+                steps: [
+                    '1️⃣ Girdi: Klavye, fare, sensörler',
+                    '2️⃣ İşlem (CPU): Bilgiyi işler, karar verir',
+                    '3️⃣ Çıktı: Ekran, yazıcı, hoparlör',
+                    'Bu sıra algoritmalarda da aynıdır'
+                ]
+            },
+            {
+                id: 46,
+                week: 'hafta2',
+                question: 'print("Merhaba", "Dünya", sep="") çıktısı nedir?',
+                options: [
+                    'Merhaba Dünya',
+                    'MerhabaDünya',
+                    'Merhaba,Dünya',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'sep="" boş string kullanır, yani argümanlar arasına HİÇBİR ŞEY koymaz. "Merhaba" + "" + "Dünya" = "MerhabaDünya"',
+                steps: [
+                    'sep: Argümanlar arası ayırıcı',
+                    'Default sep=" " (boşluk)',
+                    'sep="" → Ayırıcı yok',
+                    'print("A", "B", sep="") → "AB"'
+                ]
+            },
+            {
+                id: 47,
+                week: 'hafta3',
+                question: 'x = 10 ve y = 3 olduğunda x ** y sonucu nedir?',
+                options: [
+                    '13',
+                    '30',
+                    '1000',
+                    '100'
+                ],
+                correct: 2,
+                explanation: '** üs alma operatörüdür. x ** y = 10³ = 10 × 10 × 10 = 1000',
+                steps: [
+                    '** operatörü: Üs alma',
+                    '10 ** 3 = 10³',
+                    '= 10 × 10 × 10',
+                    '= 1000 ✓'
+                ]
+            },
+            {
+                id: 48,
+                week: 'hafta4',
+                question: 'Aşağıdaki kodun çıktısı nedir?\nx = 5\nprint(type(x))',
+                options: [
+                    '5',
+                    'int',
+                    '<class \'int\'>',
+                    'integer'
+                ],
+                correct: 2,
+                explanation: 'type() fonksiyonu değişkenin tipini SINIF OLARAK döndürür. x = 5 (int) olduğu için type(x) → <class \'int\'> döner.',
+                steps: [
+                    'type(x): x\'in tipini öğrenme',
+                    'x = 5 → int (tam sayı)',
+                    'Çıktı formatı: <class \'tip_adı\'>',
+                    'type(5) → <class \'int\'>'
+                ]
+            },
+            {
+                id: 49,
+                week: 'hafta3',
+                question: 'not (5 > 3 and 2 < 4) işleminin sonucu nedir?',
+                options: [
+                    'True',
+                    'False',
+                    '1',
+                    'Hata verir'
+                ],
+                correct: 1,
+                explanation: 'Adım adım: 5 > 3 = True, 2 < 4 = True → True and True = True → not True = False',
+                steps: [
+                    '1. Parantez içi: 5 > 3 and 2 < 4',
+                    '2. True and True = True',
+                    '3. not True = False ✓',
+                    'NOT operatörü tersini alır'
+                ]
+            },
+            {
+                id: 50,
+                week: 'hafta4',
+                question: '"Ali Veli".title() işleminin sonucu nedir?',
+                options: [
+                    '"ali veli"',
+                    '"ALI VELI"',
+                    '"Ali Veli"',
+                    '"Ali veli"'
+                ],
+                correct: 2,
+                explanation: '.title() metodu HER KELİMENİN İLK HARFİNİ BÜYÜK yapar. "Ali Veli" zaten bu formatta olduğu için değişmez.',
+                steps: [
+                    '.title(): Her kelimenin ilk harfi büyük',
+                    '"ali veli".title() → "Ali Veli"',
+                    '"ALI VELI".title() → "Ali Veli"',
+                    '"Ali Veli".title() → "Ali Veli" (değişmez)'
+                ]
+            }
+        ];
+
+        let answeredQuestions = {};
+        let currentFilter = 'all';
+
+        // Initialize Quiz
+        function initQuiz() {
+            renderQuestions();
+            updateProgress();
+        }
+
+        // Filter Questions
+        function filterQuestions(filter) {
+            currentFilter = filter;
+
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            renderQuestions();
+        }
+
+        // Render Questions
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            let filteredQuestions = quizData;
+            if (currentFilter !== 'all') {
+                filteredQuestions = quizData.filter(q => q.week === currentFilter);
+            }
+
+            filteredQuestions.forEach((question, index) => {
+                const questionCard = createQuestionCard(question, index);
+                container.appendChild(questionCard);
+            });
+        }
+
+        // Create Question Card
+        function createQuestionCard(question, index) {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.dataset.questionId = question.id;
+
+            const isAnswered = answeredQuestions[question.id] !== undefined;
+
+            card.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">Soru ${question.id}</div>
+                        <div class="question-topic">${getWeekName(question.week)}</div>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option"
+                                 data-index="${optIndex}"
+                                 onclick="selectOption(${question.id}, ${optIndex})">
+                                ${String.fromCharCode(65 + optIndex)}) ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation-${question.id}">
+                        <div class="explanation-title">
+                            ✅ Doğru Cevap: ${String.fromCharCode(65 + question.correct)}) ${question.options[question.correct]}
+                        </div>
+                        <div class="explanation-content">
+                            <strong>📝 Açıklama:</strong><br>
+                            ${question.explanation}
+                        </div>
+                        ${question.steps ? `
+                            <div class="explanation-steps">
+                                <strong>🎯 Adım Adım Çözüm:</strong>
+                                ${question.steps.map(step => `<div class="step">${step}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+            return card;
+        }
+
+        // Select Option
+        function selectOption(questionId, selectedIndex) {
+            const question = quizData.find(q => q.id === questionId);
+            const card = document.querySelector(`[data-question-id="${questionId}"]`);
+            const options = card.querySelectorAll('.option');
+            const explanation = document.getElementById(`explanation-${questionId}`);
+
+            // Remove previous selections
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // Mark answer
+            if (selectedIndex === question.correct) {
+                options[selectedIndex].classList.add('correct');
+                answeredQuestions[questionId] = true;
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+                answeredQuestions[questionId] = false;
+            }
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update progress
+            updateProgress();
+
+            // Check if all answered
+            checkCompletion();
+        }
+
+        // Update Progress
+        function updateProgress() {
+            const totalQuestions = currentFilter === 'all'
+                ? quizData.length
+                : quizData.filter(q => q.week === currentFilter).length;
+
+            const answeredCount = Object.keys(answeredQuestions).length;
+            const percentage = (answeredCount / totalQuestions) * 100;
+
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent =
+                `${answeredCount} / ${totalQuestions} soru tamamlandı`;
+        }
+
+        // Check Completion
+        function checkCompletion() {
+            const totalQuestions = quizData.length;
+            const answeredCount = Object.keys(answeredQuestions).length;
+
+            if (answeredCount === totalQuestions) {
+                const correctCount = Object.values(answeredQuestions).filter(x => x === true).length;
+                const percentage = ((correctCount / totalQuestions) * 100).toFixed(1);
+
+                document.getElementById('scoreCard').classList.add('show');
+                document.getElementById('finalScore').textContent =
+                    `Toplam Puan: ${correctCount} / ${totalQuestions} (${percentage}%)`;
+
+                let message = '';
+                if (percentage >= 90) {
+                    message = '🎉 MÜKEMMEL! Allah\'ın izniyle vizeden 100 alacaksınız! 🎉';
+                } else if (percentage >= 75) {
+                    message = '👏 Çok iyi! Birkaç konuyu daha çalışın, 100 yakın! 👏';
+                } else if (percentage >= 60) {
+                    message = '💪 İyi! Eksik konuları tekrar edin, başarabilirsiniz! 💪';
+                } else {
+                    message = '📚 Daha çok çalışmalısınız. Konuları tekrar gözden geçirin! 📚';
+                }
+
+                document.getElementById('successMessage').textContent = message;
+
+                // Scroll to score card
+                document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Reset Quiz
+        function resetQuiz() {
+            answeredQuestions = {};
+            document.getElementById('scoreCard').classList.remove('show');
+
+            // Reset all question cards
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                card.querySelectorAll('.explanation').forEach(exp => {
+                    exp.classList.remove('show');
+                });
+            });
+
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Get Week Name
+        function getWeekName(week) {
+            const names = {
+                'hafta1': '1. Hafta - Algoritma',
+                'hafta2': '2. Hafta - Python',
+                'hafta3': '3. Hafta - Değişkenler',
+                'hafta4': '4. Hafta - Girdi/Çıktı'
+            };
+            return names[week] || week;
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
+
