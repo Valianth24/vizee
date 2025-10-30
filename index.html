@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İşletim Sistemleri Vize Sınavı</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .quiz-header {
+            background-color: #4a69bd;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .quiz-body {
+            padding: 30px;
+        }
+
+        #progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 10px;
+            background-color: #4caf50;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        #progress-text {
+            text-align: right;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        #question-container h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+            line-height: 1.4;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .options li {
+            margin-bottom: 15px;
+        }
+
+        .options button {
+            background-color: #f8f9fa;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            color: #333;
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: left;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .options button:hover:not(:disabled) {
+            background-color: #e9ecef;
+            border-color: #4a69bd;
+        }
+        
+        .options button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 105, 189, 0.4);
+        }
+
+        .options button.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .options button.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            font-weight: bold;
+        }
+
+        .options button:disabled {
+            cursor: not-allowed;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        #feedback.correct-feedback {
+            background-color: #eaf6ec;
+            border-left: 5px solid #28a745;
+        }
+
+        #feedback.incorrect-feedback {
+            background-color: #fbebed;
+            border-left: 5px solid #dc3545;
+        }
+
+        #feedback strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        #next-btn {
+            background-color: #4a69bd;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0 auto;
+            transition: background-color 0.2s ease;
+            display: none; /* Initially hidden */
+        }
+        
+        #next-btn:hover {
+            background-color: #3b5496;
+        }
+        
+        #results-container {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        #results-container h2 {
+            font-size: 2.2em;
+            color: #4a69bd;
+        }
+        
+        #results-container p {
+            font-size: 1.4em;
+            margin: 20px 0;
+        }
+        
+        #restart-btn {
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        #restart-btn:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>İşletim Sistemleri Vize Sınavı</h1>
+        </div>
+        <div class="quiz-body">
+            <div id="quiz-content">
+                <div id="progress-bar-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <div id="progress-text">Soru 1 / 100</div>
+                <div id="question-container">
+                    <h2>Soru yükleniyor...</h2>
+                    <ul class="options" id="options-container">
+                        </ul>
+                </div>
+                <div id="feedback"></div>
+                <button id="next-btn">Sonraki Soru</button>
+            </div>
+            <div id="results-container" style="display:none;">
+                <h2>Sınav Tamamlandı!</h2>
+                <p id="score-text"></p>
+                <p id="final-message"></p>
+                <button id="restart-btn">Sınavı Yeniden Başlat</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            // Question 1
+            {
+                question: "Kullanıcının yazı yazma veya internette gezinme gibi isteklerini bilgisayar donanımına 'tercüme eden' temel bileşen hangisidir?",
+                options: ["Uygulama Yazılımı", "İşletim Sistemi", "Donanım Sürücüsü", "Merkezi İşlem Birimi (CPU)"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Uygulama yazılımları (Word, Chrome gibi) belirli görevleri yerine getirir, ancak donanımla doğrudan iletişim kurmak yerine bu istekleri işletim sistemine iletirler.",
+                    "Doğru. İşletim sistemi, kullanıcıdan ve uygulamalardan gelen komutları alıp donanımın anlayacağı dile çeviren, aradaki en temel yazılım katmanıdır.",
+                    "Yanlış. Donanım sürücüleri, sadece belirli bir donanımın (örneğin ekran kartı) işletim sistemiyle nasıl konuşacağını belirten özel yazılımlardır. Genel tercüme işini yapmazlar.",
+                    "Yanlış. CPU, donanımın kendisidir ve komutları işler. Yazılım komutlarını donanım diline çeviren aracı değildir."
+                ]
+            },
+            // Question 2
+            {
+                question: "İşletim sisteminin 'bilgisayarın trafik polisi' olarak adlandırılmasının temel nedeni nedir?",
+                options: [
+                    "Donanım araçları ile kullanıcı arasındaki ilişkiyi kontrol etmesi",
+                    "İnternet trafiğini yönetmesi",
+                    "Sadece programları başlatıp kapatması",
+                    "Hata mesajlarını göstermesi"
+                ],
+                answer: 0,
+                rationales: [
+                    "Doğru. Bu benzetme, işletim sisteminin işlemci, bellek gibi kaynakları programlar arasında düzenli ve çakışmasız bir şekilde yönetme görevini vurgular.",
+                    "Yanlış. İnternet trafiği yönetimi ağ cihazlarının ve özel yazılımların görevidir. İşletim sistemi bu sürece dahil olsa da benzetmenin ana sebebi bu değildir.",
+                    "Yanlış. Programları başlatmak görevlerinden sadece biridir. 'Trafik polisi' benzetmesi, kaynakların yönetimi ve koordinasyonunu ifade eder.",
+                    "Yanlış. Hata mesajları göstermek önemli bir işlev olsa da, bu benzetme sistemin genel yönetim ve kontrol görevini vurgular."
+                ]
+            },
+            // Question 3
+            {
+                question: "Aşağıdakilerden hangisi slaytlarda belirtilen işletim sistemlerinin iki temel amacından biridir?",
+                options: ["Uygulama yazılımları geliştirmek", "Donanım kaynaklarının verimli bir şekilde kullanılmasını sağlamak", "Kullanıcı verilerini yedeklemek", "Bilgisayarı virüslere karşı korumak"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Uygulama geliştirmek programcıların işidir. İşletim sistemi bu uygulamaların çalışacağı ortamı sağlar.",
+                    "Doğru. Slaytlarda belirtilen iki temel amaçtan biri donanım kaynaklarının (CPU, RAM vb.) verimli kullanılmasını sağlamaktır. Diğeri ise bilgisayarın kolay kullanılmasını sağlamaktır.",
+                    "Yanlış. Veri yedekleme, kullanıcıların veya özel yedekleme yazılımlarının sorumluluğundadır. Bu, işletim sisteminin temel amacı değildir.",
+                    "Yanlış. Güvenlik önemli bir görev olsa da, slaytlarda belirtilen iki 'temel amaç' arasında sayılmamıştır."
+                ]
+            },
+            // Question 4
+            {
+                question: "Bir bilgisayar sistemi, slaytlardaki şemaya göre hangi dört temel bileşenin hiyerarşik birleşiminden oluşur?",
+                options: ["CPU, RAM, Sabit Disk, Ekran Kartı", "İnternet, Web Tarayıcı, E-posta, Sosyal Medya", "Kullanıcılar, Uygulamalar/Programlar, İşletim Sistemi, Donanım", "Word, Excel, PowerPoint, Paint"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu seçenek sadece 'Donanım' katmanının bazı elemanlarını içerir.",
+                    "Yanlış. Bunlar 'Uygulamalar/Programlar' katmanına örnektir.",
+                    "Doğru. Slaytlardaki şemada bu dört bileşen, en altta donanım ve en üstte kullanıcılar olacak şekilde hiyerarşik olarak gösterilmiştir.",
+                    "Yanlış. Bunlar da 'Uygulamalar/Programlar' katmanına ait spesifik örneklerdir."
+                ]
+            },
+            // Question 5
+            {
+                question: "Aşağıdakilerden hangisi slaytlarda listelenen işletim sistemlerinin 5 temel görevinden biri DEĞİLDİR?",
+                options: ["Bellek yönetimi", "Dosya yönetimi", "Ağ yönetimi", "İşlem yönetimi"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bellek yönetimi, slaytlarda listelenen 5 temel görevden biridir.",
+                    "Yanlış. Dosya yönetimi, slaytlarda listelenen 5 temel görevden biridir.",
+                    "Doğru. Ağ yönetimi modern işletim sistemlerinin önemli bir parçası olsa da, slaytlarda listelenen 5 temel görev (Grafik arayüz, İşlem, Bellek, Giriş-çıkış, Dosya yönetimi) arasında spesifik olarak sayılmamıştır.",
+                    "Yanlış. İşlem yönetimi, slaytlarda listelenen 5 temel görevden biridir."
+                ]
+            },
+            // Question 6
+            {
+                question: "Bir program çalışırken ihtiyaç duyduğu alanın bellekte (RAM) ayrılması ve program kapatıldığında bu alanın geri alınması hangi yönetimin sorumluluğundadır?",
+                options: ["Dosya Yönetimi", "İşlem Yönetimi", "Giriş-Çıkış Birimleri Yönetimi", "Bellek Yönetimi"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Dosya yönetimi, sabit disk gibi kalıcı depolama birimleriyle ilgilenir.",
+                    "Yanlış. İşlem yönetimi, programların işlemci zamanını nasıl kullanacağını düzenler.",
+                    "Yanlış. Bu yönetim, klavye, fare, yazıcı gibi çevre birimleriyle olan veri alışverişini kontrol eder.",
+                    "Doğru. Programlara RAM'de yer ayırmak ve işleri bittiğinde bu alanı geri alarak başka programların kullanımına sunmak, bellek yönetiminin temel görevidir."
+                ]
+            },
+            // Question 7
+            {
+                question: "Aynı anda birden fazla programın (örneğin müzik dinlerken internette gezinme) sorunsuz ve paralel bir şekilde çalışmasını sağlayan temel işletim sistemi görevi hangisidir?",
+                options: ["Grafik Arayüz Kontrolü", "İşlem Yönetimi", "Dosya Yönetimi", "Bellek Yönetimi"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Grafik arayüz, bu programları görmemizi sağlar, ancak arka planda çalışmalarını düzenlemez.",
+                    "Doğru. İşlem yönetimi, birden fazla 'işlemin' (çalışan programın) işlemci, bellek gibi kaynakları adil ve çakışmasız bir şekilde paylaşarak aynı anda çalışmasını sağlar.",
+                    "Yanlış. Dosya yönetimi, bu programların diskten okuduğu veya diske yazdığı dosyalarla ilgilenir.",
+                    "Yanlış. Bellek yönetimi bu programlara yer ayırır, ancak çalışmalarını senkronize eden ana görev işlem yönetimidir."
+                ]
+            },
+            // Question 8
+            {
+                question: "Slaytlarda, tüm donanım ve yazılım bileşenlerini uyum içinde çalıştıran işletim sistemi, neye benzetilerek bir soru sorulmuştur?",
+                options: ["Trafik Polisi", "Beyin", "Orkestra Şefi", "Tercüman"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Trafik polisi benzetmesi yapılmıştır, ancak hakkında soru sorulan benzetme bu değildir.",
+                    "Yanlış. Beyin benzetmesi slaytlarda kullanılmamıştır.",
+                    "Doğru. Slaytlarda 'Sizce orkestra şefi ile işletim sistemi arasında nasıl bir benzerlik vardır?' şeklinde bir soru yöneltilmiştir. Bu, tüm farklı bileşenleri ahenk içinde yönetme rolünü ifade eder.",
+                    "Yanlış. İşletim sistemi bir nevi tercümanlık yapsa da, hakkında soru sorulan benzetme bu değildir."
+                ]
+            },
+            // Question 9
+            {
+                question: "Microsoft tarafından geliştirilen, ilk sürümü 1985'te çıkan ve günümüzde en yaygın kullanılan işletim sistemi ailesi hangisidir?",
+                options: ["Mac OS", "Linux", "Windows", "Android"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Mac OS, Apple firması tarafından geliştirilmiştir.",
+                    "Yanlış. Linux, dünya çapında gönüllüler ve firmalar tarafından geliştirilen açık kaynak kodlu bir çekirdektir.",
+                    "Doğru. Slaytlarda Microsoft'un ürünü olduğu ve ilk sürümünün 1985'te çıktığı belirtilmektedir.",
+                    "Yanlış. Android, öncelikli olarak mobil cihazlar için geliştirilmiştir."
+                ]
+            },
+            // Question 10
+            {
+                question: "Windows işletim sistemini ilk çalıştırdığımızda karşımıza gelen ve temel araçlara hızlıca ulaşmamızı sağlayan ekrana ne ad verilir?",
+                options: ["Başlat Menüsü", "Görev Çubuğu", "Masaüstü", "Denetim Masası"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Başlat Menüsü, bu ekranda bulunan bir bileşendir, ekranın kendisi değildir.",
+                    "Yanlış. Görev Çubuğu, genellikle ekranın altında yer alan bir çubuktur.",
+                    "Doğru. Slaytlarda bu ekrana 'Masaüstü' dendiği ve gerçek ofis masasına benzetildiği anlatılmıştır.",
+                    "Yanlış. Denetim Masası, sistem ayarlarına erişmek için kullanılan bir uygulamadır."
+                ]
+            },
+            // Question 11
+            {
+                question: "Windows'ta görev çubuğunun genellikle sağ tarafında bulunan ve saat, tarih, ses, ağ bağlantısı gibi durum simgelerini içeren alana ne ad verilir?",
+                options: ["Hızlı Başlat Menüsü", "Simge Durumundaki Pencereler Alanı", "Bildirim Alanı", "Başlat Menüsü"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Hızlı Başlat, genellikle Başlat düğmesinin yanında yer alan program kısayollarını içerir.",
+                    "Yanlış. Bu alan, görev çubuğunun orta kısmında yer alır ve açık olan programları gösterir.",
+                    "Doğru. Slaytlarda bu alan 'Bildirim alanı' olarak isimlendirilmiş ve içerdiği simgeler gösterilmiştir.",
+                    "Yanlış. Başlat Menüsü, görev çubuğunun sol tarafında bulunan bir düğme ile açılır."
+                ]
+            },
+            // Question 12
+            {
+                question: "Windows İşletim Sistemi Gezgini'nde 'C' sürücüsü genellikle neyi temsil eder?",
+                options: ["USB Bellek", "CD/DVD Sürücü", "Bilgisayarın sabit diski", "Ağdaki paylaşılan bir klasör"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. USB bellekler genellikle C'den sonraki harfleri (D, E, F gibi) alırlar.",
+                    "Yanlış. Optik sürücüler de genellikle C'den sonraki harflerle temsil edilir.",
+                    "Doğru. Slaytta 'C sürücüsü her zaman bilgisayarın sabit diskini temsil eder' ifadesi net bir şekilde yer almaktadır.",
+                    "Yanlış. Ağ sürücüleri de farklı harflerle atanabilir, ancak C standart olarak yerel ana disktir."
+                ]
+            },
+            // Question 13
+            {
+                question: "Windows'ta bir dosyayı, bulunduğu 'C' sürücüsünden farklı bir sürücü olan 'D' sürücüsündeki bir klasöre sürükleyip bırakırsanız ne olur?",
+                options: [
+                    "Dosya C sürücüsünden silinir ve D sürücüsüne taşınır.",
+                    "Dosya hem C hem de D sürücüsünde olacak şekilde kopyalanır.",
+                    "D sürücüsünde dosyanın bir kısayolu oluşur.",
+                    "İşlem bir hata verir ve gerçekleşmez."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu işlem, sürükleme aynı sürücü içinde yapıldığında gerçekleşir.",
+                    "Doğru. Slaytlarda, farklı bir sürücüye sürükleme yapıldığında dosyanın kopyalandığı açıkça belirtilmiştir. Böylece dosya hem eski hem de yeni konumda bulunur.",
+                    "Yanlış. Kısayol oluşturmak farklı bir işlemdir ve genellikle sağ tuşla sürükleme veya özel komutlarla yapılır.",
+                    "Yanlış. Bu, Windows'ta standart ve geçerli bir dosya kopyalama yöntemidir."
+                ]
+            },
+            // Question 14
+            {
+                question: "Windows'ta yüklü bir programı doğru ve tamamen kaldırmak için izlenmesi gereken yol hangisidir?",
+                options: [
+                    "Programın masaüstündeki kısayolunu Geri Dönüşüm Kutusu'na atmak.",
+                    "Programın kurulu olduğu klasörü (örn: C:\\Program Files\\...) doğrudan silmek.",
+                    "Başlat Menüsü > Denetim Masası > Programlar ve Özellikler'i kullanmak.",
+                    "Başlat Menüsü arama çubuğuna programın adını yazıp 'Sil' komutu vermek."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu sadece kısayolu siler, programı kaldırmaz.",
+                    "Yanlış. Bu yöntem önerilmez çünkü programın sistemdeki kalıntılarını temizlemez ve sorunlara yol açabilir.",
+                    "Doğru. Slaytlarda, program kaldırma işleminin 'Denetim Masası-Programlar ve Özellikler' altından yapıldığı anlatılmıştır.",
+                    "Yanlış. Windows'ta bu şekilde çalışan bir 'Sil' komutu yoktur."
+                ]
+            },
+            // Question 15
+            {
+                question: "Windows'taki 'Uyku' modu ne işe yarar?",
+                options: [
+                    "Bilgisayarı tamamen kapatır ve elektrik tüketimini sıfırlar.",
+                    "Tüm açık programları ve dosyaları bellekte (RAM) tutarak çok düşük güç moduna geçer ve bilgisayarın hızlıca kaldığı yerden devam etmesini sağlar.",
+                    "Oturumu kapatır ancak bilgisayarı açık bırakır.",
+                    "İşletim sistemini kapatıp yeniden başlatır."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu 'Kapat' seçeneğinin işlevidir.",
+                    "Doğru. Uyku modunun amacı, oturumu kaybetmeden enerji tasarrufu sağlamak ve hızlı bir başlangıç sunmaktır. Tüm çalışmalar bellekte tutulur.",
+                    "Yanlış. Bu 'Oturumu Kapat' seçeneğinin işlevidir.",
+                    "Yanlış. Bu 'Yeniden Başlat' seçeneğinin işlevidir."
+                ]
+            },
+            // Question 16
+            {
+                question: "Mac OS işletim sistemi hangi firma tarafından ve öncelikli olarak hangi tür bilgisayarlar için geliştirilmektedir?",
+                options: ["Microsoft / Tüm PC'ler için", "Google / Chromebook'lar için", "Apple / Kendi ürettiği Mac bilgisayarlar için", "TÜBİTAK / Yerli sunucular için"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Microsoft, Windows'u geliştirmektedir.",
+                    "Yanlış. Google, Chrome OS ve Android'i geliştirmektedir.",
+                    "Doğru. Slaytlarda Mac OS'un Apple firması tarafından kendi bilgisayarları için geliştirildiği belirtilmektedir.",
+                    "Yanlış. TÜBİTAK, Pardus Linux dağıtımını geliştirmiştir."
+                ]
+            },
+            // Question 17
+            {
+                question: "Mac OS masaüstünde, ekranın alt kısmında yer alan ve sık kullanılan uygulamaların kısayollarını barındıran özelleştirilebilir çubuğun adı nedir?",
+                options: ["Görev Çubuğu", "Panel", "Başlat Menüsü", "Dock"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Görev Çubuğu, Windows'a özgü bir terimdir.",
+                    "Yanlış. Panel, Pardus gibi bazı Linux dağıtımlarında kullanılan bir terimdir.",
+                    "Yanlış. Başlat Menüsü, Windows'a özgü bir özelliktir.",
+                    "Doğru. Slaytlarda Mac OS'taki bu uygulama alanına 'dock' denilmektedir."
+                ]
+            },
+            // Question 18
+            {
+                question: "Mac OS'taki 'Finder' uygulamasının Windows'taki temel karşılığı nedir?",
+                options: ["Denetim Masası", "İşletim Sistemi Gezgini (Windows Gezgini)", "Başlat Menüsü", "Görev Yöneticisi"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Denetim Masası'nın Mac OS'taki karşılığı 'Sistem Tercihleri'dir.",
+                    "Doğru. Slaytta 'Finder Mac OS işletim sisteminin gezginine verilen isimdir' denilmektedir. Her ikisi de dosya ve klasör yönetimi için kullanılır.",
+                    "Yanlış. Başlat Menüsü'nün işlevleri Mac OS'ta 'Git' menüsü ve Dock gibi farklı öğelere dağılmıştır.",
+                    "Yanlış. Görev Yöneticisi'nin Mac OS'taki karşılığı 'Etkinlik Monitörü'dür."
+                ]
+            },
+            // Question 19
+            {
+                question: "Pencere kontrol düğmelerinin (kapat, küçült, büyüt) konumu Windows ve Mac OS arasındaki temel bir farktır. Bu düğmeler Mac OS'ta nerede bulunur?",
+                options: ["Pencerenin sağ üst köşesinde", "Pencerenin sol üst köşesinde", "Pencerenin altındaki Dock üzerinde", "Ekranın en üstündeki menü çubuğunda"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu, Windows'taki standart yerleşimdir.",
+                    "Doğru. Slaytlarda bu düğmelerin Windows’un aksine, pencerenin sol üst kısmına yerleştirildiği belirtilmektedir.",
+                    "Yanlış. Dock, uygulama kısayollarını barındırır.",
+                    "Yanlış. Üst menü çubuğu, aktif uygulamanın komutlarını içerir."
+                ]
+            },
+            // Question 20
+            {
+                question: "Dosya taşıma işlemiyle ilgili olarak Mac OS'un Windows'tan en belirgin farkı nedir?",
+                options: [
+                    "Mac OS'ta dosyalar sürükle-bırak yöntemiyle taşınamaz.",
+                    "Mac OS'ta dosya ve klasörler için 'kes-yapıştır' özelliği yoktur.",
+                    "Mac OS'ta bir dosyayı taşımak için mutlaka klavye kısayolu kullanmak gerekir.",
+                    "Mac OS'ta dosya taşıma işlemi geri alınamaz."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Dosya taşıma sürükle-bırak ile yapılır.",
+                    "Doğru. Slaytta bu durum 'Mac OS’ta dosya kes-yapıştır özelliği yoktur.' şeklinde açıkça belirtilmiştir. Taşıma için kopyala-yapıştır ve sonra eskisini silme yöntemi anlatılmıştır.",
+                    "Yanlış. Sürükle-bırak yöntemi temel taşıma yöntemidir.",
+                    "Yanlış. Modern işletim sistemlerinin çoğunda olduğu gibi 'Geri Al' (Undo) özelliği mevcuttur."
+                ]
+            },
+            // Question 21
+            {
+                question: "Aşağıdakilerden hangisi Linux için en doğru tanımdır?",
+                options: [
+                    "Ubuntu, Debian ve Pardus gibi işletim sistemlerini üreten firmanın adıdır.",
+                    "Özgür bir işletim sistemi çekirdeğidir.",
+                    "Sadece komut satırı ile çalışan, grafik arayüzü olmayan bir işletim sistemidir.",
+                    "Microsoft ve Apple'a rakip olarak geliştirilmiş ücretli bir işletim sistemidir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bunlar Linux 'dağıtımlarıdır'. Linux bir firma adı değildir.",
+                    "Doğru. Slaytlarda Linux'un bir 'işletim sistemi çekirdeği' olduğu ve bu çekirdek üzerine 'Linux dağıtımları'nın inşa edildiği belirtilmiştir.",
+                    "Yanlış. Linux dağıtımları, Pardus örneğinde olduğu gibi, gelişmiş grafik arayüzlere sahiptir.",
+                    "Yanlış. Linux'un temel felsefesi 'özgür' ve 'açık kaynak kodlu' olmasıdır. Çoğu dağıtım ücretsizdir."
+                ]
+            },
+            // Question 22
+            {
+                question: "'Açık kaynak kodlu yazılım' kavramı ne anlama gelmektedir?",
+                options: [
+                    "Yazılımın tamamen ücretsiz olmasıdır.",
+                    "Kaynak kodlarının herkes tarafından görülebilir, değiştirilebilir ve serbestçe dağıtılabilir olmasıdır.",
+                    "Yazılımın sadece gönüllüler tarafından, kar amacı gütmeden geliştirilmesidir.",
+                    "Yazılımın internet bağlantısı olmadan kullanılamamasıdır."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Ücretsiz olması genellikle bir sonucudur, ancak temel anlamı bu değildir. Slaytlarda ücretli Linux dağıtımlarının da olduğu belirtilmiştir.",
+                    "Doğru. Slaytlarda bu kavram '...kaynak kodlarının herkes tarafından görülebiliyor, değiştirilebiliyor ve serbestçe... dağıtılabiliyor olmasıdır.' şeklinde tanımlanmıştır.",
+                    "Yanlış. Gönüllüler büyük rol oynasa da, birçok firma da açık kaynak kodlu yazılımlar geliştirmektedir.",
+                    "Yanlış. Bu tanım, açık kaynak kodlu yazılımlarla tamamen ilgisizdir."
+                ]
+            },
+            // Question 23
+            {
+                question: "Pardus işletim sistemi hangi kurumun bünyesinde geliştirilmeye başlanmıştır?",
+                options: ["Orta Doğu Teknik Üniversitesi (ODTÜ)", "ASELSAN", "TÜBİTAK BİLGEM", "Türkiye Bilişim Derneği (TBD)"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. ODTÜ, Pardus projesinin başlangıç yeri değildir.",
+                    "Yanlış. ASELSAN, bir savunma sanayii şirketidir.",
+                    "Doğru. Slaytlarda Pardus'un 'TÜBİTAK BİLGEM... bünyesinde' geliştirilmeye başlandığı belirtilmektedir.",
+                    "Yanlış. TBD, bir sivil toplum kuruluşudur."
+                ]
+            },
+            // Question 24
+            {
+                question: "'Çalışan Pardus' ile 'Kurulan Pardus' arasındaki temel fark nedir?",
+                options: [
+                    "Çalışan Pardus daha az özelliğe sahipken, Kurulan Pardus tam sürümüdür.",
+                    "Çalışan Pardus internete bağlanamaz, Kurulan Pardus bağlanabilir.",
+                    "Çalışan Pardus bilgisayarın sabit diskine kurulmadan harici bir kaynaktan, Kurulan Pardus ise sabit diske kalıcı olarak kurularak çalışır.",
+                    "Çalışan Pardus ev kullanıcıları, Kurulan Pardus ise kurumsal kullanıcılar içindir."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Çalışan Pardus genellikle tam sürüm özelliklerini içerir, ancak yaptığı değişiklikler kalıcı olmaz.",
+                    "Yanlış. Çalışan (Live) sistemler de internete bağlanabilir.",
+                    "Doğru. Slaytlarda bu ayrım tam olarak bu şekilde yapılmıştır: Biri CD/USB'den geçici olarak, diğeri sabit diske kalıcı olarak kurulur.",
+                    "Yanlış. Ev ve kurumsal sürümler ayrıdır, ancak bu 'Çalışan' ve 'Kurulan' ayrımı ile aynı şey değildir."
+                ]
+            },
+            // Question 25
+            {
+                question: "Pardus işletim sistemi ilk kez çalıştırıldığında, kullanıcıya temel ayarları yapmasında yardımcı olan yapılandırma aracının adı nedir?",
+                options: ["YALI", "Kaptan", "Plasma", "Dolphin"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. YALI, Pardus'un eski kurulum aracıydı.",
+                    "Doğru. Slaytlarda '...ekrana Kaptan isimli bir kerelik çalışan yapılandırma yardımcısı gelmektedir.' denilmektedir.",
+                    "Yanlış. Plasma, Pardus'un kullandığı masaüstü ortamının adıdır.",
+                    "Yanlış. Dolphin, KDE Plasma masaüstü ortamının dosya yöneticisidir."
+                ]
+            },
+            // Question 26
+            {
+                question: "Pardus'un masaüstü ortamında, ekranın sağ üst köşesinde konumlanan ve Panel, Programcık, Etkinlik gibi seçenekler sunan menünün adı nedir?",
+                options: ["Kick-off Menüsü", "Sistem Çekmecesi", "Plasma Menüsü", "Görev Yöneticisi"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Kick-off menüsü, sol alttaki uygulama başlatma menüsüdür.",
+                    "Yanlış. Sistem Çekmecesi, durum simgelerinin bulunduğu alandır.",
+                    "Doğru. Slaytlardaki şemada bu menü 'Plasma Menüsü' olarak adlandırılmış ve içeriği gösterilmiştir.",
+                    "Yanlış. Görev Yöneticisi, açık olan pencereleri gösteren panel bileşenidir."
+                ]
+            },
+            // Question 27
+            {
+                question: "Mobil işletim sistemleri ile masaüstü işletim sistemleri arasındaki temel yapısal fark slaytlara göre nedir?",
+                options: [
+                    "Mobil işletim sistemleri daha karmaşık bir yapıdadır.",
+                    "Mobil işletim sistemleri daha basit bir yapıdadır.",
+                    "Mobil işletim sistemlerinde dosya yönetimi yoktur.",
+                    "Mobil işletim sistemleri sadece tek bir uygulamayı aynı anda çalıştırabilir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Slaytlarda tam tersi belirtilmiştir.",
+                    "Doğru. Slaytlarda '...mobil işletim sistemleri normal işletim sistemlerine göre çok daha basit yapıdadır.' ifadesi yer almaktadır.",
+                    "Yanlış. Mobil işletim sistemlerinin de bir dosya yönetim sistemi vardır. Slaytlarda böyle bir fark belirtilmemiştir.",
+                    "Yanlış. Modern mobil işletim sistemleri çoklu görev yeteneğine sahiptir."
+                ]
+            },
+            // Question 28
+            {
+                question: "Aşağıdakilerden hangisi slaytlarda adı geçen mobil işletim sistemlerinden biri DEĞİLDİR?",
+                options: ["Android", "IOS (iPhone)", "Windows Mobile", "Linux"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Android, slaytlarda listelenen mobil işletim sistemlerinden biridir.",
+                    "Yanlış. iOS, slaytlarda listelenen mobil işletim sistemlerinden biridir.",
+                    "Yanlış. Windows Mobile, slaytlarda listelenen mobil işletim sistemlerinden biridir.",
+                    "Doğru. Linux, bir çekirdek ve masaüstü işletim sistemi ailesi olarak ele alınmıştır. Mobil OS listesinde 'Linux' olarak değil, onu temel alan 'Android' olarak yer almaktadır."
+                ]
+            },
+            // Question 29
+            {
+                question: "Kullanıcı, işletim sistemi ve donanım arasındaki ilişki düşünüldüğünde, kullanıcı bir belgeyi yazdırmak istediğinde komut akışı nasıl gerçekleşir?",
+                options: [
+                    "Kullanıcı -> Doğrudan Donanım (Yazıcı)",
+                    "Kullanıcı -> Çevre Birimi (Fare) -> İşletim Sistemi -> Donanım (Yazıcı)",
+                    "Kullanıcı -> Uygulama Yazılımı -> Doğrudan Donanım (Yazıcı)",
+                    "İşletim Sistemi -> Kullanıcı -> Donanım (Yazıcı)"
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Kullanıcılar donanımla doğrudan iletişim kurmazlar.",
+                    "Doğru. Slaytlarda bu süreç 'Bilgisayara yaptırmak istediğimiz işlemleri fare, klavye gibi çevre birimlerinin yardımıyla işletim sistemine, işletim sistemi de bu isteğimizi... donanıma aktarır.' şeklinde açıklanmıştır.",
+                    "Yanlış. Uygulamalar, donanıma erişmek için işletim sistemini kullanmak zorundadır.",
+                    "Yanlış. Komut akışı kullanıcıdan başlar, işletim sisteminden değil."
+                ]
+            },
+            // Question 30
+            {
+                question: "Grafik tabanlı kullanıcı arayüzlerinin (GUI) temel avantajı slaytlara göre nedir?",
+                options: [
+                    "Daha güvenli olmalarıdır.",
+                    "Daha az bilgisayar kaynağı tüketmeleridir.",
+                    "İşlemlerin kısa sürede ve daha az adımda yapılmasına olanak sağlamalarıdır.",
+                    "Sadece fare ile kullanılabilmeleridir."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Güvenlik, arayüzün türünden çok mimariyle ilgilidir.",
+                    "Yanlış. Tam tersine, grafik arayüzler daha fazla kaynak tüketir.",
+                    "Doğru. Slaytta '...kısa sürede ve daha az adımda işlemlerin yapılmasına olanak sağlayan grafik tabanlı kullanıcı arayüzleri...' ifadesi yer almaktadır.",
+                    "Yanlış. Grafik arayüzler genellikle fare ve klavye kombinasyonu ile kullanılır."
+                ]
+            },
+            // Question 31
+            {
+                question: "Windows'ta yeni bir dosya veya klasör oluşturmak için genellikle hangi menü kullanılır?",
+                options: ["Dosya Menüsü", "Düzen Menüsü", "Sağ Tık Menüsü > Yeni", "Görünüm Menüsü"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Dosya menüsü genellikle programların içindedir ve 'Kaydet' gibi seçenekler sunar.",
+                    "Yanlış. Düzen menüsü 'Kopyala', 'Yapıştır' gibi işlemleri içerir.",
+                    "Doğru. Slaytlardaki Şekil 8, masaüstünde veya bir klasör içinde sağ tıklandığında açılan menüden 'Yeni' seçeneği ile klasör veya dosya oluşturulduğunu göstermektedir.",
+                    "Yanlış. Görünüm menüsü, simgelerin boyutunu veya sıralamasını değiştirmek için kullanılır."
+                ]
+            },
+            // Question 32
+            {
+                question: "Windows Başlat Menüsü için en doğru ifade hangisidir?",
+                options: [
+                    "Sadece en son kullanılan programları gösterir.",
+                    "Bilgisayardaki tüm programlara ve fonksiyonlara ulaşılabilen temel menüdür.",
+                    "Tüm işletim sistemlerinde bulunan standart bir özelliktir.",
+                    "Sadece bilgisayarı kapatma seçeneklerini içerir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu sadece bir özelliğidir, 'Tüm programlar' bölümü de vardır.",
+                    "Doğru. Slaytlarda 'Başlat menüsü, bilgisayardaki tüm programlara ve işletim sistemi fonksiyonlarına ulaşabileceğimiz temel menüdür.' şeklinde net bir tanım yapılmıştır.",
+                    "Yanlış. Slaytlarda bunun 'Microsoft Windows’a özel bir öge' olduğu belirtilmiştir.",
+                    "Yanlış. Kapatma seçenekleri menünün sadece küçük bir parçasıdır."
+                ]
+            },
+            // Question 33
+            {
+                question: "Mac OS'taki 'Sistem Tercihleri' uygulamasının temel işlevi nedir ve Windows'taki hangi uygulamanın karşılığıdır?",
+                options: [
+                    "Dosya yönetimi / Windows Gezgini",
+                    "Yazılım yükleme / Microsoft Store",
+                    "Sistem ayarları / Denetim Masası",
+                    "İnternet tarama / Microsoft Edge"
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Dosya yönetimi Finder'ın görevidir.",
+                    "Yanlış. Yazılım yükleme genellikle App Store'dan yapılır.",
+                    "Doğru. Slaytlarda 'Sistem Tercihleri... donanım ve yazılım ayarları yapmamızı sağlayan uygulamadır. Windows’taki denetim masası ile aynı işlevi görür.' denilmektedir.",
+                    "Yanlış. İnternet tarama Safari'nin görevidir."
+                ]
+            },
+            // Question 34
+            {
+                question: "Mac OS'taki 'Git' menüsü, slaytlara göre hangi Windows bileşeninin görevini bir nevi üstlenir?",
+                options: ["Denetim Masası", "Geri Dönüşüm Kutusu", "Başlat Menüsü", "Görev Yöneticisi"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Denetim Masası'nın görevini 'Sistem Tercihleri' üstlenir.",
+                    "Yanlış. Geri Dönüşüm Kutusu'nun karşılığı 'Çöp Sepeti'dir (Trash).",
+                    "Doğru. Slaytlarda 'Git menüsü bir nevi başlat menüsü görevi görür.' ifadesi yer almaktadır çünkü Bilgisayar, Uygulamalar gibi temel konumlara erişim sağlar.",
+                    "Yanlış. Görev Yöneticisi çalışan işlemleri yönetir."
+                ]
+            },
+            // Question 35
+            {
+                question: "Sahipli işletim sistemleri (Windows, Mac OS) ile açık kaynak kodlu olanlar (Linux) arasındaki temel geliştirme modeli farkı nedir?",
+                options: [
+                    "Sahipli sistemler daha yavaş geliştirilir.",
+                    "Sahipli sistemler tek bir merkezden (firma), açık kaynaklılar ise dünyanın her yerinden gönüllüler tarafından geliştirilir.",
+                    "Sahipli sistemlerin kodu daha güvenlidir.",
+                    "Sahipli sistemler ücretli, açık kaynaklıların tamamı ücretsizdir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Geliştirme hızı projenin kaynaklarına bağlıdır, bu genel bir kural değildir.",
+                    "Doğru. Bu fark slaytlarda '...sahipli işletim sistemlerinde... tek merkezden geliştirilirken, açık kaynak kodlu işletim sistemleri dünyanın her tarafından gönüllü bireyler tarafından geliştirilmektedir.' şeklinde belirtilmiştir.",
+                    "Yanlış. Bu bir tartışma konusudur. Açık kaynak kodun herkes tarafından incelenebilmesi hataların daha hızlı bulunmasını da sağlayabilir.",
+                    "Yanlış. Slaytlarda 'ücretli satılan Linux dağıtımlarıda mevcuttur' denilmiştir."
+                ]
+            },
+            // Question 36
+            {
+                question: "İşletim sisteminin 'çekirdek' (kernel) bileşeni neyi ifade eder?",
+                options: [
+                    "İşletim sisteminin grafik arayüzünü.",
+                    "İşletim sisteminin özünü oluşturan ve donanımla doğrudan iletişim kuran temel bileşeni.",
+                    "İşletim sistemiyle birlikte gelen tüm uygulama yazılımlarını.",
+                    "İşletim sisteminin sadece dosya yönetimiyle ilgilenen kısmını."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Grafik arayüz, çekirdeğin üzerinde çalışan bir katmandır.",
+                    "Doğru. Slaytlarda 'Çekirdek ise işletim sisteminin özünü oluşturan bileşene verilen addır. İşletim sistemleri bu temel bileşen üzerine inşa edilir.' tanımı yapılmıştır.",
+                    "Yanlış. Uygulamalar çekirdek üzerine inşa edilen işletim sisteminin bir parçasıdır, çekirdeğin kendisi değildir.",
+                    "Yanlış. Çekirdek, dosya yönetiminin yanı sıra tüm temel görevlerden sorumludur."
+                ]
+            },
+            // Question 37
+            {
+                question: "Pardus'taki 'Etkinlik' (Activity) plasma aracının temel amacı nedir?",
+                options: [
+                    "Bilgisayarın performansını izlemek.",
+                    "Çalışan programları sonlandırmak.",
+                    "Farklı görevler için kişiselleştirilmiş masaüstü ayarları oluşturmak ve bunlar arasında geçiş yapmak.",
+                    "Yeni programcıklar (widget) indirmek."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu, genellikle bir sistem izleme aracının görevidir.",
+                    "Yanlış. Bu, görev yöneticisinin işlevidir.",
+                    "Doğru. Slaytlarda 'Etkinlik plasma aracı ile farklı türdeki masaüstü ayarlarını bir tıkla değiştirilebilir, kişiselleştirilmiş masaüstüler oluşturulabilir.' şeklinde tanımlanmıştır.",
+                    "Yanlış. Bu işlem genellikle 'Programcık Ekle' menüsü üzerinden yapılır."
+                ]
+            },
+            // Question 38
+            {
+                question: "PDA, tablet bilgisayarlar ve akıllı cep telefonları gibi taşınabilir cihazlarda kullanılan işletim sistemlerine ne ad verilir?",
+                options: ["Gömülü İşletim Sistemleri", "Mobil İşletim Sistemleri", "Açık Kaynak Kodlu İşletim Sistemleri", "Basit İşletim Sistemleri"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Gömülü sistemler genellikle tek bir işlevi olan cihazlarda bulunur.",
+                    "Doğru. Slaytların son bölümü bu konuya ayrılmıştır ve bu cihazların 'mobil işletim sistemlerini' kullandığı belirtilmiştir.",
+                    "Yanlış. Bu, lisans modelini tanımlar. Bazı mobil OS'ler (Android) açık kaynaklı, bazıları (iOS) değildir.",
+                    "Yanlış. Slaytlarda 'daha basit yapıdadır' denilse de, bu kategoriye verilen özel isim 'Mobil İşletim Sistemleri'dir."
+                ]
+            },
+            // Question 39
+            {
+                question: "Windows Gezgini'ndeki 'Ağaç menüsü' ne işe yarar?",
+                options: [
+                    "Dosyaların görünümünü (simge, liste vb.) değiştirir.",
+                    "Klasörler arasında hiyerarşik bir yapıda gezinmeyi sağlar.",
+                    "Dosya ve klasörleri aramak için kullanılır.",
+                    "Sürücülerin doluluk oranlarını gösterir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu işlevi 'Görünüm düğmesi' yerine getirir.",
+                    "Doğru. Slayttaki Şekil 6 ve 7'de 'Ağaç menüsü' gösterilmiş ve klasörler arasındaki hiyerarşik yapıyı sergileyerek gezinmeyi kolaylaştırdığı görülmektedir.",
+                    "Yanlış. Bu işlev için 'Arama kutusu' kullanılır.",
+                    "Yanlış. Bu bilgi genellikle sürücülerin listelendiği 'Bilgisayar' penceresinde gösterilir."
+                ]
+            },
+            // Question 40
+            {
+                question: "Mac OS işletim sisteminin, Apple üretimi olmayan bir bilgisayara kurulması durumu slaytlara göre nasıldır?",
+                options: [
+                    "İmkansızdır, hiçbir şekilde kurulamaz.",
+                    "Bazı yöntemlerle mümkün olsa da genellikle tercih edilen bir durum değildir.",
+                    "Çok yaygın ve kolay bir işlemdir.",
+                    "Sadece Apple'dan lisans satın alarak mümkündür."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Slaytta 'bazı yöntemlerle kurulabilse de' ifadesi kullanılmıştır.",
+                    "Doğru. Slayttaki ifade tam olarak şöyledir: 'Mac OS, Apple firması tarafından üretilmeyen bilgisayarlarda bazı yöntemlerle kurulabilse de genellikle bu tercih edilen bir durum değildir.'.",
+                    "Yanlış. Slaytta 'genellikle tercih edilen bir durum değildir' denilerek bunun yaygın veya kolay olmadığı ima edilmektedir.",
+                    "Yanlış. Apple, Mac OS lisansını donanımıyla birlikte satar."
+                ]
+            },
+            // Question 41
+            {
+                question: "Aşağıdakilerden hangisi bir 'işlem' (process) olarak kabul edilebilir?",
+                options: ["Sabit diskte kayıtlı bir Word belgesi.", "Çalışmakta olan bir müzik çalar programı.", "Bilgisayara takılı bir USB bellek.", "Masaüstündeki bir program kısayolu."],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu bir dosyadır. 'İşlem' olması için çalıştırılması gerekir.",
+                    "Doğru. Slaytta 'Bir işlemi, çalıştırmakta olduğumuz bir program olarak düşünebiliriz.' denilmektedir. Program çalışmaya başladığı anda bir 'işlem' haline gelir.",
+                    "Yanlış. Bu bir donanım aygıtıdır.",
+                    "Yanlış. Bu, bir programı başlatan bir dosyadır."
+                ]
+            },
+            // Question 42
+            {
+                question: "Mac OS'ta, sağ tık menüsünde Windows'tan farklı olarak hangi seçenek bulunmaz?",
+                options: ["Yeni Klasör oluşturma", "Yeni dosya oluşturma", "Masaüstü Arkaplanını Değiştirme", "Kopyalama"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Slaytlarda sağ tıklayarak 'Yeni Klasör' oluşturulabildiği belirtilmiştir.",
+                    "Doğru. Slaytta 'Mac OS’ta sağ tıklandığında açılan menüden dosya oluşturma seçeneği yoktur.' ifadesi net bir şekilde yer almaktadır.",
+                    "Yanlış. Slayttaki Şekil 19'da bu seçeneğin sağ tık menüsünde bulunduğu görülmektedir.",
+                    "Yanlış. Dosya kopyalamak için sağ tık menüsü kullanılır."
+                ]
+            },
+            // Question 43
+            {
+                question: "Pardus'un masaüstü şemasında, Windows'taki Başlat Menüsü'ne en çok benzeyen uygulama başlatma menüsünün adı nedir?",
+                options: ["Plasma Menüsü", "Panel Plasma Menüsü", "Kick-off uygulama çalıştırıcı menüsü", "Görev Yöneticisi"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Plasma menüsü, masaüstü ayarları gibi genel yapılandırma işlevleri sunar.",
+                    "Yanlış. Bu, panelin kendi ayarlarını içeren menüdür.",
+                    "Doğru. Şekil 21'de panelin sol alt köşesinde yer alan bu menü, uygulamaların kategorize edildiği, işlevsel olarak Başlat Menüsü'ne en çok benzeyen bileşendir.",
+                    "Yanlış. Görev yöneticisi, çalışan uygulamaları listeler."
+                ]
+            },
+            // Question 44
+            {
+                question: "Windows'ta bir dosyayı aynı sürücü içindeki başka bir klasöre sürükleyip bırakmak varsayılan olarak hangi işlemi yapar?",
+                options: ["Dosyayı kopyalar", "Dosyayı taşır", "Dosyanın kısayolunu oluşturur", "Dosyayı siler"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Kopyalama, farklı sürücüler arasında veya Ctrl tuşu basılıyken sürükleme yapıldığında olur.",
+                    "Doğru. Slaytlarda '...eğer dosyayı kendisi ile aynı sürücü altındaki... bir klasöre taşınmışsa dosya olduğu konumdan silinip yeni konuma yerleştirilir.' denilmektedir. Bu taşıma işlemidir.",
+                    "Yanlış. Kısayol oluşturmak özel bir eylemdir.",
+                    "Yanlış. Silmek için Delete tuşuna basılır veya Geri Dönüşüm Kutusu'na sürüklenir."
+                ]
+            },
+            // Question 45
+            {
+                question: "Slaytlara göre işletim sistemlerinin sürekli yeni sürümlerinin çıkmasının nedenlerinden biri nedir?",
+                options: [
+                    "Eski sürümleri yavaşlatmak",
+                    "Hızla değişen ihtiyaçlar ve kullanım kolaylığının arttırılması",
+                    "Sadece görsel değişiklikler yapmak",
+                    "Yazılım geliştiricilerine iş imkanı sağlamak"
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu, slaytlarda belirtilen bir neden değildir.",
+                    "Doğru. Slaytlarda '...bunun nedeni hızla değişen ihtiyaçlar ve kullanım kolaylığının arttırılmasıdır.' ifadesi doğrudan yer almaktadır.",
+                    "Yanlış. Görsel değişiklikler yapılsa da, asıl nedenler daha işlevseldir.",
+                    "Yanlış. Bu bir sonuç olabilir, ancak temel amaç değildir."
+                ]
+            },
+            // Question 46
+            {
+                question: "Aşağıdakilerden hangisi bir donanım aygıtı DEĞİLDİR?",
+                options: ["Yazıcı", "Fare", "Kelime işlemci", "Tarayıcı"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Yazıcı, fiziksel bir donanım aygıtıdır.",
+                    "Yanlış. Fare, fiziksel bir donanım aygıtıdır.",
+                    "Doğru. Kelime işlemci (Word gibi), slaytlarda bir 'uygulama/program' olarak örneklendirilmiştir, yani bir yazılımdır.",
+                    "Yanlış. Tarayıcı, fiziksel bir donanım aygıtıdır."
+                ]
+            },
+            // Question 47
+            {
+                question: "Bir belgenin yazıcıya gönderilmesi işlemi, işletim sisteminin hangi temel görevi kapsamında değerlendirilir?",
+                options: ["Bellek Yönetimi", "İşlem Yönetimi", "Dosya Yönetimi", "Giriş-Çıkış Birimleri Yönetimi"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Bellek yönetimi, RAM'in kullanımını düzenler.",
+                    "Yanlış. İşlem yönetimi, yazdırma programının çalışmasını yönetir, verinin fiziksel aktarımını değil.",
+                    "Yanlış. Dosya yönetimi, belgenin diskten okunmasını sağlar.",
+                    "Doğru. Yazıcı bir 'çıkış' birimidir. Slaytlarda 'Bilgisayar ile çevre birimleri... arasındaki veri alışverişini de işletim sistemi düzenler.' denilerek bu görev açıklanmıştır."
+                ]
+            },
+            // Question 48
+            {
+                question: "Windows 1.0 hangi yıl piyasaya sürülmüştür?",
+                options: ["1995", "1985", "2001", "1990"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. 1995'te Windows 95 piyasaya sürülmüştür.",
+                    "Doğru. Slaytlarda '...ilk Windows işletim sistemi 1985 yılında Windows 1.0 sürümüyle çıkmış...' bilgisi yer almaktadır.",
+                    "Yanlış. 2001'de Windows XP piyasaya sürülmüştür.",
+                    "Yanlış. 1990'da Windows 3.0 piyasaya sürülmüştür."
+                ]
+            },
+            // Question 49
+            {
+                question: "Mac OS'taki uygulamalar menüsünde (Dock), altında mavi bir işaret bulunan bir uygulama simgesi neyi ifade eder?",
+                options: [
+                    "Programın güncellenmesi gerektiğini",
+                    "Programın kısayol olduğunu",
+                    "Programın aktif olduğunu (çalıştığını)",
+                    "Programın ücretli olduğunu"
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Güncelleme bildirimleri genellikle farklı bir şekilde (örn: App Store simgesinde bir numara ile) gösterilir.",
+                    "Yanlış. Dock'taki tüm simgeler birer kısayol gibidir, bu işaretin anlamı bu değildir.",
+                    "Doğru. Slayttaki Şekil 16'da bu işaret 'Programın aktif olduğunu bildiren mavi işaret' olarak belirtilmiştir.",
+                    "Yanlış. Ücret durumu Dock üzerinde belirtilmez."
+                ]
+            },
+            // Question 50
+            {
+                question: "Pardus'ta, Windows'taki 'Bildirim Alanı'na en çok benzeyen ve sistem durum simgelerini barındıran bileşenin adı nedir?",
+                options: ["Panel", "Sayfalayıcı", "Sistem Çekmecesi", "Görev Yöneticisi"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Panel, tüm bu bileşenleri içeren alttaki çubuğun genel adıdır.",
+                    "Yanlış. Sayfalayıcı, sanal masaüstleri arasında geçiş yapmayı sağlar.",
+                    "Doğru. Slayttaki Şekil 21'de, Windows'taki bildirim alanına karşılık gelen sağ alt köşedeki simge alanı 'Sistem çekmecesi' olarak adlandırılmıştır.",
+                    "Yanlış. Görev Yöneticisi, açık pencereleri gösterir."
+                ]
+            },
+            // Question 51
+            {
+                question: "Bir işletim sisteminde 'kullanıcı arayüzü'nün temel işlevi nedir?",
+                options: [
+                    "Donanım parçalarını birbirine bağlamak.",
+                    "Kullanıcının işletim sistemi ve dolayısıyla bilgisayar ile etkileşim kurmasını sağlamak.",
+                    "Programların bellekte ne kadar yer kaplayacağını hesaplamak.",
+                    "Dosyaları disk üzerinde fiziksel olarak düzenlemek."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu donanımın kendi iç yapısıdır (anakart vb.).",
+                    "Doğru. Slaytlarda '...bilgisayar kullanırken biz kullanıcılar, işletim sisteminin kullanıcı arayüzü ile etkileşim halindeyiz.' denilmektedir. Arayüz, komutlarımızı ilettiğimiz ve sonuçları gördüğümüz ortamdır.",
+                    "Yanlış. Bu, bellek yönetiminin görevidir.",
+                    "Yanlış. Bu, dosya yönetiminin görevidir."
+                ]
+            },
+            // Question 52
+            {
+                question: "Windows Gezgini'nde, o anki dosya yolunu gösteren ve manuel olarak yol yazılabilen çubuğun adı nedir?",
+                options: ["Adres çubuğu", "Kenar çubuğu", "Arama kutusu", "Bilgi alanı"],
+                answer: 0,
+                rationales: [
+                    "Doğru. Slayttaki Şekil 5'te bu bileşen 'Adres çubuğu' olarak işaretlenmiştir ve klasörler arasındaki konumu gösterir.",
+                    "Yanlış. Kenar çubuğu, sık kullanılan klasörlere ve sürücülere hızlı erişim sağlar.",
+                    "Yanlış. Arama kutusu, dosya ve klasörleri aramak için kullanılır.",
+                    "Yanlış. Bilgi alanı, pencerenin en altında bulunur ve seçili öğe hakkında bilgi verir."
+                ]
+            },
+            // Question 53
+            {
+                question: "Apple firması tarafından üretilen bir bilgisayara Windows işletim sistemi kurmak mümkün müdür?",
+                options: [
+                    "Hayır, kesinlikle mümkün değildir.",
+                    "Evet, mümkündür.",
+                    "Sadece Windows'un özel bir sürümü kurulabilir.",
+                    "Sadece sanal makine üzerinden çalıştırılabilir."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Slaytlarda bunun mümkün olduğu belirtilmiştir.",
+                    "Doğru. Slaytta 'Öte yandan Apple firması tarafından üretilen bilgisayarlara Windows işletim sistemi kurmak mümkündür.' ifadesi yer almaktadır. (Bu işlem genellikle Boot Camp adlı bir yazılımla yapılır.)",
+                    "Yanlış. Standart Windows sürümleri kurulabilir. Slaytta özel bir sürüm gerektiğinden bahsedilmemiştir.",
+                    "Yanlış. Sanal makine bir yöntem olsa da, doğrudan donanıma kurmak da mümkündür."
+                ]
+            },
+            // Question 54
+            {
+                question: "Linux'un 'özgür' olmasının temelinde yatan, kaynak kodlarının herkes tarafından görülebilmesi, değiştirilebilmesi ve dağıtılabilmesi felsefesine ne ad verilir?",
+                options: ["Sahipli Yazılım", "Ücretsiz Yazılım (Freeware)", "Açık Kaynak Kod", "Paylaşılan Yazılım (Shareware)"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Sahipli yazılım, kodları kapalı olan yazılımdır (Windows gibi).",
+                    "Yanlış. Ücretsiz yazılım sadece bedava olmayı ifade eder, kaynak kodlarının açık olmasını gerektirmez.",
+                    "Doğru. Slaytlarda bu felsefe '...bu tür geliştirilen yazılımlara açık kaynak kodlu yazılımlar denmektedir.' şeklinde tanımlanmıştır.",
+                    "Yanlış. Paylaşılan yazılım, genellikle deneme süresi olan veya kısıtlı özellik sunan ücretli bir modeldir."
+                ]
+            },
+            // Question 55
+            {
+                question: "Pardus'un ev ve kurumsal kullanıcılar için farklı sürümlerinin olmasının temel amacı nedir?",
+                options: [
+                    "Ev sürümünün ücretli, kurumsal sürümün ücretsiz olması.",
+                    "Farklı kullanıcı gruplarının ihtiyaçlarına yönelik özelleştirilmiş araçlar ve ayarlar sunmak.",
+                    "Kurumsal sürümün daha yavaş çalışması.",
+                    "Ev sürümünde internet erişiminin olmaması."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Pardus'un her iki sürümü de ücretsizdir.",
+                    "Doğru. Slaytlarda '...Pardus’un ev kullanızıları ve kurumsal kullanıcılar için iki farklı sürümü mevcuttur.' denilmektedir. Bu ayrım, genellikle kurumsal ortamların ihtiyaç duyduğu merkezi yönetim, güvenlik ve ağ araçlarını ayrı bir pakette sunmak için yapılır.",
+                    "Yanlış. Böyle bir amaç veya durum söz konusu değildir.",
+                    "Yanlış. Her iki sürümde de internet erişimi vardır."
+                ]
+            },
+            // Question 56
+            {
+                question: "Mobil işletim sistemlerinin masaüstü sistemlere göre daha basit yapıda olmasının ana nedeni nedir?",
+                options: [
+                    "Mobil cihazların ekranlarının daha küçük olması.",
+                    "Mobil cihazların klavyesinin olmaması.",
+                    "Mobil cihazların sınırlı kaynaklara (pil ömrü, işlemci gücü, bellek) sahip olması.",
+                    "Mobil işletim sistemlerini geliştirenlerin daha az tecrübeli olması."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Ekran boyutu arayüz tasarımını etkiler, ancak işletim sisteminin temel yapısının basitliğini belirleyen ana faktör değildir.",
+                    "Yanlış. Klavye eksikliği giriş yöntemini değiştirir, çekirdek yapısını değil.",
+                    "Doğru. Slaytlarda 'daha basit yapıdadır' denmesinin altında yatan temel sebep budur. Mobil işletim sistemleri, daha az enerji tüketmek ve daha kısıtlı donanımlarda verimli çalışmak üzere optimize edilmiştir.",
+                    "Yanlış. Mobil OS geliştiricileri (Google, Apple) son derece tecrübelidir."
+                ]
+            },
+            // Question 57
+            {
+                question: "Windows'ta 'Denetim Masası'nın en önemli görevlerinden biri olarak slaytlarda hangisi vurgulanmıştır?",
+                options: [
+                    "Masaüstü arkaplanını değiştirmek.",
+                    "Yeni kullanıcı hesabı oluşturmak.",
+                    "Bilgisayara kurulu programlarla ilgili kaldırma ve güncelleme yapmak.",
+                    "İnternet tarayıcısı geçmişini temizlemek."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu yapılabilse de, en önemli görev olarak vurgulanmamıştır.",
+                    "Yanlış. Bu da Denetim Masası'nın bir işlevidir ancak slaytta özellikle vurgulanan bu değildir.",
+                    "Doğru. Slaytta 'Denetim masasının en önemli görevlerinden birisi bilgisayara kurulu programlarla ilgili kaldırma ve güncellemenin yapılabilmesidir.' ifadesi açıkça yer almaktadır.",
+                    "Yanlış. Bu, internet tarayıcısının kendi ayarlarından yapılır."
+                ]
+            },
+            // Question 58
+            {
+                question: "Mac OS'ta pencereyi 'Ekranı Kapla' düğmesiyle büyütmenin Windows'taki 'Tam Ekran'dan farkı nedir?",
+                options: [
+                    "Hiçbir farkı yoktur, aynı şekilde çalışır.",
+                    "Mac OS'ta bu düğme pencereyi sadece dikey olarak tam ekran yapar, genişliği değiştirmez.",
+                    "Mac OS'ta bu düğme pencereyi simge durumuna küçültür.",
+                    "Mac OS'ta bu düğme programı tamamen kapatır."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Slaytlarda bir fark olduğu belirtilmiştir.",
+                    "Doğru. Slaytta '...“Ekranı Kapla” düğmesi pencereyi hem genişlik hem yükseklik olarak tamamen kaplamaz, sadece yükseklik bakımından pencere ekrana yayılır, genişlik aynen kalır.' şeklinde bu fark açıklanmıştır. (Not: macOS'in modern sürümlerinde bu düğmenin davranışı değişmiş ve tam ekran moduna geçiş sağlamıştır, ancak slayttaki bilgiye göre bu cevap doğrudur.)",
+                    "Yanlış. Simge durumuna küçültme için ayrı bir düğme vardır.",
+                    "Yanlış. Programı kapatmak için kırmızı 'X' düğmesi kullanılır."
+                ]
+            },
+            // Question 59
+            {
+                question: "Pardus masaüstünde, panel üzerinde bulunan ve sanal masaüstleri arasında geçiş yapmayı sağlayan aracın adı nedir?",
+                options: ["Kick-off", "Sayfalayıcı", "Görev Yöneticisi", "Sistem Çekmecesi"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Kick-off, uygulama başlatma menüsüdür.",
+                    "Doğru. Slayttaki Şekil 21'de, birden fazla masaüstü arasında geçiş yapmak için kullanılan bu küçük kutucuklar 'Sayfalayıcı' olarak adlandırılmıştır.",
+                    "Yanlış. Görev yöneticisi, açık pencereleri listeler.",
+                    "Yanlış. Sistem çekmecesi, durum simgelerini barındırır."
+                ]
+            },
+            // Question 60
+            {
+                question: "Bir bilgisayar sistemindeki dört temel bileşen (kullanıcı, uygulama, OS, donanım) arasındaki hiyerarşide, işletim sistemi hangi iki katman arasında yer alır?",
+                options: [
+                    "Kullanıcılar ve Uygulamalar",
+                    "Uygulamalar ve Donanım",
+                    "Kullanıcılar ve Donanım",
+                    "İşletim Sistemi en üst katmandır"
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. İşletim sistemi uygulamaların altında yer alır.",
+                    "Doğru. Slayttaki Şekil 1'deki hiyerarşiye göre, işletim sistemi, uygulama programlarının isteklerini alıp donanıma ileten bir aracı katman olarak 'Uygulamalar/Programlar' ile 'Donanım' arasında bulunur.",
+                    "Yanlış. Arada uygulama katmanı da vardır.",
+                    "Yanlış. En üst katman kullanıcılardır."
+                ]
+            },
+            // Question 61
+            {
+                question: "Windows'ta bir dosyayı taşımak için 'Kes' komutunu kullandıktan sonra, hedef klasörde hangi komutu kullanmak gerekir?",
+                options: ["Kopyala", "Yapıştır", "Geri Al", "Yeniden Adlandır"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Kopyala komutu, panoya yeni bir öğe alır.",
+                    "Doğru. Slaytlarda dosya taşıma yöntemlerinden biri '...Kes seçeneği seçilir ve sonrasında taşınmak istenen konumdayken yine fare ile sağ tıklanıp Yapıştır seçeneği seçilir.' şeklinde anlatılmıştır.",
+                    "Yanlış. Geri Al, son yapılan işlemi iptal eder.",
+                    "Yanlış. Yeniden Adlandır, dosyanın ismini değiştirir."
+                ]
+            },
+            // Question 62
+            {
+                question: "Aşağıdakilerden hangisi bir Linux dağıtımı DEĞİLDİR?",
+                options: ["Ubuntu", "Debian", "Windows", "Pardus"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Ubuntu, slaytlarda örnek olarak verilen popüler bir Linux dağıtımıdır.",
+                    "Yanlış. Debian, slaytlarda örnek olarak verilen popüler bir Linux dağıtımıdır.",
+                    "Doğru. Windows, Microsoft tarafından geliştirilen sahipli bir işletim sistemi ailesidir, bir Linux dağıtımı değildir.",
+                    "Yanlış. Pardus, slaytlarda örnek olarak verilen bir Linux dağıtımıdır."
+                ]
+            },
+            // Question 63
+            {
+                question: "Mac OS'ta, ekranın en sol üst köşesinde bulunan ve bilgisayarı kapatma, sistem tercihleri gibi temel sistem komutlarını içeren menünün adı nedir?",
+                options: ["Finder Menüsü", "Dosya Menüsü", "Apple Menüsü", "Git Menüsü"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Finder menüsü, Finder uygulamasına özel komutlar içerir.",
+                    "Yanlış. Dosya menüsü, o an aktif olan uygulamaya göre değişir.",
+                    "Doğru. Slayttaki Şekil 14 ve Şekil 20'de, ekranın en sol üst köşesindeki elma logosuyla temsil edilen bu menü 'Apple menüsü' olarak adlandırılmıştır.",
+                    "Yanlış. Git menüsü, önemli klasörlere hızlı erişim sağlar."
+                ]
+            },
+            // Question 64
+            {
+                question: "Pardus'un plasma menüsünde yer alan 'Programcık Ekle' seçeneği ne işe yarar?",
+                options: [
+                    "Bilgisayara yeni ve büyük programlar kurar.",
+                    "Masaüstüne veya panele küçük işlevsel araçlar (saat, hava durumu, not defteri gibi) ekler.",
+                    "İşletim sistemini günceller.",
+                    "Yeni bir kullanıcı hesabı ekler."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Büyük programlar genellikle bir paket yöneticisi veya yazılım merkezi aracılığıyla kurulur.",
+                    "Doğru. 'Programcık' (widget veya plasmoid olarak da bilinir), masaüstüne veya panele eklenebilen küçük, tek amaçlı uygulamalardır. Plasma menüsünde (Şekil 22) bu seçenek yer almaktadır.",
+                    "Yanlış. Güncelleme işlemi genellikle sistem ayarları veya özel bir güncelleme yöneticisi ile yapılır.",
+                    "Yanlış. Kullanıcı hesapları sistem ayarlarından yönetilir."
+                ]
+            },
+            // Question 65
+            {
+                question: "'Her biri farklı amaçlar için geliştirilmiş belirli komutları uygulayan yazılımlara ... denir.' Slayttaki bu tanımda boşluğa ne gelmelidir?",
+                options: ["işletim sistemi", "donanım", "program", "çekirdek"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. İşletim sistemi, bu yazılımların çalışmasını sağlayan temel yazılımdır.",
+                    "Yanlış. Donanım, yazılımın çalıştığı fiziksel parçalardır.",
+                    "Doğru. Slaytta, Word ve Excel gibi örnekler verilerek bu tanım yapılmıştır: '...belirli komutları uygulayan yazılımlara program denir.'",
+                    "Yanlış. Çekirdek, işletim sisteminin özüdür."
+                ]
+            },
+            // Question 66
+            {
+                question: "Aşağıdakilerden hangisi bir işletim sisteminin 'Dosya Yönetimi' görevi kapsamına girmez?",
+                options: [
+                    "Bir dosyanın silinmesi.",
+                    "Bir dosyanın adının değiştirilmesi.",
+                    "Birden fazla programın aynı anda çalışmasının düzenlenmesi.",
+                    "Bir klasörün oluşturulması."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Dosya silme, temel bir dosya yönetimi işlemidir.",
+                    "Yanlış. Dosya yeniden adlandırma, temel bir dosya yönetimi işlemidir.",
+                    "Doğru. Bu, slaytlarda 'İşlem Yönetimi' başlığı altında açıklanan bir görevdir.",
+                    "Yanlış. Klasör oluşturma, temel bir dosya yönetimi işlemidir."
+                ]
+            },
+            // Question 67
+            {
+                question: "Windows Gezgini'nde 'Klasörler arası geçiş düğmeleri' (İleri/Geri okları) ne işe yarar?",
+                options: [
+                    "Dosyaları bir sonraki/önceki klasöre taşır.",
+                    "Daha önce ziyaret edilen klasörler arasında gezinmeyi sağlar.",
+                    "Klasörlerin isimlerini alfabetik olarak değiştirir.",
+                    "Yeni bir klasör oluşturur."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu düğmeler gezinme içindir, dosya taşıma işlemi yapmaz.",
+                    "Doğru. Slayttaki Şekil 6'da bu düğmeler gösterilmiştir ve tıpkı bir web tarayıcısındaki gibi, daha önce bulunduğunuz klasörlere geri dönmenizi veya ileri gitmenizi sağlar.",
+                    "Yanlış. Bu, sıralama seçenekleriyle yapılır.",
+                    "Yanlış. Yeni klasör oluşturmak için farklı komutlar kullanılır."
+                ]
+            },
+            // Question 68
+            {
+                question: "Mac OS'ta bir dosyayı kopyalamak için sağ tık menüsünden 'Kopyala' seçildikten sonra, hedef konumda sağ tıklandığında hangi seçenek seçilmelidir?",
+                options: ["Yapıştır", "Ögeyi Yapıştır", "Taşı", "Çoğalt"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. 'Yapıştır' terimi genellikle Windows'ta kullanılır.",
+                    "Doğru. Slaytlarda Mac OS için kopyalama adımları anlatılırken 'Çıkan menüde “Ögeyi yapıştır” seçeneği seçilir.' ifadesi kullanılmıştır.",
+                    "Yanlış. 'Taşı' komutu doğrudan bu şekilde bulunmaz, sürükleme ile yapılır.",
+                    "Yanlış. 'Çoğalt' (Duplicate) komutu, dosyanın bir kopyasını aynı klasör içinde oluşturur."
+                ]
+            },
+            // Question 69
+            {
+                question: "Pardus'un geliştirilmesine hangi yıl başlanmıştır?",
+                options: ["2005", "1991", "2003", "2011"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. 2005, ilk sürümün yayınlandığı yıldır.",
+                    "Yanlış. Bu, Linux çekirdeğinin ilk geliştirilmeye başlandığı yıla yakındır.",
+                    "Doğru. Slaytta '2003 yılında TÜBİTAK BİLGEM... bünyesinde... geliştirilmeye başlanan...' bilgisi yer almaktadır.",
+                    "Yanlış. Bu tarihte proje devam etmekteydi."
+                ]
+            },
+            // Question 70
+            {
+                question: "Aşağıdakilerden hangisi hem Windows hem de Mac OS'ta bulunan bir masaüstü bileşeni DEĞİLDİR?",
+                options: ["Masaüstü", "Bildirim Alanı", "İşletim Sistemi Gezgini", "Başlat Menüsü"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Her iki sistem de 'Masaüstü' kavramını kullanır.",
+                    "Yanlış. Her iki sistemde de sağ üst köşede bir 'Bildirim Alanı' bulunur.",
+                    "Yanlış. Her iki sistemde de bir 'İşletim Sistemi Gezgini' vardır (Windows Gezgini / Finder).",
+                    "Doğru. Başlat Menüsü, slaytlarda belirtildiği gibi 'Microsoft Windows’a özel bir ögedir'. Mac OS'ta bunun yerine Dock ve Git menüsü gibi yapılar bulunur."
+                ]
+            },
+            // Question 71
+            {
+                question: "Dosya adlandırmada 'dosya türü'nü belirten kısım genellikle hangisidir?",
+                options: [
+                    "Dosya adının başındaki ilk kelime.",
+                    "Dosya adının sonundaki noktadan sonra gelen uzantı.",
+                    "Dosyanın oluşturulduğu tarih.",
+                    "Dosyanın boyutu."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Dosya adı kullanıcı tarafından belirlenir.",
+                    "Doğru. Slaytta 'Bunlara Word dosyası, Excel dosyası ya da Powerpoint dosyası adı verilir ve bu adlandırma dosya türünü de tanımlar.' denilmektedir. Bu tanımlama, .docx, .xlsx gibi uzantılarla yapılır.",
+                    "Yanlış. Bu, dosyanın bir özelliğidir, türünü belirtmez.",
+                    "Yanlış. Bu da dosyanın bir özelliğidir."
+                ]
+            },
+            // Question 72
+            {
+                question: "Windows'ta 'Programlar ve Özellikler' penceresine nereden ulaşılır?",
+                options: ["Masaüstünde sağ tıklayarak", "Görev Yöneticisi'nden", "Denetim Masası'ndan", "Windows Gezgini'nden"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu menüde genellikle görünüm ve kişiselleştirme ayarları bulunur.",
+                    "Yanlış. Görev Yöneticisi çalışan programları yönetir.",
+                    "Doğru. Slaytlarda 'Kurulan tüm programlar Denetim Masası-Programlar ve Özellikler seçeneği seçildiğinde gelen pencerede listelenir.' denilmektedir.",
+                    "Yanlış. Windows Gezgini dosya ve klasörler için kullanılır."
+                ]
+            },
+            // Question 73
+            {
+                question: "Linux dağıtımlarının temelini oluşturan ortak bileşen nedir?",
+                options: ["KDE Plasma arayüzü", "Windows uyumluluk katmanı", "Linux çekirdeği", "Apple donanım sürücüleri"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. KDE Plasma, sadece bir masaüstü ortamıdır. GNOME gibi başka ortamları kullanan dağıtımlar da vardır.",
+                    "Yanlış. Bu, Linux'ta Windows programlarını çalıştırmak için kullanılan ek bir yazılımdır (Wine gibi), temel bileşen değildir.",
+                    "Doğru. Slaytlarda 'Linux en basit ifade ile özgür bir işletim sistemi çekirdeğidir. Bu çekirdek üzerine geliştirilen işletim sistemlerine Linux dağıtımları adı verilmektedir.' denilerek tüm dağıtımların ortak temelinin çekirdek olduğu belirtilmiştir.",
+                    "Yanlış. Bu sürücüler Mac OS'a özgüdür."
+                ]
+            },
+            // Question 74
+            {
+                question: "Pardus'un 'Kurulan' sürümünü kullanmanın 'Çalışan' sürüme göre temel avantajı nedir?",
+                options: [
+                    "Daha hızlı açılması.",
+                    "İnternete gerek duymaması.",
+                    "Yapılan değişikliklerin (dosya kaydetme, program kurma) kalıcı olması.",
+                    "Daha fazla program içermesi."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Çalışan sürüm USB/CD'den okuduğu için daha yavaş bile olabilir.",
+                    "Yanlış. Her ikisi de internetsiz çalışabilir ama internet gerektiren işlevler için internete ihtiyaç duyar.",
+                    "Doğru. Çalışan sürümde yapılan değişiklikler genellikle bilgisayar kapatıldığında kaybolur. Kurulan sürümde ise tüm ayarlar, dosyalar ve kurulan programlar sabit diske kaydedildiği için kalıcıdır.",
+                    "Yanlış. Genellikle aynı program setini içerirler."
+                ]
+            },
+            // Question 75
+            {
+                question: "Slaytlardaki Android ekran görüntüsünde, ekranın en üstünde yer alan ve saat, sinyal gücü, pil durumu gibi simgeleri gösteren çubuğa ne ad verilir?",
+                options: ["Uygulama Menüsü", "Bekleme Ekranı", "Bildirim Alanı", "Google Arama Çubuğu"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Uygulama menüsü genellikle ayrı bir ekranda tüm uygulamaları listeler.",
+                    "Yanlış. Bekleme ekranı, simgelerin bulunduğu ana alanın genel adıdır.",
+                    "Doğru. Slayttaki Şekil 27'de, ekranın en üstündeki bu çubuk okla işaretlenerek 'Bildirim Alanı' olarak adlandırılmıştır. Bu, masaüstü işletim sistemlerindeki benzer alanla aynı adı taşır.",
+                    "Yanlış. Arama çubuğu, bekleme ekranındaki bir programcıktır (widget)."
+                ]
+            },
+            // Question 76
+            {
+                question: "Bir programı çalıştırdığımızda görev çubuğu üzerinde oluşan dikdörtgen şeklindeki simgenin temel işlevi nedir?",
+                options: [
+                    "Programı bilgisayardan kalıcı olarak silmek.",
+                    "Programın ne kadar bellek kullandığını göstermek.",
+                    "Açık olan pencereler arasında hızlı geçiş yapmayı sağlamak.",
+                    "Programı güncellemek."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Program silme işlemi Denetim Masası'ndan yapılır.",
+                    "Yanlış. Bu bilgi Görev Yöneticisi'nden öğrenilir.",
+                    "Doğru. Slaytlarda 'Bu bizim pencereler arasında geçişimizi sağlar. Farklı bir pencerede iken, diğer programın simge durumundaki penceresine tıkladığımızda o programın penceresini açmış oluruz.' denilmektedir.",
+                    "Yanlış. Güncelleme işlemi genellikle programın kendi içinden veya Denetim Masası'ndan yapılır."
+                ]
+            },
+            // Question 77
+            {
+                question: "Aşağıdakilerden hangisi Mac OS'un masaüstü bileşenlerinden biri DEĞİLDİR?",
+                options: ["Üst menü", "Dock (Uygulamalar menüsü)", "Finder (İşletim sistemi gezgini)", "Görev Çubuğu"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Üst menü, Mac OS'un karakteristik bir özelliğidir.",
+                    "Yanlış. Dock, Mac OS'un temel bir bileşenidir.",
+                    "Yanlış. Finder, Mac OS'un dosya yöneticisidir.",
+                    "Doğru. Görev Çubuğu (Taskbar), Windows işletim sistemine özgü bir bileşendir."
+                ]
+            },
+            // Question 78
+            {
+                question: "'Firmalara bağlı, sahipli işletim sistemlerinde işletim sistemi tek merkezden geliştirilir.' ifadesi hangi iki işletim sistemini tanımlar?",
+                options: ["Windows ve Linux", "Mac OS ve Pardus", "Windows ve Mac OS", "Linux ve Pardus"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Linux merkezi olmayan, dağınık bir yapıya sahiptir.",
+                    "Yanlış. Pardus, açık kaynak kodlu ve dağınık geliştirme modeline bir örnektir.",
+                    "Doğru. Slaytta bu ifade '...sahipli işletim sistemlerinde (Windows ve Mac OS gibi)...' şeklinde kullanılmıştır. Windows Microsoft tarafından, Mac OS ise Apple tarafından merkezi olarak geliştirilir.",
+                    "Yanlış. Her ikisi de açık kaynak kodlu ve dağınık geliştirme modeline örnektir."
+                ]
+            },
+            // Question 79
+            {
+                question: "Pardus masaüstünde, panelin en solunda bulunan ve üzerinde Pardus simgesi olan menünün adı ve işlevi nedir?",
+                options: [
+                    "Plasma Menüsü / Masaüstü ayarlarını yapar.",
+                    "Kick-off uygulama çalıştırıcı menüsü / Programları başlatır.",
+                    "Sistem Çekmecesi / Durum simgelerini gösterir.",
+                    "Kaptan / İlk kurulum ayarlarını yapar."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Plasma menüsü sağ üst köşededir.",
+                    "Doğru. Slayttaki Şekil 21'de bu menü 'Kick-off uygulama çalıştırıcı menüsü' olarak adlandırılmıştır ve işlevi Windows'taki Başlat Menüsü gibi programlara erişim sağlamaktır.",
+                    "Yanlış. Sistem çekmecesi sağ alt köşededir.",
+                    "Yanlış. Kaptan, ilk açılışta bir kez çalışan bir yardımcıdır, paneldeki bir menü değildir."
+                ]
+            },
+            // Question 80
+            {
+                question: "Bir işletim sisteminin olmadığı bir bilgisayarda, kelime işlemci (Word) gibi bir uygulama çalıştırılabilir mi?",
+                options: [
+                    "Evet, program doğrudan donanım üzerinde çalışır.",
+                    "Evet, ama sadece komut satırından çalıştırılabilir.",
+                    "Hayır, uygulamaların çalışması için bir işletim sistemi platformuna ihtiyaç vardır.",
+                    "Evet, ama sadece USB bellekten çalıştırılabilir."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Modern uygulamalar donanımla doğrudan konuşmaz.",
+                    "Yanlış. Komut satırı da bir işletim sistemi arayüzüdür.",
+                    "Doğru. Slaytlardaki hiyerarşi (Uygulama -> İşletim Sistemi -> Donanım) bunu göstermektedir. Uygulamalar, donanım kaynaklarını yöneten ve kendilerine bir çalışma ortamı sunan işletim sistemine bağımlıdır.",
+                    "Yanlış. USB bellekten çalıştırmak için bile o bilgisayarda çalışan bir işletim sistemine ihtiyaç vardır."
+                ]
+            },
+            // Question 81
+            {
+                question: "Windows'ta masaüstündeki bir program kısayolu ne işe yarar?",
+                options: [
+                    "Programın kendisini içerir, bu yüzden orijinal program silinebilir.",
+                    "Programın bir yedeğidir.",
+                    "Programın asıl çalıştırılabilir dosyasına bir işaretçi veya bağlantıdır.",
+                    "Programın ne kadar yer kapladığını gösteren bir bilgi dosyasıdır."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Kısayol sadece bir bağlantıdır. Orijinal program silinirse kısayol çalışmaz.",
+                    "Yanlış. Kısayol, programın bir kopyası değildir ve çok küçük bir dosya boyutuna sahiptir.",
+                    "Doğru. Slayttaki Şekil 2'de 'Program kısayolu' gösterilmiştir. Kısayolun amacı, programın kurulu olduğu derin klasörlere gitmeden, masaüstü gibi kolay erişilebilir bir yerden programı başlatmaktır.",
+                    "Yanlış. Bu bilgiye dosyanın özelliklerinden bakılır."
+                ]
+            },
+            // Question 82
+            {
+                question: "Mac OS'ta pencerelerin sol üst köşesinde bulunan üç renkli düğmenin (kırmızı, sarı, yeşil) sıralı işlevleri nelerdir?",
+                options: [
+                    "Kapat, Ekranı Kapla, Simge Durumuna Küçült",
+                    "Kapat, Simge Durumuna Küçült, Ekranı Kapla",
+                    "Simge Durumuna Küçült, Kapat, Ekranı Kapla",
+                    "Ekranı Kapla, Kapat, Simge Durumuna Küçült"
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Sıralama ve renkler standarttır.",
+                    "Doğru. Slayttaki Şekil 18'e benzer standart Mac arayüzünde kırmızı (X) kapatma, sarı (-) simge durumuna küçültme ve yeşil (+) ekranı kaplama/tam ekran işlevlerini görür. Slayttaki şemada sıralama Kapatma, Simge durumuna küçültme, Ekranı kapla şeklindedir.",
+                    "Yanlış. Sıralama ve renkler standarttır.",
+                    "Yanlış. Sıralama ve renkler standarttır."
+                ]
+            },
+            // Question 83
+            {
+                question: "'Çekirdek' (kernel) kavramı için hangisi doğrudur?",
+                options: [
+                    "Sadece Linux işletim sistemlerine özgüdür.",
+                    "Tüm işletim sistemlerinin özünü oluşturan temel bileşendir.",
+                    "Kullanıcının gördüğü grafik arayüzdür.",
+                    "Değiştirilemeyen, sabit bir yazılımdır."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Windows'un (NT Kernel) ve Mac OS'un (XNU) da kendi çekirdekleri vardır. Kavram evrenseldir.",
+                    "Doğru. Slaytta 'Çekirdek ise işletim sisteminin özünü oluşturan bileşene verilen addır.' denilerek bu kavramın genel bir tanım olduğu belirtilmiştir.",
+                    "Yanlış. Grafik arayüz, çekirdeğin üzerinde çalışır.",
+                    "Yanlış. Açık kaynak kodlu Linux çekirdeği örneğinde olduğu gibi, çekirdekler geliştirilebilir ve değiştirilebilir."
+                ]
+            },
+            // Question 84
+            {
+                question: "Pardus'u bilgisayara kurmadan, bir USB bellek üzerinden denemek için hangi sürümünü kullanmak gerekir?",
+                options: ["Kurulan Pardus", "Çalışan Pardus", "Kurumsal Pardus", "Ev Pardus"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. 'Kurulan' sürüm sabit diske kurulum gerektirir.",
+                    "Doğru. Slaytlarda '“Çalışan Pardus’ta, işletim sistemini bilgisayara kurmadan, CD, DVD veya USB gibi harici bir kaynaktan çalıştırabilirken...' ifadesi bu kullanım şeklini tanımlar.",
+                    "Yanlış. Kurumsal, kullanım amacını belirtir, çalışma şeklini değil.",
+                    "Yanlış. Ev, kullanım amacını belirtir, çalışma şeklini değil."
+                ]
+            },
+            // Question 85
+            {
+                question: "Slaytlardaki tanıma göre, bir bilgisayardaki 'uygulamalar/programlar' katmanının hemen altında hangi katman bulunur?",
+                options: ["Kullanıcılar", "Donanım", "İşletim Sistemi", "İnternet"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Kullanıcılar, uygulamaların üstündedir.",
+                    "Yanlış. Donanım en alt katmandır, arada işletim sistemi vardır.",
+                    "Doğru. Slayttaki Şekil 1'de gösterilen hiyerarşide, Uygulamalar/Programlar katmanı, komutlarını yerine getirmesi için İşletim Sistemi katmanına başvurur. Dolayısıyla işletim sistemi hemen altında yer alır.",
+                    "Yanlış. İnternet, bir ağdır, bu hiyerarşinin bir katmanı değildir."
+                ]
+            },
+            // Question 86
+            {
+                question: "Windows'ta sabit disk genellikle C harfi ile temsil edilirken, sonradan takılan bir USB bellek hangi harfi alır?",
+                options: [
+                    "Her zaman A harfini alır.",
+                    "Her zaman B harfini alır.",
+                    "Genellikle C'den sonraki uygun ilk harfi (D, E gibi) alır.",
+                    "Harf almaz, sadece ismiyle görünür."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. A ve B harfleri tarihsel olarak disket sürücüler için ayrılmıştır.",
+                    "Yanlış. A ve B harfleri tarihsel olarak disket sürücüler için ayrılmıştır.",
+                    "Doğru. Slayttaki Şekil 5'te C ve D sürücüleri ile sonradan eklenen depolama aygıtları gösterilmektedir. Sistem, mevcut sürücü harflerinden sonra gelen ilk boş harfi yeni aygıta atar.",
+                    "Yanlış. Windows'ta tüm sürücüler bir harf ile temsil edilir."
+                ]
+            },
+            // Question 87
+            {
+                question: "Mac OS'un dosya yöneticisine (gezginine) ne ad verilir?",
+                options: ["Explorer", "Finder", "Dolphin", "Nautilus"],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Explorer (Gezgin), Windows'un dosya yöneticisidir.",
+                    "Doğru. Slaytlarda 'Finder Mac OS iflletim sisteminin gezginine verilen isimdir.' denilmektedir.",
+                    "Yanlış. Dolphin, Pardus'un da kullandığı KDE masaüstü ortamının dosya yöneticisidir.",
+                    "Yanlış. Nautilus, GNOME masaüstü ortamının dosya yöneticisidir."
+                ]
+            },
+            // Question 88
+            {
+                question: "Linux tabanlı Pardus işletim sistemi kimler tarafından geliştirilmiştir?",
+                options: [
+                    "Sadece Microsoft mühendisleri tarafından.",
+                    "Sadece Apple mühendisleri tarafından.",
+                    "TÜBİTAK BİLGEM ve birçok gönüllünün katkılarıyla.",
+                    "Linus Torvalds tarafından tek başına."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Microsoft, Windows'u geliştirir.",
+                    "Yanlış. Apple, Mac OS'u geliştirir.",
+                    "Doğru. Slaytta 'TÜBİTAK BİLGEM ... bünyesinde bir çok gönüllünün de katkılarıyla geliştirilmeye başlanan...' ifadesi yer almaktadır. Bu, açık kaynak geliştirme modelini yansıtır.",
+                    "Yanlış. Linus Torvalds, Linux çekirdeğini başlatan kişidir, Pardus dağıtımını değil."
+                ]
+            },
+            // Question 89
+            {
+                question: "Bir işletim sisteminin 'Giriş-Çıkış Birimleri Yönetimi' görevi aşağıdakilerden hangisini kapsar?",
+                options: [
+                    "Bir programın ne kadar hızlı çalışacağını belirlemek.",
+                    "Bilgisayar ile fare, klavye ve yazıcı arasındaki veri alışverişini düzenlemek.",
+                    "Dosyaların disk üzerinde nerede saklanacağını belirlemek.",
+                    "Masaüstü arkaplan resmini ayarlamak."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu, işlem yönetimi ve donanım performansıyla ilgilidir.",
+                    "Doğru. Slaytlarda bu görev 'Bilgisayar ile çevre birimleri (yazıcı, tarayıcı, fare vb.) arasındaki veri alışverişini de işletim sistemi düzenler.' şeklinde tanımlanmıştır.",
+                    "Yanlış. Bu, dosya yönetiminin görevidir.",
+                    "Yanlış. Bu, grafik arayüz kontrolü kapsamındadır."
+                ]
+            },
+            // Question 90
+            {
+                question: "Windows, Mac OS ve Linux için ortak olan temel kavram hangisidir?",
+                options: [
+                    "Hepsi aynı dosya sistemini kullanır.",
+                    "Hepsinin temelinde 'Masaüstü' ve 'Pencere' metaforları bulunur.",
+                    "Hepsi açık kaynak kodludur.",
+                    "Hepsinin Başlat Menüsü vardır."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Windows NTFS, Mac OS APFS/HFS+, Linux ise ext4 gibi farklı dosya sistemleri kullanır.",
+                    "Doğru. Slaytlarda incelenen üç ana masaüstü işletim sistemi de, kullanıcı etkileşimi için bir çalışma alanı ('Masaüstü') ve programları göstermek için 'Pencereler' kullanır. Bu, modern grafik arayüzlerin ortak temelidir.",
+                    "Yanlış. Sadece Linux açık kaynak kodludur.",
+                    "Yanlış. Başlat Menüsü Windows'a özgüdür."
+                ]
+            },
+            // Question 91
+            {
+                question: "Windows'ta bir programı kurarken genellikle hangi isimli dosyayı çalıştırmak gerekir?",
+                options: ["readme.txt", "uninstall.exe", "kurulum ya da setup", "license.doc"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu dosya, program hakkında bilgi içerir.",
+                    "Yanlış. Bu dosya, programı kaldırmak için kullanılır.",
+                    "Doğru. Slaytlarda 'Programları kurarken genellikle kurulum ya da setup isimli çalıştırabilir dosyayı çalıştırmak... gerekir.' ifadesi yer almaktadır.",
+                    "Yanlış. Bu dosya, lisans sözleşmesini içerir."
+                ]
+            },
+            // Question 92
+            {
+                question: "Mac OS'ta masaüstüne sağ tıklandığında açılan menüde 'Yeni Klasör' seçeneği bulunur mu?",
+                options: ["Evet, bulunur.", "Hayır, bulunmaz.", "Sadece klavye kısayolu ile oluşturulur.", "Bu özellik için ek bir program kurmak gerekir."],
+                answer: 0,
+                rationales: [
+                    "Doğru. Slaytlarda 'Klasör oluşturmak için klasör oluşturulmak istenen konuma sağ tıklayarak “Yeni Klasör” seçeneği seçilebilir.' denilmekte ve Şekil 19'da bu menü gösterilmektedir.",
+                    "Yanlış. Slaytlarda bu seçeneğin olduğu açıkça belirtilmiştir. Bulunmayan seçenek 'yeni dosya' oluşturmadır.",
+                    "Yanlış. Sağ tık menüsünde bu seçenek mevcuttur.",
+                    "Yanlış. Bu, temel bir işletim sistemi işlevidir."
+                ]
+            },
+            // Question 93
+            {
+                question: "Açık kaynak kodlu yazılımların geliştirme modelinin en belirgin özelliği nedir?",
+                options: [
+                    "Tek bir firma tarafından sıkı kontrol altında geliştirilmesi.",
+                    "Kodun gizli tutulması.",
+                    "Dünyanın dört bir yanından gönüllülerin ve firmaların işbirliği ile geliştirilmesi.",
+                    "Sadece ücretsiz olarak dağıtılması."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Bu, sahipli yazılımların modelidir.",
+                    "Yanlış. Açık kaynak kodun temeli, kodun açık olmasıdır.",
+                    "Doğru. Slaytlarda '...açık kaynak kodlu işletim sistemleri dünyanın her tarafından gönüllü bireyler tarafından geliştirilmektedir.' denilerek bu işbirlikçi ve dağınık model vurgulanmıştır.",
+                    "Yanlış. Ücretsiz olması yaygın olsa da, slaytlarda belirtildiği gibi ücretli açık kaynaklı yazılımlar da vardır."
+                ]
+            },
+            // Question 94
+            {
+                question: "Pardus'un masaüstü ortamı hangi teknoloji üzerine kurulmuştur?",
+                options: ["Windows Aero", "Apple Aqua", "GNOME Shell", "KDE Plasma"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Aero, Windows Vista ve 7'nin arayüzüdür.",
+                    "Yanlış. Aqua, Mac OS X'in klasik arayüz temasının adıdır.",
+                    "Yanlış. GNOME, başka bir popüler Linux masaüstü ortamıdır.",
+                    "Doğru. Slaytlarda 'Pardus da masaüstü ortamını anlamak için KDE masaüstü ortamının 4. sürümü ile birlikte gelen “plasma” teknolojisini de anlamak gereklidir.' ifadesi yer almaktadır."
+                ]
+            },
+            // Question 95
+            {
+                question: "İşletim sistemleri neden sürekli olarak güncellenir ve yeni sürümleri çıkarılır?",
+                options: [
+                    "Sadece renkleri ve ikonları değiştirmek için.",
+                    "Değişen kullanıcı ihtiyaçlarına cevap vermek, kullanım kolaylığını artırmak ve yeni donanımlara uyum sağlamak için.",
+                    "Eski bilgisayarları kasıtlı olarak yavaşlatmak için.",
+                    "Diğer işletim sistemlerindeki özellikleri kopyalamak için."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. Bu, güncellemelerin sadece küçük bir parçasıdır.",
+                    "Doğru. Slaytlarda '...bunun nedeni hızla değişen ihtiyaçlar ve kullanım kolaylığının arttırılmasıdır. Ayrıca yüksek kapasiteli ve hızlı bilgisayarlara uyum sağlamak için...' denilerek bu nedenler açıklanmıştır.",
+                    "Yanlış. Bu bir komplo teorisidir ve slaytlarda bahsedilmemiştir.",
+                    "Yanlış. Rekabet bir faktör olsa da, temel nedenler kullanıcı ve teknoloji odaklıdır."
+                ]
+            },
+            // Question 96
+            {
+                question: "Windows'ta aynı sürücüde bulunan bir dosyayı taşımak için 'Kes-Yapıştır' yerine kullanılabilecek diğer yöntem nedir?",
+                options: [
+                    "Dosyayı CTRL tuşuna basılı tutarak sürüklemek.",
+                    "Dosyayı farenin sol tuşuyla doğrudan hedef klasöre sürükleyip bırakmak.",
+                    "Dosyayı ALT tuşuna basılı tutarak sürüklemek.",
+                    "Dosyaya sağ tıklayıp 'Gönder' menüsünü kullanmak."
+                ],
+                answer: 1,
+                rationales: [
+                    "Yanlış. CTRL tuşu basılıyken sürüklemek dosyayı kopyalar.",
+                    "Doğru. Slaytlarda '...dosyayı farenin sol tuşu basılı şekilde tutup, sürükleyerek başka bir klasöre bırakmaktır. ...aynı sürücü altındaki... bir klasöre taşınmışsa dosya olduğu konumdan silinip yeni konuma yerleştirilir.' denilmektedir. Bu taşıma işlemidir.",
+                    "Yanlış. ALT tuşuyla sürüklemek genellikle kısayol oluşturur.",
+                    "Yanlış. 'Gönder' menüsü kopyalama veya sıkıştırma gibi farklı işlemler yapar."
+                ]
+            },
+            // Question 97
+            {
+                question: "Mac OS'un dosya taşıma özelliğinin Windows'tan temel farkı nedir?",
+                options: [
+                    "Mac OS'ta dosya taşımak imkansızdır.",
+                    "Mac OS'ta dosyalar sadece klavye ile taşınabilir.",
+                    "Mac OS'ta dosyalar için 'Kes-Yapıştır' özelliği yoktur.",
+                    "Mac OS'ta dosyalar taşındığında otomatik olarak yedeklenir."
+                ],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Dosyalar sürüklenerek taşınabilir.",
+                    "Yanlış. Sürükle-bırak ana yöntemdir.",
+                    "Doğru. Slaytta 'Mac OS’ta dosya kes-yapıştır özelliği yoktur.' ifadesi açıkça belirtilmiştir. Taşıma işlemi için sürükleme veya kopyala-yapıştır-sil yöntemi kullanılır.",
+                    "Yanlış. Yedekleme (Time Machine gibi) ayrı bir işlemdir."
+                ]
+            },
+            // Question 98
+            {
+                question: "Aşağıdakilerden hangisi bir işletim sistemi ailesi DEĞİLDİR?",
+                options: ["Windows", "Mac OS", "Linux", "Pardus"],
+                answer: 3,
+                rationales: [
+                    "Yanlış. Windows, Microsoft'un işletim sistemi ailesidir.",
+                    "Yanlış. Mac OS, Apple'ın işletim sistemi ailesidir.",
+                    "Yanlış. Linux, üzerine birçok dağıtımın kurulduğu bir işletim sistemi ailesi (veya çekirdeği) olarak kabul edilir.",
+                    "Doğru. Pardus, bir işletim sistemi ailesi değil, Linux ailesine ait bir 'dağıtım'dır."
+                ]
+            },
+            // Question 99
+            {
+                question: "Bir işletim sisteminde aynı anda internette gezinirken müzik dinlemek hangi temel görev sayesinde mümkün olur?",
+                options: ["Dosya Yönetimi", "Bellek Yönetimi", "İşlem Yönetimi", "Grafik Arayüz Kontrolü"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Dosya yönetimi dosya ve klasörlerle ilgilidir.",
+                    "Yanlış. Bellek yönetimi bu işlemlere yer ayırır ama paralel çalışmalarını sağlayan ana görev bu değildir.",
+                    "Doğru. Slaytlarda '...tüm bu işlemlerin problemsiz ve paralel bir şekilde yürümesi... işletim sisteminin sorumluluğundadır.' denilerek bu görev 'İşlem Yönetimi' başlığı altında açıklanmıştır.",
+                    "Yanlış. Grafik arayüz bu işlemleri görmemizi sağlar ama arka planda çalışmalarını yönetmez."
+                ]
+            },
+            // Question 100
+            {
+                question: "Pardus'un logosunda hangi hayvan figürü bulunmaktadır?",
+                options: ["Penguen", "Panda", "Anadolu Parsı", "Aslan"],
+                answer: 2,
+                rationales: [
+                    "Yanlış. Penguen (Tux), genel olarak Linux'un maskotudur.",
+                    "Yanlış. Bu başka projelerin logosu olabilir.",
+                    "Doğru. Slayttaki Pardus logosunda bir Anadolu Parsı başı bulunmaktadır. 'Pardus', Anadolu Parsı'nın bilimsel adıdır (Panthera pardus tulliana).",
+                    "Yanlış. Bu başka projelerin logosu olabilir."
+                ]
+            }
+        ];
+
+        const quizContentEl = document.getElementById('quiz-content');
+        const questionContainerEl = document.getElementById('question-container');
+        const questionEl = questionContainerEl.querySelector('h2');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackEl = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const resultsContainerEl = document.getElementById('results-container');
+        const scoreTextEl = document.getElementById('score-text');
+        const finalMessageEl = document.getElementById('final-message');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizContentEl.style.display = 'block';
+            resultsContainerEl.style.display = 'none';
+            nextBtn.style.display = 'none';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            resetState();
+            const currentQuestion = quizData[currentQuestionIndex];
+            questionEl.innerText = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+            
+            updateProgress();
+
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.dataset.index = index;
+                button.addEventListener('click', selectAnswer);
+                li.appendChild(button);
+                optionsContainerEl.appendChild(li);
+            });
+        }
+        
+        function updateProgress() {
+            const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.innerText = `Soru ${currentQuestionIndex + 1} / ${quizData.length}`;
+        }
+
+        function resetState() {
+            feedbackEl.style.display = 'none';
+            feedbackEl.className = '';
+            nextBtn.style.display = 'none';
+            while (optionsContainerEl.firstChild) {
+                optionsContainerEl.removeChild(optionsContainerEl.firstChild);
+            }
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const selectedIndex = parseInt(selectedButton.dataset.index);
+            const correctIndex = quizData[currentQuestionIndex].answer;
+            const rationales = quizData[currentQuestionIndex].rationales;
+
+            Array.from(optionsContainerEl.children).forEach(li => {
+                li.firstChild.disabled = true;
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                selectedButton.classList.add('correct');
+                feedbackEl.innerHTML = `<strong>Doğru!</strong> ${rationales[selectedIndex]}`;
+                feedbackEl.className = 'correct-feedback';
+            } else {
+                selectedButton.classList.add('incorrect');
+                const correctButton = optionsContainerEl.querySelector(`[data-index='${correctIndex}']`);
+                correctButton.classList.add('correct');
+                feedbackEl.innerHTML = `<strong>Yanlış.</strong> Seçiminizin açıklaması: ${rationales[selectedIndex]} <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;"> <strong>Doğru cevap:</strong> ${rationales[correctIndex]}`;
+                feedbackEl.className = 'incorrect-feedback';
+            }
+
+            feedbackEl.style.display = 'block';
+            nextBtn.style.display = 'block';
+             if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.innerText = 'Sonuçları Gör';
+            }
+        }
+
+        function showResults() {
+            quizContentEl.style.display = 'none';
+            resultsContainerEl.style.display = 'block';
+            const percentage = Math.round((score / quizData.length) * 100);
+            scoreTextEl.innerText = `Skorunuz: ${score} / ${quizData.length} (${percentage}%)`;
+
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Harika iş! Konuya tamamen hakimsiniz.';
+            } else if (percentage >= 70) {
+                message = 'Çok iyi! Sınava neredeyse hazırsınız.';
+            } else if (percentage >= 50) {
+                message = 'İyi bir başlangıç. Bazı konuları tekrar gözden geçirmelisiniz.';
+            } else {
+                message = 'Daha fazla çalışmanız gerekiyor. Sınavı tekrar çözerek eksiklerinizi görün.';
+            }
+            finalMessageEl.innerText = message;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        restartBtn.addEventListener('click', startQuiz);
+
+        // Start the quiz on page load
+        startQuiz();
+    </script>
+</body>
+  </html>
