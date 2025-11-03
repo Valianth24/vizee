@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İşletim Sistemleri Vize Sınavı</title>
+    <title>İşletim Sistemleri Vize Sınavı (Tekrarlı)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
@@ -43,13 +43,35 @@
 
         .quiz-body {
             padding: 30px;
+            position: relative; /* Skor takibi için eklendi */
         }
+        
+        /* --- YENİ EKLENDİ --- */
+        #score-tracker {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background-color: #f0f2f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #555;
+            z-index: 10;
+            font-size: 0.9em;
+        }
+        
+        .progress-container {
+            margin-bottom: 25px;
+            padding-right: 150px; /* Skor takibine yer açmak için */
+        }
+        /* --- BİTTİ --- */
+
 
         #progress-bar-container {
             width: 100%;
             background-color: #e0e0e0;
             border-radius: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         #progress-bar {
@@ -61,10 +83,10 @@
         }
         
         #progress-text {
-            text-align: right;
+            text-align: left;
             font-weight: bold;
-            margin-bottom: 25px;
             color: #555;
+            font-size: 0.9em;
         }
 
         #question-container h2 {
@@ -207,11 +229,16 @@
             <h1>İşletim Sistemleri Vize Sınavı</h1>
         </div>
         <div class="quiz-body">
+            
+            <div id="score-tracker">Doğru: 0 | Yanlış: 0</div>
+            
             <div id="quiz-content">
-                <div id="progress-bar-container">
-                    <div id="progress-bar"></div>
+                <div class="progress-container">
+                    <div id="progress-bar-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div id="progress-text">Soru 1 / 100</div>
                 </div>
-                <div id="progress-text">Soru 1 / 100</div>
                 <div id="question-container">
                     <h2>Soru yükleniyor...</h2>
                     <ul class="options" id="options-container">
@@ -223,7 +250,7 @@
             <div id="results-container" style="display:none;">
                 <h2>Sınav Tamamlandı!</h2>
                 <p id="score-text"></p>
-                <p id="final-message"></p>
+                <p id="final-message">Tüm yanlışlarınızı başarıyla düzelttiniz. Artık sınava hazırsınız!</p>
                 <button id="restart-btn">Sınavı Yeniden Başlat</button>
             </div>
         </div>
@@ -231,7 +258,7 @@
 
     <script>
         const quizData = [
-            // Question 1
+           // Question 1
             {
                 question: "Kullanıcının yazı yazma veya internette gezinme gibi isteklerini bilgisayar donanımına 'tercüme eden' temel bileşen hangisidir?",
                 options: ["Uygulama Yazılımı", "İşletim Sistemi", "Donanım Sürücüsü", "Merkezi İşlem Birimi (CPU)"],
@@ -1649,20 +1676,8 @@
                     "Yanlış. Grafik arayüz bu işlemleri görmemizi sağlar ama arka planda çalışmalarını yönetmez."
                 ]
             },
-            // Question 100
-            {
-                question: "Pardus'un logosunda hangi hayvan figürü bulunmaktadır?",
-                options: ["Penguen", "Panda", "Anadolu Parsı", "Aslan"],
-                answer: 2,
-                rationales: [
-                    "Yanlış. Penguen (Tux), genel olarak Linux'un maskotudur.",
-                    "Yanlış. Bu başka projelerin logosu olabilir.",
-                    "Doğru. Slayttaki Pardus logosunda bir Anadolu Parsı başı bulunmaktadır. 'Pardus', Anadolu Parsı'nın bilimsel adıdır (Panthera pardus tulliana).",
-                    "Yanlış. Bu başka projelerin logosu olabilir."
-                ]
-            }
-        ];
 
+        // --- GÜNCELLENEN ALAN ---
         const quizContentEl = document.getElementById('quiz-content');
         const questionContainerEl = document.getElementById('question-container');
         const questionEl = questionContainerEl.querySelector('h2');
@@ -1676,25 +1691,44 @@
         
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
+        const scoreTrackerEl = document.getElementById('score-tracker'); // Yeni eklendi
 
         let currentQuestionIndex = 0;
         let score = 0;
+        let wrongAnswers = 0; // Yeni eklendi
+        let wrongQuestionIndices = []; // Yanlış yapılan soruların index'leri
+        let nextReviewList = []; // Bir sonraki tekrar turu için yanlışlar
+        let isReviewMode = false; // Tekrar modunda mıyız?
+        let currentReviewIndex = 0; // Tekrar modundaki mevcut soru index'i
+        // --- BİTTİ ---
 
         function startQuiz() {
+            // Tüm değişkenleri sıfırla
             currentQuestionIndex = 0;
             score = 0;
+            wrongAnswers = 0;
+            wrongQuestionIndices = [];
+            nextReviewList = [];
+            isReviewMode = false;
+            currentReviewIndex = 0;
+
+            // Ekranları ayarla
+            scoreTrackerEl.innerText = 'Doğru: 0 | Yanlış: 0';
+            scoreTrackerEl.style.display = 'block';
             quizContentEl.style.display = 'block';
             resultsContainerEl.style.display = 'none';
-            nextBtn.style.display = 'none';
-            loadQuestion();
+            nextBtn.innerText = 'Sonraki Soru';
+            
+            loadMainQuestion();
         }
 
-        function loadQuestion() {
+        // Ana sınav sorularını yükler
+        function loadMainQuestion() {
             resetState();
+            updateProgress();
+            
             const currentQuestion = quizData[currentQuestionIndex];
             questionEl.innerText = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
-            
-            updateProgress();
 
             currentQuestion.options.forEach((option, index) => {
                 const li = document.createElement('li');
@@ -1707,12 +1741,44 @@
             });
         }
         
-        function updateProgress() {
-            const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
-            progressBar.style.width = `${progressPercentage}%`;
-            progressText.innerText = `Soru ${currentQuestionIndex + 1} / ${quizData.length}`;
+        // Tekrar modu sorularını yükler
+        function loadReviewQuestion() {
+            resetState();
+            updateProgress();
+            
+            const questionIndex = wrongQuestionIndices[currentReviewIndex]; // Ana diziden index al
+            const currentQuestion = quizData[questionIndex];
+            questionEl.innerText = `(TEKRAR) ${questionIndex + 1}. ${currentQuestion.question}`;
+            
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.dataset.index = index;
+                button.addEventListener('click', selectAnswer);
+                li.appendChild(button);
+                optionsContainerEl.appendChild(li);
+            });
         }
 
+        // İlerleme çubuğunu ve metnini günceller
+        function updateProgress() {
+            if (isReviewMode) {
+                // Tekrar modundaysa, yanlış soru listesine göre ilerle
+                const progressPercentage = ((currentReviewIndex) / wrongQuestionIndices.length) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                progressBar.style.backgroundColor = '#dc3545'; // Tekrar modu rengi
+                progressText.innerText = `Tekrar Sorusu ${currentReviewIndex + 1} / ${wrongQuestionIndices.length}`;
+            } else {
+                // Ana sınavdaysa
+                const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                progressBar.style.backgroundColor = '#4caf50'; // Ana sınav rengi
+                progressText.innerText = `Soru ${currentQuestionIndex + 1} / ${quizData.length}`;
+            }
+        }
+
+        // Seçenekleri ve geri bildirimi sıfırlar
         function resetState() {
             feedbackEl.style.display = 'none';
             feedbackEl.className = '';
@@ -1722,22 +1788,45 @@
             }
         }
 
+        // Cevap seçildiğinde tetiklenir
         function selectAnswer(e) {
             const selectedButton = e.target;
             const selectedIndex = parseInt(selectedButton.dataset.index);
-            const correctIndex = quizData[currentQuestionIndex].answer;
-            const rationales = quizData[currentQuestionIndex].rationales;
+            let correctIndex;
+            let questionIndex; // quizData'daki asıl index
 
+            if (isReviewMode) {
+                questionIndex = wrongQuestionIndices[currentReviewIndex];
+                correctIndex = quizData[questionIndex].answer;
+            } else {
+                questionIndex = currentQuestionIndex;
+                correctIndex = quizData[questionIndex].answer;
+            }
+
+            const rationales = quizData[questionIndex].rationales;
+
+            // Tüm butonları devre dışı bırak
             Array.from(optionsContainerEl.children).forEach(li => {
                 li.firstChild.disabled = true;
             });
 
             if (selectedIndex === correctIndex) {
-                score++;
+                // CEVAP DOĞRU
+                if (!isReviewMode) {
+                    score++; // Sadece ana sınavda skoru artır
+                }
                 selectedButton.classList.add('correct');
                 feedbackEl.innerHTML = `<strong>Doğru!</strong> ${rationales[selectedIndex]}`;
                 feedbackEl.className = 'correct-feedback';
             } else {
+                // CEVAP YANLIŞ
+                if (!isReviewMode) {
+                    wrongAnswers++;
+                    wrongQuestionIndices.push(currentQuestionIndex); // Yanlış listesine ekle
+                } else {
+                    // Tekrar modunda yine yanlış yaptı, bir sonraki tura ekle
+                    nextReviewList.push(questionIndex);
+                }
                 selectedButton.classList.add('incorrect');
                 const correctButton = optionsContainerEl.querySelector(`[data-index='${correctIndex}']`);
                 correctButton.classList.add('correct');
@@ -1745,18 +1834,42 @@
                 feedbackEl.className = 'incorrect-feedback';
             }
 
+            // Skor takibini sadece ana sınavda güncelle
+            if (!isReviewMode) {
+                scoreTrackerEl.innerText = `Doğru: ${score} | Yanlış: ${wrongAnswers}`;
+            }
+            
             feedbackEl.style.display = 'block';
             nextBtn.style.display = 'block';
-             if (currentQuestionIndex === quizData.length - 1) {
-                nextBtn.innerText = 'Sonuçları Gör';
+            
+            // Buton metnini duruma göre ayarla
+            if (isReviewMode) {
+                if (currentReviewIndex === wrongQuestionIndices.length - 1) {
+                    // Tekrar turunun son sorusu
+                    if (nextReviewList.length > 0) {
+                        nextBtn.innerText = 'Yeni Tekrar Turunu Başlat';
+                    } else {
+                        nextBtn.innerText = 'Sınavı Bitir';
+                    }
+                } else {
+                    nextBtn.innerText = 'Sonraki Tekrar Sorusu';
+                }
+            } else if (currentQuestionIndex === quizData.length - 1) {
+                 nextBtn.innerText = 'Sınavı Tamamla';
+            } else {
+                 nextBtn.innerText = 'Sonraki Soru';
             }
         }
 
+        // Sonuçları gösterir
         function showResults() {
             quizContentEl.style.display = 'none';
+            scoreTrackerEl.style.display = 'none'; // Skor takibini gizle
             resultsContainerEl.style.display = 'block';
+            
+            // Sonuç metni sadece ana sınav skorunu gösterir
             const percentage = Math.round((score / quizData.length) * 100);
-            scoreTextEl.innerText = `Skorunuz: ${score} / ${quizData.length} (${percentage}%)`;
+            scoreTextEl.innerText = `Orijinal Skorunuz: ${score} / ${quizData.length} (%${percentage})`;
 
             let message = '';
             if (percentage >= 90) {
@@ -1766,24 +1879,62 @@
             } else if (percentage >= 50) {
                 message = 'İyi bir başlangıç. Bazı konuları tekrar gözden geçirmelisiniz.';
             } else {
-                message = 'Daha fazla çalışmanız gerekiyor. Sınavı tekrar çözerek eksiklerinizi görün.';
+                message = 'Daha fazla çalışmanız gerekiyor.';
             }
-            finalMessageEl.innerText = message;
+            // final-message'daki metin değiştirildi
+            finalMessageEl.innerText = `${message} Tüm yanlışlarınızı başarıyla düzelttiniz!`;
         }
 
+        // Sonraki Soru butonuna tıklandığında
         nextBtn.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
-                loadQuestion();
+            if (isReviewMode) {
+                // TEKRAR MODU LOGİĞİ
+                currentReviewIndex++;
+                if (currentReviewIndex < wrongQuestionIndices.length) {
+                    // Tur içinde devam et
+                    loadReviewQuestion();
+                } else {
+                    // Tekrar turu bitti
+                    if (nextReviewList.length > 0) {
+                        // Hâlâ yanlış var, yeni turu başlat
+                        wrongQuestionIndices = [...nextReviewList]; // Yanlış listesini güncelle
+                        nextReviewList = [];
+                        currentReviewIndex = 0;
+                        alert(`Tekrar turu başlıyor! ${wrongQuestionIndices.length} soruyu hâlâ yanlış biliyorsunuz.`);
+                        loadReviewQuestion();
+                    } else {
+                        // Tüm yanlışlar bitti, sınavı sonlandır
+                        isReviewMode = false;
+                        showResults();
+                    }
+                }
             } else {
-                showResults();
+                // ANA SINAV LOGİĞİ
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    // Sınav içinde devam et
+                    loadMainQuestion();
+                } else {
+                    // Ana sınav bitti
+                    if (wrongQuestionIndices.length > 0) {
+                        // Yanlış varsa, ilk tekrar turunu başlat
+                        isReviewMode = true;
+                        currentReviewIndex = 0;
+                        nextReviewList = [];
+                        alert(`Ana sınav bitti. Şimdi ${wrongQuestionIndices.length} yanlış sorunuzu doğru cevaplayana kadar tekrar edeceksiniz.`);
+                        loadReviewQuestion();
+                    } else {
+                        // Hiç yanlış yok, sınavı sonlandır
+                        showResults();
+                    }
+                }
             }
         });
 
         restartBtn.addEventListener('click', startQuiz);
 
-        // Start the quiz on page load
+        // Sınavı başlat
         startQuiz();
     </script>
 </body>
-  </html>
+</html>
