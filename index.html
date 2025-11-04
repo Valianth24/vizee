@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İşletim Sistemleri - Ultimate Quiz 🎯</title>
-    <style>
+    <!-- ✅ Script tagi DOĞRU YERDE - Style'dan ÖNCE -->
     <script src="sorular.js"></script>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -775,32 +776,27 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            cursor: help;
+        /* Animations */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-
-        .tooltip::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 8px 12px;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            font-size: 0.85rem;
-            border-radius: 8px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            margin-bottom: 5px;
-        }
-
-        .tooltip:hover::after {
-            opacity: 1;
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -1040,8 +1036,6 @@
             dedicated: { name: "Kararlı", desc: "50 soru çöz", icon: "💪", xp: 50, condition: () => userData.totalAnswered >= 50 },
             century: { name: "Yüzlük", desc: "100 soru çöz", icon: "💯", xp: 100, condition: () => userData.totalAnswered >= 100 },
             perfectionist: { name: "Mükemmeliyetçi", desc: "10 soru üst üste doğru", icon: "🏆", xp: 75, condition: () => currentStreak >= 10 },
-            speed_demon: { name: "Hız Canavarı", desc: "20 soruyu 10 dakikada çöz", icon: "⚡", xp: 50, condition: () => false }, // Will be checked in session
-            comeback: { name: "Geri Dönüş", desc: "5 yanlıştan sonra 5 doğru", icon: "🔥", xp: 60, condition: () => false },
             week_master_1: { name: "Hafta 1 Ustası", desc: "Hafta 1'i %90+ bitir", icon: "👑", xp: 100, condition: () => checkWeekMastery(1, 90) },
             week_master_3: { name: "Hafta 3 Ustası", desc: "Hafta 3'ü %90+ bitir", icon: "👑", xp: 100, condition: () => checkWeekMastery(3, 90) },
             week_master_4: { name: "Hafta 4 Ustası", desc: "Hafta 4'ü %90+ bitir", icon: "👑", xp: 100, condition: () => checkWeekMastery(4, 90) },
@@ -1073,110 +1067,48 @@
 
         // ===== LOAD QUESTIONS =====
         function loadQuestions() {
-            // Questions will be loaded from external file
-            // For now, using the provided question bank
             if (typeof window.questionBank !== 'undefined') {
                 questionBank = window.questionBank;
+                console.log(`✅ ${questionBank.length} soru başarıyla yüklendi!`);
             } else {
-                console.error('Question bank not found!');
-                document.getElementById('question-text').textContent = 'Sorular yüklenemedi! sorular.js dosyasını kontrol edin.';
+                console.error('❌ HATA: questionBank bulunamadı!');
+                document.getElementById('question-text').textContent = '❌ Sorular yüklenemedi! sorular.js dosyasını kontrol edin.';
                 return;
             }
 
-            // Add metadata to questions
             questionBank = questionBank.map((q, index) => ({
                 ...q,
                 id: `q_${index}`,
-                difficulty: q.difficulty || determineDifficulty(q),
-                week: q.week || determineWeek(q),
-                topic: q.topic || determineTopic(q),
-                importance: q.importance || 'medium'
+                difficulty: q.difficulty || 'medium',
+                week: q.week || 3,
+                topic: q.topic || 'Genel'
             }));
 
             startQuiz('all');
         }
 
-        function determineDifficulty(question) {
-            // Simple heuristic
-            if (question.t === 'fill') return 'medium';
-            if (question.o && question.o.length <= 2) return 'easy';
-            return 'medium';
-        }
-
-        function determineWeek(question) {
-            const q = question.q.toLowerCase();
-            if (q.includes('windows') || q.includes('mac') || q.includes('linux') || q.includes('pardus')) return 1;
-            if (q.includes('çekirdek') || q.includes('kernel') || q.includes('katman')) return 4;
-            if (q.includes('işlem') || q.includes('process') || q.includes('pcb')) return 5;
-            return 3;
-        }
-
-        function determineTopic(question) {
-            const q = question.q.toLowerCase();
-            if (q.includes('windows')) return 'Windows';
-            if (q.includes('mac')) return 'Mac OS';
-            if (q.includes('linux') || q.includes('pardus')) return 'Linux/Pardus';
-            if (q.includes('işlem') || q.includes('process')) return 'İşlem Yönetimi';
-            if (q.includes('bellek')) return 'Bellek Yönetimi';
-            if (q.includes('çekirdek') || q.includes('kernel')) return 'Çekirdek';
-            return 'Genel';
-        }
-
-        // ===== EVENT LISTENERS =====
         function initializeEventListeners() {
-            // Study mode selection
             document.querySelectorAll('.study-mode').forEach(mode => {
                 mode.addEventListener('click', () => {
                     document.querySelectorAll('.study-mode').forEach(m => m.classList.remove('active'));
                     mode.classList.add('active');
-                    const modeType = mode.dataset.mode;
-                    startQuiz(modeType);
+                    startQuiz(mode.dataset.mode);
                 });
             });
 
-            // Fill input submit
             document.getElementById('submit-fill').addEventListener('click', handleFillAnswer);
             document.getElementById('fill-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleFillAnswer();
-                }
+                if (e.key === 'Enter') handleFillAnswer();
             });
-
-            // Next button
             document.getElementById('next-btn').addEventListener('click', nextQuestion);
-
-            // Skip button
             document.getElementById('skip-btn').addEventListener('click', skipQuestion);
-
-            // Results buttons
             document.getElementById('retry-wrong-btn').addEventListener('click', () => {
-                if (incorrectQuestions.length > 0) {
-                    startQuiz('retry');
-                }
+                if (incorrectQuestions.length > 0) startQuiz('retry');
             });
-
-            document.getElementById('new-quiz-btn').addEventListener('click', () => {
-                startQuiz('all');
-            });
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && document.getElementById('next-btn').style.display !== 'none') {
-                    nextQuestion();
-                } else if (e.key >= '1' && e.key <= '4') {
-                    const options = document.querySelectorAll('.option:not(.disabled)');
-                    const index = parseInt(e.key) - 1;
-                    if (options[index]) {
-                        options[index].click();
-                    }
-                }
-            });
+            document.getElementById('new-quiz-btn').addEventListener('click', () => startQuiz('all'));
         }
 
-        // ===== QUIZ LOGIC =====
         function startQuiz(mode) {
-            // Filter questions based on mode
             let filteredQuestions = [];
             
             switch(mode) {
@@ -1199,7 +1131,7 @@
                     filteredQuestions = getWeakQuestions();
                     break;
                 case 'exam':
-                    filteredQuestions = createExamSimulation();
+                    filteredQuestions = questionBank.slice(0, 50);
                     break;
                 case 'retry':
                     filteredQuestions = [...incorrectQuestions];
@@ -1215,14 +1147,12 @@
             currentQuestionIndex = 0;
             incorrectQuestions = [];
             userAnswers = [];
-            currentStreak = 0;
             startTime = Date.now();
 
             document.getElementById('quiz-container').style.display = 'block';
             document.getElementById('results-container').classList.remove('show');
 
             showQuestion();
-            updateQuizProgress();
         }
 
         function showQuestion() {
@@ -1233,32 +1163,22 @@
 
             const question = currentQuestions[currentQuestionIndex];
             
-            // Reset state
             document.getElementById('feedback').classList.remove('show', 'correct', 'incorrect');
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('options-container').innerHTML = '';
             document.getElementById('fill-container').style.display = 'none';
-            document.getElementById('fill-input').value = '';
-            document.getElementById('fill-input').disabled = false;
-            document.getElementById('submit-fill').disabled = false;
-            document.getElementById('fill-input').classList.remove('correct', 'incorrect');
 
-            // Update question info
             document.getElementById('question-number').textContent = `Soru ${currentQuestionIndex + 1}`;
             document.getElementById('question-text').textContent = question.q;
-            document.getElementById('question-topic').textContent = `📚 ${question.topic || 'Hafta ' + question.week}`;
+            document.getElementById('question-topic').textContent = `📚 ${question.topic}`;
             
-            // Set difficulty badge
             const difficultyBadge = document.getElementById('difficulty-badge');
             difficultyBadge.className = 'difficulty-badge difficulty-' + question.difficulty;
             difficultyBadge.textContent = question.difficulty === 'easy' ? 'Kolay' : question.difficulty === 'hard' ? 'Zor' : 'Orta';
 
             if (question.t === 'mcq') {
-                // Multiple choice
                 document.getElementById('options-container').style.display = 'flex';
-                const shuffledOptions = shuffleArray([...question.o]);
-                
-                shuffledOptions.forEach(option => {
+                shuffleArray([...question.o]).forEach(option => {
                     const optionEl = document.createElement('div');
                     optionEl.className = 'option';
                     optionEl.textContent = option;
@@ -1266,26 +1186,22 @@
                     document.getElementById('options-container').appendChild(optionEl);
                 });
             } else if (question.t === 'fill') {
-                // Fill in the blank
                 document.getElementById('fill-container').style.display = 'flex';
-                document.getElementById('fill-input').focus();
+                document.getElementById('fill-input').value = '';
+                document.getElementById('fill-input').disabled = false;
+                document.getElementById('fill-input').classList.remove('correct', 'incorrect');
             }
 
             updateQuizProgress();
         }
 
         function handleMCQAnswer(optionEl, selectedOption, question) {
-            // Disable all options
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.add('disabled');
-            });
-
-            const isCorrect = normalizeAnswer(selectedOption) === normalizeAnswer(question.a);
+            document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
             
+            const isCorrect = normalizeAnswer(selectedOption) === normalizeAnswer(question.a);
             optionEl.classList.add(isCorrect ? 'correct' : 'incorrect');
             
             if (!isCorrect) {
-                // Show correct answer
                 document.querySelectorAll('.option').forEach(opt => {
                     if (normalizeAnswer(opt.textContent) === normalizeAnswer(question.a)) {
                         opt.classList.add('correct');
@@ -1297,8 +1213,6 @@
         }
 
         function handleFillAnswer() {
-            if (document.getElementById('submit-fill').disabled) return;
-
             const question = currentQuestions[currentQuestionIndex];
             const userAnswer = document.getElementById('fill-input').value.trim();
             
@@ -1317,33 +1231,19 @@
         }
 
         function processAnswer(isCorrect, question) {
-            const answer = {
-                questionId: question.id,
-                isCorrect,
-                timestamp: Date.now()
-            };
-            userAnswers.push(answer);
+            userAnswers.push({ questionId: question.id, isCorrect, timestamp: Date.now() });
 
-            // Update userData
             userData.totalAnswered++;
             if (isCorrect) {
                 userData.totalCorrect++;
                 currentStreak++;
-                
-                // Calculate XP (difficulty bonus)
-                let xpGain = 10;
-                if (question.difficulty === 'medium') xpGain = 15;
-                if (question.difficulty === 'hard') xpGain = 25;
-                if (currentStreak >= 5) xpGain *= 1.5; // Streak bonus
-                
-                userData.totalXP += Math.floor(xpGain);
+                userData.totalXP += 10;
                 userData.totalScore += 100;
             } else {
                 currentStreak = 0;
                 incorrectQuestions.push(question);
             }
 
-            // Update topic mastery
             const topic = question.topic || 'Genel';
             if (!userData.topicMastery[topic]) {
                 userData.topicMastery[topic] = { correct: 0, total: 0 };
@@ -1351,66 +1251,28 @@
             userData.topicMastery[topic].total++;
             if (isCorrect) userData.topicMastery[topic].correct++;
 
-            // Update question history
-            if (!userData.questionHistory[question.id]) {
-                userData.questionHistory[question.id] = {
-                    attempts: 0,
-                    correct: 0,
-                    lastAttempt: null,
-                    mastery: 0
-                };
-            }
-            userData.questionHistory[question.id].attempts++;
-            if (isCorrect) userData.questionHistory[question.id].correct++;
-            userData.questionHistory[question.id].lastAttempt = Date.now();
-            userData.questionHistory[question.id].mastery = 
-                (userData.questionHistory[question.id].correct / userData.questionHistory[question.id].attempts) * 100;
-
-            // Show feedback
             showFeedback(isCorrect, question);
-
-            // Check achievements
             checkAchievements();
-
-            // Update UI
             updateUI();
-
-            // Save data
             saveUserData();
 
-            // Show next button
             document.getElementById('next-btn').style.display = 'inline-flex';
         }
 
         function showFeedback(isCorrect, question) {
             const feedback = document.getElementById('feedback');
-            const feedbackTitle = document.getElementById('feedback-title');
-            const feedbackText = document.getElementById('feedback-text');
-            
-            feedback.classList.remove('correct', 'incorrect');
             feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
 
             if (isCorrect) {
-                const messages = [
-                    "Harika! 🎉",
-                    "Mükemmel! ⭐",
-                    "İşte bu! 💯",
-                    "Süper! 🚀",
-                    "Bravo! 👏"
-                ];
-                feedbackTitle.textContent = messages[Math.floor(Math.random() * messages.length)];
-                
-                if (currentStreak >= 5) {
-                    feedbackText.textContent = `${currentStreak} doğru üst üste! Ateş gibisin! 🔥`;
-                } else {
-                    feedbackText.textContent = "Doğru cevap!";
-                }
+                document.getElementById('feedback-title').textContent = "Harika! 🎉";
+                document.getElementById('feedback-text').textContent = currentStreak >= 5 
+                    ? `${currentStreak} doğru üst üste! 🔥` 
+                    : "Doğru cevap!";
             } else {
-                feedbackTitle.textContent = "Yanlış ❌";
-                feedbackText.textContent = `Doğru cevap: ${question.a}`;
+                document.getElementById('feedback-title').textContent = "Yanlış ❌";
+                document.getElementById('feedback-text').textContent = `Doğru cevap: ${question.a}`;
             }
 
-            // Show explanation if available
             if (question.explanation) {
                 document.getElementById('explanation').style.display = 'block';
                 document.getElementById('explanation-text').textContent = question.explanation;
@@ -1437,54 +1299,26 @@
 
             const totalQuestions = currentQuestions.length;
             const correctAnswers = userAnswers.filter(a => a.isCorrect).length;
-            const incorrectAnswers = totalQuestions - correctAnswers;
             const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
             const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-            const xpEarned = userAnswers.filter(a => a.isCorrect).length * 10;
 
-            // Update session data
-            userData.studySessions.push({
-                date: new Date().toISOString(),
-                questionsAnswered: totalQuestions,
-                correct: correctAnswers,
-                accuracy: accuracy,
-                duration: timeSpent,
-                xpEarned: xpEarned
-            });
-
-            // Results icon based on performance
-            let icon = '🎉';
-            let title = 'Tebrikler!';
-            if (accuracy >= 90) {
-                icon = '🏆';
-                title = 'Mükemmel!';
-            } else if (accuracy >= 80) {
-                icon = '⭐';
-                title = 'Harika!';
-            } else if (accuracy >= 70) {
-                icon = '👍';
-                title = 'İyi!';
-            } else if (accuracy >= 60) {
-                icon = '📚';
-                title = 'Fena Değil!';
-            } else {
-                icon = '💪';
-                title = 'Daha Fazla Çalışmalısın!';
-            }
+            let icon = '🎉', title = 'Tebrikler!';
+            if (accuracy >= 90) { icon = '🏆'; title = 'Mükemmel!'; }
+            else if (accuracy >= 80) { icon = '⭐'; title = 'Harika!'; }
+            else if (accuracy >= 70) { icon = '👍'; title = 'İyi!'; }
+            else if (accuracy < 60) { icon = '💪'; title = 'Daha Fazla Çalışmalısın!'; }
 
             document.querySelector('.results-icon').textContent = icon;
             document.getElementById('results-title').textContent = title;
             document.getElementById('results-score').textContent = `${correctAnswers}/${totalQuestions}`;
             document.getElementById('correct-count').textContent = correctAnswers;
-            document.getElementById('incorrect-count').textContent = incorrectAnswers;
+            document.getElementById('incorrect-count').textContent = totalQuestions - correctAnswers;
             document.getElementById('time-spent').textContent = formatTime(timeSpent);
-            document.getElementById('xp-earned').textContent = `+${xpEarned} XP`;
+            document.getElementById('xp-earned').textContent = `+${correctAnswers * 10} XP`;
 
-            // Update retry button
             const retryBtn = document.getElementById('retry-wrong-btn');
             if (incorrectQuestions.length > 0) {
                 retryBtn.style.display = 'inline-flex';
-                retryBtn.querySelector('span').textContent = `${incorrectQuestions.length} Yanlışı Tekrar Çöz`;
             } else {
                 retryBtn.style.display = 'none';
             }
@@ -1493,10 +1327,8 @@
             updateUI();
         }
 
-        // ===== UTILITY FUNCTIONS =====
         function normalizeAnswer(str) {
             if (typeof str !== 'string') return '';
-            // Remove parentheses, slashes, extra spaces
             return str.toLowerCase()
                       .replace(/\s*\(.*?\)\s*/g, '')
                       .replace(/\s*\/\s*/g, ',')
@@ -1529,7 +1361,6 @@
             }, 1000);
         }
 
-        // ===== PROGRESS TRACKING =====
         function updateQuizProgress() {
             const progress = currentQuestions.length > 0 
                 ? (currentQuestionIndex / currentQuestions.length) * 100 
@@ -1540,7 +1371,6 @@
         }
 
         function updateUI() {
-            // Update header stats
             document.getElementById('total-xp').textContent = userData.totalXP;
             document.getElementById('total-score').textContent = userData.totalScore;
             const accuracy = userData.totalAnswered > 0 
@@ -1548,19 +1378,10 @@
                 : 0;
             document.getElementById('accuracy').textContent = accuracy + '%';
 
-            // Update level
             updateLevel();
-
-            // Update progress ring
             updateProgressRing();
-
-            // Update streak
             updateStreak();
-
-            // Update topic mastery
             updateTopicMastery();
-
-            // Update achievements
             updateAchievements();
         }
 
@@ -1598,10 +1419,8 @@
                 const yesterday = new Date(Date.now() - 86400000).toDateString();
                 
                 if (lastDate === yesterday) {
-                    // Continued streak
                     userData.streak++;
                 } else if (lastDate !== today) {
-                    // Broke streak
                     userData.streak = 1;
                 }
             } else {
@@ -1680,16 +1499,12 @@
                 }
             });
             
-            // Show notification for new achievements
             if (newAchievements.length > 0) {
-                newAchievements.forEach(ach => {
-                    showAchievementNotification(ach);
-                });
+                newAchievements.forEach(ach => showAchievementNotification(ach));
             }
         }
 
         function showAchievementNotification(achievement) {
-            // Create notification element
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -1713,7 +1528,6 @@
             
             document.body.appendChild(notification);
             
-            // Remove after 4 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideOutRight 0.5s ease';
                 setTimeout(() => notification.remove(), 500);
@@ -1725,17 +1539,14 @@
             if (weekQuestions.length === 0) return false;
             
             let correct = 0;
-            let total = 0;
-            
             weekQuestions.forEach(q => {
                 const history = userData.questionHistory[q.id];
-                if (history && history.attempts > 0) {
-                    total++;
-                    if (history.mastery >= threshold) correct++;
+                if (history && history.attempts > 0 && history.mastery >= threshold) {
+                    correct++;
                 }
             });
             
-            return total > 0 && (correct / total * 100) >= threshold;
+            return (correct / weekQuestions.length * 100) >= threshold;
         }
 
         function getWeakQuestions() {
@@ -1745,27 +1556,11 @@
             });
         }
 
-        function createExamSimulation() {
-            // Create realistic exam: 50 questions, mixed difficulty
-            const easy = questionBank.filter(q => q.difficulty === 'easy');
-            const medium = questionBank.filter(q => q.difficulty === 'medium');
-            const hard = questionBank.filter(q => q.difficulty === 'hard');
-            
-            const examQuestions = [
-                ...shuffleArray(easy).slice(0, 15),
-                ...shuffleArray(medium).slice(0, 25),
-                ...shuffleArray(hard).slice(0, 10)
-            ];
-            
-            return shuffleArray(examQuestions);
-        }
-
-        // ===== DATA PERSISTENCE =====
         function saveUserData() {
             try {
                 localStorage.setItem('osQuizUserData', JSON.stringify(userData));
             } catch (e) {
-                console.error('Failed to save data:', e);
+                console.error('Veri kaydedilemedi:', e);
             }
         }
 
@@ -1777,38 +1572,11 @@
                     userData = { ...userData, ...loaded };
                 }
             } catch (e) {
-                console.error('Failed to load data:', e);
+                console.error('Veri yüklenemedi:', e);
             }
         }
 
-        // Add CSS animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOutRight {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Export stats function (can be called from console)
+        // Console commands
         window.exportStats = function() {
             const stats = {
                 totalXP: userData.totalXP,
@@ -1816,81 +1584,20 @@
                 totalAnswered: userData.totalAnswered,
                 totalCorrect: userData.totalCorrect,
                 accuracy: userData.totalAnswered > 0 ? ((userData.totalCorrect / userData.totalAnswered) * 100).toFixed(2) + '%' : '0%',
-                streak: userData.streak,
-                topicMastery: userData.topicMastery,
-                achievements: Object.keys(userData.achievements).filter(k => userData.achievements[k]),
-                studySessions: userData.studySessions.length
+                streak: userData.streak
             };
-            
-            console.log('📊 İstatistikleriniz:');
             console.table(stats);
-            
-            // Download as JSON
-            const dataStr = JSON.stringify(userData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'os-quiz-stats.json';
-            link.click();
         };
 
-        // Reset data function (can be called from console)
         window.resetData = function() {
-            if (confirm('Tüm ilerlemenizi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+            if (confirm('Tüm ilerlemenizi silmek istediğinizden emin misiniz?')) {
                 localStorage.removeItem('osQuizUserData');
                 location.reload();
             }
         };
 
-        // Show help
-        window.showHelp = function() {
-            console.log(`
-🎓 İŞLETİM SİSTEMLERİ QUIZ - YARDIM
-
-📱 Klavye Kısayolları:
-   1-4: Şıkları seç (MCQ sorularda)
-   Enter: Sonraki soru
-   
-🎮 Konsol Komutları:
-   window.exportStats() - İstatistikleri indir
-   window.resetData() - Tüm verileri sıfırla
-   window.showHelp() - Bu yardımı göster
-
-🎯 Çalışma Modları:
-   • Tüm Sorular: Karışık tüm sorular
-   • Hafta X: Belirli hafta soruları
-   • Zayıf Konular: Doğruluk oranı %70'in altındaki sorular
-   • Sınav Simülasyonu: 50 soruluk gerçekçi sınav
-
-🏆 Başarımlar:
-   Soru çözdükçe başarımlar kazanırsınız ve XP puanı alırsınız.
-   XP biriktirerek seviye atlayabilirsiniz.
-
-🔥 Streak Sistemi:
-   Her gün çalışarak streak'inizi artırın.
-   Streak bonus XP kazandırır!
-
-💾 Otomatik Kayıt:
-   İlerlemeniz otomatik olarak tarayıcınıza kaydedilir.
-   Farklı cihazlardan giriş yaparsanız, veriler senkronize olmaz.
-
-📊 İstatistikler:
-   Konu bazlı performansınızı takip edebilir,
-   zayıf olduğunuz konulara odaklanabilirsiniz.
-
-💡 İpuçları:
-   • Düzenli çalışın (streak için)
-   • Yanlış yaptığınız soruları tekrar çözün
-   • Zayıf konular modunu kullanın
-   • Sınavdan önce simülasyon yapın
-   
-İyi çalışmalar! 🚀
-            `);
-        };
-
         console.log('🎓 İşletim Sistemleri Quiz yüklendi!');
-        console.log('💡 Yardım için: window.showHelp()');
+        console.log('💡 Komutlar: window.exportStats() | window.resetData()');
     </script>
 </body>
 </html>
