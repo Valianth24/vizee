@@ -320,6 +320,105 @@ window.questionBank = [
         importance: "medium",
         explanation: "iOS, Apple tarafından iPhone ve iPad için geliştirilmiş mobil işletim sistemidir."
     },
+    { 
+        q: "Pardus işletim sisteminde paket yönetimi için kullanılan araç nedir?", 
+        t: "mcq", 
+        o: ["PiSi", "APT", "YUM", "DNF"],
+        a: "PiSi",
+        difficulty: "hard",
+        week: 1,
+        topic: "Linux/Pardus",
+        importance: "low",
+        explanation: "PiSi (Packages Installed Successfully as Intended), Pardus'un paket yöneticisidir."
+    },
+    { 
+        q: "Linux sistemlerde root kullanıcısının UID (User ID) değeri nedir?", 
+        t: "mcq", 
+        o: ["0", "1", "-1", "100"],
+        a: "0",
+        difficulty: "hard",
+        week: 1,
+        topic: "Linux/Pardus",
+        importance: "low",
+        explanation: "Root kullanıcısı (sistem yöneticisi) her zaman 0 UID'sine sahiptir."
+    },
+    { 
+        q: "Windows'ta sistem dosyalarının bulunduğu ana dizin hangisidir?", 
+        t: "mcq", 
+        o: ["C:\\Windows", "C:\\System", "C:\\Program Files", "C:\\Users"],
+        a: "C:\\Windows",
+        difficulty: "medium",
+        week: 1,
+        topic: "Windows",
+        importance: "low",
+        explanation: "Varsayılan olarak Windows sistem dosyaları C:\\Windows dizininde bulunur."
+    },
+    { 
+        q: "Mac OS'un temelini oluşturan UNIX tabanlı işletim sistemi nedir?", 
+        t: "mcq", 
+        o: ["Darwin", "FreeBSD", "Solaris", "AIX"],
+        a: "Darwin",
+        difficulty: "hard",
+        week: 1,
+        topic: "Mac OS",
+        importance: "low",
+        explanation: "Darwin, Mac OS X'in açık kaynak kodlu UNIX çekirdeğidir."
+    },
+    { 
+        q: "Windows'ta çalışan işlemleri görmek için kullanılan araç nedir?", 
+        t: "mcq", 
+        o: ["Task Manager", "Control Panel", "System Monitor", "Process Viewer"],
+        a: "Task Manager",
+        difficulty: "easy",
+        week: 1,
+        topic: "Windows",
+        importance: "low",
+        explanation: "Task Manager (Görev Yöneticisi), çalışan işlemleri, CPU ve bellek kullanımını gösterir."
+    },
+    { 
+        q: "Windows'ta kayıt defterini düzenlemek için kullanılan araç nedir?", 
+        t: "mcq", 
+        o: ["regedit", "msconfig", "services.msc", "gpedit.msc"],
+        a: "regedit",
+        difficulty: "hard",
+        week: 1,
+        topic: "Windows",
+        importance: "low",
+        explanation: "Regedit, Windows kayıt defterini (registry) düzenlemek için kullanılan araçtır."
+    },
+    { 
+        q: "Mac OS'ta terminal uygulamasının adı nedir?", 
+        t: "mcq", 
+        o: ["Terminal", "Console", "Shell", "Command Prompt"],
+        a: "Terminal",
+        difficulty: "easy",
+        week: 1,
+        topic: "Mac OS",
+        importance: "low",
+        explanation: "Mac OS'ta Terminal uygulaması, komut satırı arayüzü sağlar."
+    },
+    { 
+        q: "Linux'ta dosya izinlerini değiştirmek için kullanılan komut nedir?", 
+        t: "mcq", 
+        o: ["chmod", "chown", "chgrp", "umask"],
+        a: "chmod",
+        difficulty: "medium",
+        week: 1,
+        topic: "Linux/Pardus",
+        importance: "medium",
+        explanation: "chmod (change mode) komutu, dosya ve dizinlerin erişim izinlerini değiştirir."
+    },
+    { 
+        q: "Windows'ta disk bölümlerini yönetmek için kullanılan araç nedir?", 
+        t: "mcq", 
+        o: ["Disk Management", "Partition Manager", "Drive Manager", "Volume Control"],
+        a: "Disk Management",
+        difficulty: "medium",
+        week: 1,
+        topic: "Windows",
+        importance: "low",
+        explanation: "Disk Management aracı, disk bölümlerini oluşturma, silme ve yönetme işlemlerini yapar."
+    },
     
     // HAFTA 3: Mantıksal Yapı / Fonksiyonlar / Tarihçe
     { 
@@ -630,6 +729,28 @@ window.questionBank = [
         importance: "high",
         explanation: "Swap alanı, RAM yetersiz kaldığında diskte kullanılan sanal bellek alanıdır."
     },
+    { 
+        q: "Çok kullanıcılı sistemlerde kullanıcı kimlik doğrulaması yapan işletim sistemi bileşeni nedir?", 
+        t: "mcq", 
+        o: ["Authentication system", "Authorization system", "Encryption system", "Firewall"],
+        a: "Authentication system",
+        difficulty: "medium",
+        week: 3,
+        topic: "Güvenlik",
+        importance: "high",
+        explanation: "Authentication system, kullanıcıların kimlik doğrulamasını yaparak sisteme erişimi kontrol eder."
+    },
+    { 
+        q: "İşletim sisteminin boot (açılış) sürecinde ilk çalışan program nedir?", 
+        t: "mcq", 
+        o: ["Bootloader", "Kernel", "Shell", "BIOS"],
+        a: "Bootloader",
+        difficulty: "medium",
+        week: 3,
+        topic: "İS Tarihi",
+        importance: "low",
+        explanation: "Bootloader, bilgisayar açılırken işletim sistemini belleğe yükleyen ilk programdır."
+    },
     
     // HAFTA 4: İS Katmanları, Çekirdek, Sistem Çağrıları
     { 
@@ -830,5 +951,691 @@ window.questionBank = [
         importance: "medium",
         explanation: "Hibrid çekirdekler, monolitik ve mikrokernel yaklaşımlarının avantajlarını birleştirir."
     },
+    { 
+        q: "Windows NT mimarisinde donanım detaylarının soyutlanmasını sağlayan katman nedir?", 
+        t: "mcq", 
+        o: ["HAL", "Executive", "Kernel", "GUI"],
+        a: "HAL",
+        difficulty: "hard",
+        week: 4,
+        topic: "Katmanlar",
+        importance: "high",
+        explanation: "HAL (Hardware Abstraction Layer), donanım detaylarını soyutlayarak işletim sisteminin taşınabilirliğini artırır."
+    },
+    { 
+        q: "HAL'in açılımı nedir?", 
+        t: "mcq", 
+        o: ["Hardware Abstraction Layer", "High Access Level", "Hardware Application Layer", "Host Abstraction Level"],
+        a: "Hardware Abstraction Layer",
+        difficulty: "hard",
+        week: 4,
+        topic: "Katmanlar",
+        importance: "medium",
+        explanation: "HAL, Hardware Abstraction Layer (Donanım Soyutlama Katmanı) anlamına gelir."
+    },
+    { 
+        q: "Windows'ta çekirdek modu ve kullanıcı modu arasındaki iletişimi hangi katman sağlar?", 
+        t: "mcq", 
+        o: ["Executive", "HAL", "Kernel", "Shell"],
+        a: "Executive",
+        difficulty: "hard",
+        week: 4,
+        topic: "Katmanlar",
+        importance: "medium",
+        explanation: "Executive katmanı, Windows'ta üst düzey sistem hizmetlerini sağlar."
+    },
+    { 
+        q: "Donanım tarafından oluşturulan ve işlemciyi durduran sinyallere ne denir?", 
+        t: "mcq", 
+        o: ["Kesme (Interrupt)", "Tuzak (Trap)", "Hata (Error)", "Sinyal (Signal)"],
+        a: "Kesme (Interrupt)",
+        difficulty: "medium",
+        week: 4,
+        topic: "Kesme ve Tuzak",
+        importance: "high",
+        explanation: "Kesme (interrupt), donanım tarafından işlemciye gönderilen acil durum sinyalidir."
+    },
+    { 
+        q: "Yazılım tarafından oluşturulan hata veya sistem çağrısı durumlarına ne denir?", 
+        t: "mcq", 
+        o: ["Tuzak (Trap)", "Kesme (Interrupt)", "Hata (Error)", "İstisna (Exception)"],
+        a: "Tuzak (Trap)",
+        difficulty: "medium",
+        week: 4,
+        topic: "Kesme ve Tuzak",
+        importance: "high",
+        explanation: "Tuzak (trap), yazılım kaynaklı istisnai durumlarda oluşur (örn: sıfıra bölme hatası)."
+    },
+    { 
+        q: "İşletim sisteminin çekirdek kodunun güncellenmesi için sistem genellikle ne yapmalıdır?", 
+        t: "mcq", 
+        o: ["Sistem yeniden başlatılmalıdır", "Sadece uygulama yeniden başlatılır", "Otomatik güncellenir", "Hiçbir şey yapmaya gerek yoktur"], 
+        a: "Sistem yeniden başlatılmalıdır",
+        difficulty: "easy",
+        week: 4,
+        topic: "Çekirdek",
+        importance: "low",
+        explanation: "Çekirdek güncellemelerinden sonra değişikliklerin geçerli olması için sistem genellikle yeniden başlatılmalıdır."
+    },
+    
+    // HAFTA 5: İşlem Yönetimi / Zamanlama Algoritmaları
+    { 
+        q: "Bir programın çalışmakta olan hâline ne denir?", 
+        t: "mcq", 
+        o: ["İşlem (Process)", "Thread", "Program", "Task"],
+        a: "İşlem (Process)",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "İşlem (Process), belleğe yüklenmiş ve çalışmakta olan programdır."
+    },
+    { 
+        q: "Bellekte çalışan en küçük iş birimi nedir?", 
+        t: "mcq", 
+        o: ["İşlem (Process)", "Byte", "Bit", "Instruction"],
+        a: "İşlem (Process)",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "İşlem, bellekte çalışan en küçük bağımsız iş birimidir."
+    },
+    { 
+        q: "Sabit diskte duran ve pasif kod olarak tanımlanan bileşen nedir?", 
+        t: "mcq", 
+        o: ["Program", "İşlem", "Thread", "Veri"],
+        a: "Program",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "Program, diskte saklanan pasif koddur; çalıştırıldığında işlem haline gelir."
+    },
+    { 
+        q: "Çalışan ve aktif durumdaki kod olarak tanımlanan bileşen nedir?", 
+        t: "mcq", 
+        o: ["İşlem", "Program", "Dosya", "Klasör"],
+        a: "İşlem",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "İşlem, bellekte aktif olarak çalışan koddur."
+    },
+    { 
+        q: "Program ve İşlem arasındaki temel farklardan biri nedir?", 
+        t: "mcq", 
+        o: ["Program bellekte yer kaplar, İşlem kaplamaz", "Program bellekte yer kaplamaz, İşlem bellekte alan tahsis eder", "Her ikisi de aynı miktarda bellek kullanır", "Her ikisi de bellekte yer kaplamaz"],
+        a: "Program bellekte yer kaplamaz, İşlem bellekte alan tahsis eder",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "İşlem çalıştığında bellekte kendine alan tahsis eder, program ise diskte pasif olarak durur."
+    },
+    { 
+        q: "İşlem Durumları (Process States) arasında 'Ready' durumunun anlamı nedir?", 
+        t: "mcq", 
+        o: ["İşlem çalışmaya hazırdır", "İşlem çalışıyor", "İşlem bekleme durumunda", "İşlem sonlandı"],
+        a: "İşlem çalışmaya hazırdır",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "Ready durumundaki işlem CPU'yu beklemektedir; zamanlayıcı tarafından seçilirse Running durumuna geçer."
+    },
+    { 
+        q: "Bir işlemin CPU'da aktif olarak çalıştığı duruma ne denir?", 
+        t: "mcq", 
+        o: ["Running", "Ready", "Waiting", "Blocked"],
+        a: "Running",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "Running durumunda işlem CPU'da komutlarını çalıştırmaktadır."
+    },
+    { 
+        q: "Bir işlemin G/Ç (I/O) isteği, bir olay ya da sinyal beklediği duruma ne ad verilir?", 
+        t: "mcq", 
+        o: ["Waiting", "Running", "Ready", "New"],
+        a: "Waiting",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "Waiting (veya Blocked) durumunda işlem, G/Ç veya bir olayın gerçekleşmesini bekler."
+    },
+    { 
+        q: "Bir işlem çalışmasını tamamladığında hangi duruma geçer?", 
+        t: "mcq", 
+        o: ["Terminated", "Stopped", "Finished", "Closed"],
+        a: "Terminated",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "Terminated durumunda işlem çalışmasını tamamlamış ve sonlandırılmıştır."
+    },
+    { 
+        q: "Bir işlemin tüm bilgilerini tutan veri yapısının kısaltması nedir?", 
+        t: "mcq", 
+        o: ["PCB", "PID", "CPU", "RAM"],
+        a: "PCB",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "PCB (Process Control Block), işlemin durum bilgileri, CPU register değerleri, bellek bilgileri gibi tüm bilgileri içerir."
+    },
+    { 
+        q: "PCB'nin açılımı nedir?", 
+        t: "mcq", 
+        o: ["Process Control Block", "Program Control Block", "Processor Control Base", "Process Code Block"],
+        a: "Process Control Block",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "PCB, Process Control Block (İşlem Kontrol Bloğu) anlamına gelir."
+    },
+    { 
+        q: "Aşağıdakilerden hangisi PCB içinde tutulan bilgilerden biri değildir?", 
+        t: "mcq", 
+        o: ["İşlem kimliği (PID)", "Program sayacı", "CPU register bilgileri", "Kullanıcının adı ve soyadı"], 
+        a: "Kullanıcının adı ve soyadı",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "PCB'de işlem durumu, PID, program sayacı, registerlar, bellek bilgileri vb. tutulur; kullanıcı kişisel bilgileri tutulmaz."
+    },
+    { 
+        q: "Her işleme verilen benzersiz sayısal tanımlayıcıya ne denir?", 
+        t: "mcq", 
+        o: ["PID", "UID", "GID", "TID"],
+        a: "PID",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "PID (Process ID), her işlemi benzersiz şekilde tanımlayan sayısal kimliktir."
+    },
+    { 
+        q: "PID'nin açılımı nedir?", 
+        t: "mcq", 
+        o: ["Process ID", "Program ID", "Processor ID", "Primary ID"],
+        a: "Process ID",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "PID, Process ID (İşlem Kimliği) anlamına gelir."
+    },
+    { 
+        q: "En basit zamanlama algoritması olup, ilk gelenin önce çalıştığı algoritmanın kısaltması nedir?", 
+        t: "mcq", 
+        o: ["FCFS", "SJF", "RR", "Priority"],
+        a: "FCFS",
+        difficulty: "medium",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "FCFS (First Come First Serve), işlemleri geliş sırasına göre çalıştıran en basit algoritmadır."
+    },
+    { 
+        q: "FCFS zamanlama algoritmasının açılımı nedir?", 
+        t: "mcq", 
+        o: ["First Come First Serve", "Fast CPU First System", "First Call First Service", "First Control First Start"],
+        a: "First Come First Serve",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "FCFS, First Come First Serve (İlk Gelen İlk Servis Edilir) anlamına gelir."
+    },
+    { 
+        q: "SJF zamanlama algoritmasının açılımı nedir?", 
+        t: "mcq", 
+        o: ["Shortest Job First", "Simple Job First", "System Job First", "Sequential Job First"],
+        a: "Shortest Job First",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "SJF, Shortest Job First (En Kısa İş Önce) anlamına gelir."
+    },
+    { 
+        q: "Zamanlama algoritmaları arasında yer alan, her işleme eşit zaman dilimi veren algoritma hangisidir?", 
+        t: "mcq", 
+        o: ["Round Robin", "FCFS", "SJF", "Priority"],
+        a: "Round Robin",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "medium",
+        explanation: "Round Robin, her işleme sabit zaman dilimi (time quantum) vererek sırayla çalıştırır."
+    },
+    { 
+        q: "Round Robin algoritmasında her işleme verilen sabit zaman dilimine ne denir?", 
+        t: "mcq", 
+        o: ["Time quantum", "Time slice", "CPU burst", "Clock cycle"],
+        a: "Time quantum",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "medium",
+        explanation: "Time quantum (zaman dilimi), Round Robin'de her işlemin CPU'yu kullanabileceği süreyi belirler."
+    },
+    { 
+        q: "Bir işlemin çalışması tamamlanmadan CPU'dan alınması durumuna ne denir?", 
+        t: "mcq", 
+        o: ["Preemption", "Context Switch", "Interrupt", "Termination"],
+        a: "Preemption",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "Preemption (önalım), bir işlemin çalışmasının zorla durdurulması ve başka işleme geçilmesidir."
+    },
+    { 
+        q: "FCFS algoritması preemptive midir?", 
+        t: "mcq", 
+        o: ["Hayır", "Evet", "Bazen", "Sisteme bağlı"], 
+        a: "Hayır",
+        difficulty: "medium",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "FCFS non-preemptive'dir; işlem bitene kadar CPU'yu bırakmaz."
+    },
+    { 
+        q: "Round Robin algoritması preemptive midir?", 
+        t: "mcq", 
+        o: ["Evet", "Hayır", "Bazen", "Sisteme bağlı"], 
+        a: "Evet",
+        difficulty: "medium",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "Round Robin preemptive'dir; time quantum bittiğinde işlem CPU'dan alınır."
+    },
+    { 
+        q: "SJF algoritmasının dezavantajı nedir?", 
+        t: "mcq", 
+        o: ["Uzun işlemler açlık (starvation) yaşayabilir", "Çok yavaş çalışır", "Sadece tek CPU'da çalışır", "Bellek kullanımı fazladır"], 
+        a: "Uzun işlemler açlık (starvation) yaşayabilir",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "SJF'de kısa işlemler öncelikli olduğundan, uzun işlemler sürekli ertelenebilir (starvation)."
+    },
+    { 
+        q: "Bir işlemden diğerine geçiş sırasında CPU'nun durum bilgilerini kaydetme ve yükleme işlemine ne denir?", 
+        t: "mcq", 
+        o: ["Context Switch", "Process Switch", "Mode Switch", "Task Switch"],
+        a: "Context Switch",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "Context Switch, CPU'nun bir işlemden diğerine geçerken durum bilgilerini kaydetme ve yükleme işlemidir."
+    },
+    { 
+        q: "Context Switch sırasında CPU üretken iş yapmaz, bu duruma ne denir?", 
+        t: "mcq", 
+        o: ["Overhead", "Underflow", "Bottleneck", "Deadlock"],
+        a: "Overhead",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "Context Switch overhead'i, sistem performansını düşürür çünkü bu sürede yararlı iş yapılmaz."
+    },
+    { 
+        q: "UNIX/Linux sistemlerinde yeni işlem oluşturmak için kullanılan sistem çağrısı nedir?", 
+        t: "mcq", 
+        o: ["fork", "exec", "create", "spawn"],
+        a: "fork",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "fork() sistem çağrısı, mevcut işlemin bir kopyasını oluşturarak yeni işlem yaratır."
+    },
+    { 
+        q: "Bir işlemi sonlandırmak için kullanılan sistem çağrısı nedir?", 
+        t: "mcq", 
+        o: ["exit", "kill", "stop", "terminate"],
+        a: "exit",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "exit() sistem çağrısı, işlemi sonlandırır ve kaynaklarını serbest bırakır."
+    },
+    { 
+        q: "İşlemler arası iletişime ne denir?", 
+        t: "mcq", 
+        o: ["IPC", "RPC", "API", "DLL"],
+        a: "IPC",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem İletişimi",
+        importance: "high",
+        explanation: "IPC (Inter-Process Communication), işlemlerin birbiriyle veri alışverişi yapmasını sağlar."
+    },
+    { 
+        q: "IPC'nin açılımı nedir?", 
+        t: "mcq", 
+        o: ["Inter-Process Communication", "Internal Process Control", "Integrated Process Command", "Internet Protocol Connection"],
+        a: "Inter-Process Communication",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem İletişimi",
+        importance: "medium",
+        explanation: "IPC, Inter-Process Communication (İşlemler Arası İletişim) anlamına gelir."
+    },
+    { 
+        q: "Aşağıdakilerden hangisi bir IPC mekanizması değildir?", 
+        t: "mcq", 
+        o: ["Paylaşılan Bellek", "Mesaj Kuyrukları", "Pipe", "Cache Bellek"], 
+        a: "Cache Bellek",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem İletişimi",
+        importance: "medium",
+        explanation: "IPC mekanizmaları: Paylaşılan bellek, mesaj kuyrukları, pipe, socket vb. Cache bellek IPC mekanizması değildir."
+    },
+    { 
+        q: "Bir işlem içinde çalışan ve CPU tarafından zamanlanan en küçük birime ne denir?", 
+        t: "mcq", 
+        o: ["Thread", "Process", "Task", "Job"],
+        a: "Thread",
+        difficulty: "medium",
+        week: 5,
+        topic: "Thread",
+        importance: "high",
+        explanation: "Thread (iş parçacığı), bir işlem içinde paralel çalışabilen hafif yürütme birimidir."
+    },
+    { 
+        q: "Thread'lerin aynı işlem içindeki diğer thread'lerle paylaştığı kaynak nedir?", 
+        t: "mcq", 
+        o: ["Kod ve Veri Segmenti", "Stack", "Registerlar", "Program Counter"], 
+        a: "Kod ve Veri Segmenti",
+        difficulty: "hard",
+        week: 5,
+        topic: "Thread",
+        importance: "high",
+        explanation: "Aynı işlemdeki thread'ler kod, veri ve heap'i paylaşır; ancak her birinin kendi stack ve register'ları vardır."
+    },
+    { 
+        q: "Çok çekirdekli sistemlerde thread'lerin gerçekten paralel çalışması durumuna ne denir?", 
+        t: "mcq", 
+        o: ["Paralellik", "Concurrency", "Multitasking", "Time-sharing"],
+        a: "Paralellik",
+        difficulty: "medium",
+        week: 5,
+        topic: "Thread",
+        importance: "medium",
+        explanation: "Çok çekirdekli sistemlerde thread'ler aynı anda farklı çekirdeklerde çalışabilir (gerçek paralellik)."
+    },
+    { 
+        q: "Birden fazla işlem veya thread'in paylaşılan kaynağa eşzamanlı erişimde oluşan problemlere ne denir?", 
+        t: "mcq", 
+        o: ["Race Condition", "Deadlock", "Starvation", "Thrashing"],
+        a: "Race Condition",
+        difficulty: "hard",
+        week: 5,
+        topic: "Senkronizasyon",
+        importance: "high",
+        explanation: "Race condition, paylaşılan kaynağa eşzamanlı erişimde tutarsızlıklara yol açan durumdur."
+    },
+    { 
+        q: "Paylaşılan kaynağa aynı anda sadece bir işlemin erişebilmesini sağlayan kod bölgesine ne denir?", 
+        t: "mcq", 
+        o: ["Critical Section", "Protected Area", "Safe Zone", "Exclusive Region"],
+        a: "Critical Section",
+        difficulty: "hard",
+        week: 5,
+        topic: "Senkronizasyon",
+        importance: "high",
+        explanation: "Critical section (kritik bölge), paylaşılan kaynağa erişen kod bölümüdür ve korunması gerekir."
+    },
+    { 
+        q: "Kritik bölgeyi korumak için kullanılan ve sadece bir işlemin kaynağa erişmesini sağlayan mekanizmaya ne denir?", 
+        t: "mcq", 
+        o: ["Mutex", "Semaphore", "Monitor", "Lock"],
+        a: "Mutex",
+        difficulty: "hard",
+        week: 5,
+        topic: "Senkronizasyon",
+        importance: "high",
+        explanation: "Mutex (Mutual Exclusion), kritik bölgeye tek bir işlemin girmesini sağlayan kilitleme mekanizmasıdır."
+    },
+    { 
+        q: "Senkronizasyon için kullanılan ve sayaç mantığıyla çalışan yapıya ne denir?", 
+        t: "mcq", 
+        o: ["Semaphore", "Mutex", "Barrier", "Spinlock"],
+        a: "Semaphore",
+        difficulty: "hard",
+        week: 5,
+        topic: "Senkronizasyon",
+        importance: "high",
+        explanation: "Semaphore, sayaç kullanarak birden fazla işlemin senkronize edilmesini sağlar."
+    },
+    { 
+        q: "İki veya daha fazla işlemin birbirini beklemesi ve hiçbirinin ilerleyememesi durumuna ne denir?", 
+        t: "mcq", 
+        o: ["Deadlock", "Livelock", "Starvation", "Race Condition"],
+        a: "Deadlock",
+        difficulty: "medium",
+        week: 5,
+        topic: "Deadlock",
+        importance: "high",
+        explanation: "Deadlock (kilitlenme), işlemlerin birbirlerinin kaynaklarını bekleyerek sonsuz döngüye girmesidir."
+    },
+    { 
+        q: "Öncelik tabanlı zamanlamada, düşük öncelikli işlemlerin sürekli ertelenmesi durumuna ne denir?", 
+        t: "mcq", 
+        o: ["Starvation", "Deadlock", "Livelock", "Thrashing"],
+        a: "Starvation",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "medium",
+        explanation: "Starvation (açlık), düşük öncelikli işlemlerin sürekli ertelenerek hiç CPU alamama durumudur."
+    },
+    { 
+        q: "Starvation problemini çözmek için zamanla işlem önceliğini artırma tekniğine ne denir?", 
+        t: "mcq", 
+        o: ["Aging", "Boosting", "Elevation", "Promotion"],
+        a: "Aging",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "medium",
+        explanation: "Aging, bekleyen işlemlerin önceliğini zamanla artırarak starvation'ı önler."
+    },
+    { 
+        q: "Bir işlemin sistemde toplam geçirdiği süreye (bekleme + çalışma) ne denir?", 
+        t: "mcq", 
+        o: ["Turnaround Time", "Waiting Time", "Response Time", "Execution Time"],
+        a: "Turnaround Time",
+        difficulty: "hard",
+        week: 5,
+        topic: "Performans",
+        importance: "medium",
+        explanation: "Turnaround time, işlemin gelişinden tamamlanmasına kadar geçen toplam süredir."
+    },
+    { 
+        q: "Bir işlemin hazır kuyruğunda beklediği süreye ne denir?", 
+        t: "mcq", 
+        o: ["Waiting Time", "Response Time", "Turnaround Time", "Burst Time"],
+        a: "Waiting Time",
+        difficulty: "medium",
+        week: 5,
+        topic: "Performans",
+        importance: "medium",
+        explanation: "Waiting time, işlemin ready kuyruğunda CPU'yu beklediği toplam süredir."
+    },
+    { 
+        q: "Bir işlemin ilk kez CPU'ya atanana kadar geçen süreye ne denir?", 
+        t: "mcq", 
+        o: ["Response Time", "Waiting Time", "Turnaround Time", "Latency"],
+        a: "Response Time",
+        difficulty: "hard",
+        week: 5,
+        topic: "Performans",
+        importance: "medium",
+        explanation: "Response time, işlemin sisteme girmesinden ilk kez CPU almasına kadar geçen süredir."
+    },
+    { 
+        q: "CPU'nun yararlı iş yaptığı sürenin toplam süreye oranına ne denir?", 
+        t: "mcq", 
+        o: ["CPU Utilization", "Throughput", "Efficiency", "Performance"],
+        a: "CPU Utilization",
+        difficulty: "medium",
+        week: 5,
+        topic: "Performans",
+        importance: "high",
+        explanation: "CPU Utilization (CPU kullanım oranı), CPU'nun ne kadar verimli kullanıldığını gösterir."
+    },
+    { 
+        q: "Birim zamanda tamamlanan işlem sayısına ne denir?", 
+        t: "mcq", 
+        o: ["Throughput", "CPU Utilization", "Response Time", "Bandwidth"],
+        a: "Throughput",
+        difficulty: "medium",
+        week: 5,
+        topic: "Performans",
+        importance: "medium",
+        explanation: "Throughput (verim), sistemin birim zamanda kaç işlem tamamladığını gösterir."
+    },
+    { 
+        q: "Birden fazla CPU veya çekirdeğe sahip sistemlere ne denir?", 
+        t: "mcq", 
+        o: ["Multiprocessor", "Multitasking", "Multiprogramming", "Multiuser"],
+        a: "Multiprocessor",
+        difficulty: "medium",
+        week: 5,
+        topic: "Çok İşlemcili Sistemler",
+        importance: "medium",
+        explanation: "Multiprocessor (çok işlemcili) sistemlerde birden fazla CPU paralel çalışır."
+    },
+    { 
+        q: "Çok çekirdekli sistemlerde her işlemcinin kendi yerel belleği olduğu ve ağ üzerinden iletişim kurduğu yapıya ne denir?", 
+        t: "mcq", 
+        o: ["Distributed System", "Shared Memory System", "Clustered System", "Grid System"],
+        a: "Distributed System",
+        difficulty: "hard",
+        week: 5,
+        topic: "Çok İşlemcili Sistemler",
+        importance: "low",
+        explanation: "Distributed sistemlerde işlemciler fiziksel olarak ayrı ve ağ üzerinden haberleşir."
+    },
+    { 
+        q: "Belirli süre kısıtlamaları içinde görevleri tamamlaması gereken sistemlere ne denir?", 
+        t: "mcq", 
+        o: ["Real-Time System", "Batch System", "Time-Sharing System", "Interactive System"],
+        a: "Real-Time System",
+        difficulty: "medium",
+        week: 5,
+        topic: "Gerçek Zamanlı Sistemler",
+        importance: "low",
+        explanation: "Real-time sistemlerde görevler belirli zaman sınırları içinde tamamlanmalıdır (örn: uçak kontrol sistemleri)."
+    },
+    { 
+        q: "Bir işletim sisteminin çoklu görev (multitasking) yapabilmesi için hangi özellik gereklidir?", 
+        t: "mcq", 
+        o: ["Zamanlama mekanizması", "Sadece çok çekirdekli CPU", "Grafik arayüz", "Ağ bağlantısı"], 
+        a: "Zamanlama mekanizması",
+        difficulty: "medium",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "Multitasking için zamanlayıcı gereklidir; tek çekirdekli CPU'da bile zaman paylaşımı ile yapılabilir."
+    },
+    { 
+        q: "Bir işlemin bellek alanı hangi bölümlerden oluşur?", 
+        t: "mcq", 
+        o: ["Kod, veri, heap ve stack", "Sadece kod ve veri", "Sadece heap ve stack", "Sadece kod"], 
+        a: "Kod, veri, heap ve stack",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "high",
+        explanation: "İşlem bellek alanı dört ana bölümden oluşur: kod (text), veri (data), heap (dinamik bellek) ve stack (yerel değişkenler)."
+    },
+    { 
+        q: "UNIX/Linux sistemlerinde bir işlemin önceliğini değiştirmek için kullanılan komut nedir?", 
+        t: "mcq", 
+        o: ["nice", "priority", "setprio", "renice"],
+        a: "nice",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "low",
+        explanation: "nice komutu, işlem önceliğini ayarlamak için kullanılır."
+    },
+    { 
+        q: "Bir işlemin CPU'da çalışırken kesintiye uğraması ve daha yüksek öncelikli işleme geçilmesi durumuna ne denir?", 
+        t: "mcq", 
+        o: ["Preemptive scheduling", "Non-preemptive scheduling", "Context switch", "Process migration"],
+        a: "Preemptive scheduling",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "high",
+        explanation: "Preemptive scheduling'de işlemci, çalışan işlemi durdurarak daha yüksek öncelikli işleme geçebilir."
+    },
+    { 
+        q: "Çoklu işlemci sistemlerde işlemciler arasında yük dengelemesi yapan bileşene ne denir?", 
+        t: "mcq", 
+        o: ["Scheduler", "Dispatcher", "Allocator", "Balancer"],
+        a: "Scheduler",
+        difficulty: "hard",
+        week: 5,
+        topic: "Zamanlama Algoritmaları",
+        importance: "medium",
+        explanation: "Scheduler (zamanlayıcı), işlemleri işlemcilere dağıtarak yük dengelemesi yapar."
+    },
+    { 
+        q: "Bir işlemin bellekteki başlangıç adresini tutan register nedir?", 
+        t: "mcq", 
+        o: ["Base register", "Limit register", "Program counter", "Stack pointer"],
+        a: "Base register",
+        difficulty: "hard",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "Base register, işlemin bellek alanının başlangıç adresini tutar."
+    },
+    { 
+        q: "Bir işlemin çocuk işlem yaratması durumunda, çocuk işlemin kaynakları kimden alır?", 
+        t: "mcq", 
+        o: ["Ebeveyn işlemden", "İşletim sisteminden direkt", "Diğer işlemlerden", "Disk alanından"], 
+        a: "Ebeveyn işlemden",
+        difficulty: "medium",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "medium",
+        explanation: "Çocuk işlem, ebeveyn işlemin kaynaklarını kullanır veya işletim sistemi yeni kaynaklar tahsis eder."
+    },
+    { 
+        q: "Bir işlemin beklemeden dolayı CPU kullanmadığı duruma ne denir?", 
+        t: "mcq", 
+        o: ["Idle", "Blocked", "Suspended", "Stopped"],
+        a: "Idle",
+        difficulty: "easy",
+        week: 5,
+        topic: "İşlem Yönetimi",
+        importance: "low",
+        explanation: "Idle durumunda sistem veya işlem beklemede olup CPU kullanmaz."
+    }
 ];
-console.log(`✅ ${window.questionBank.length} soru yüklendi!`);
+
+// Toplam soru sayısını konsola yazdır
+console.log(`✅ Toplam ${window.questionBank.length} soru yüklendi!`);
