@@ -1505,6 +1505,6 @@ const questionBank = [
         topic: "Windows",
         importance: "low",
         explanation: "Disk Management aracı, disk bölümlerini oluşturma, silme ve yönetme işlemlerini yapar."
-    },
-
+    }
+];
 console.log(`✅ ${window.questionBank.length} soru yüklendi!`);
