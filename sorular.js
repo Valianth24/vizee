@@ -1,13 +1,9 @@
-// ===== İŞLETİM SİSTEMLERİ VİZE SORU BANKASI (205 SORU) =====
-// Kaynak: İşletim Sistemleri Hafta 1, 3, 4 ve 5 Slaytları
-// Bu yapı, vize sınavında çıkabilecek tüm temel kavramları kapsar.
+import React, { useState, useMemo } from 'react';
+import { ChevronRight, ChevronLeft, Check, X, BarChart3, Filter, RotateCcw, BookOpen } from 'lucide-react';
 
-window.questionBank = [
-    // ----------------------------------------------------------------------------------
-    // --- HAFTA 1: Windows, Mac OS, Linux/Pardus, Mobil, Genel Kavramlar (55 Soru) ---
-    // ----------------------------------------------------------------------------------
-    
-    // GENEL KAVRAMLAR
+// Soru bankası
+const questionBank = [
+    // HAFTA 1: Windows, Mac OS, Linux/Pardus, Mobil, Genel Kavramlar (55 Soru)
     { 
         q: "Bilgisayarda yapmak istediğimiz işleri donanıma tercüme eden bileşen nedir?", 
         t: "fill", 
@@ -100,8 +96,6 @@ window.questionBank = [
         topic: "Mac OS",
         importance: "low"
     },
-
-    // WINDOWS
     { 
         q: "Windows'ta işletim sistemini ilk çalıştırdığımızda karşımıza gelen ekrana ne denir?", 
         t: "fill", 
@@ -164,8 +158,6 @@ window.questionBank = [
         importance: "high",
         explanation: "Windows'ta Dosya Gezgini (File Explorer), dosya ve klasörlerin yönetimi için kullanılır."
     },
-
-    // MAC OS
     { 
         q: "Mac OS masaüstünde, ekranın alt kısmında bulunan özelleştirilebilir uygulamalar alanına ne ad verilir?", 
         t: "fill", 
@@ -207,8 +199,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Mac OS'ta kapatma seçenekleri: Uyu, Yeniden Başla, Sistemi Kapat, Kullanıcı Oturumunu Kapat."
     },
-
-    // LINUX / PARDUS
     { 
         q: "Linux en basit ifade ile özgür bir işletim sistemi '...' dir.", 
         t: "fill", 
@@ -279,8 +269,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Windows ve Mac OS gibi işletim sistemleri, firmalara bağlı sahipli işletim sistemleridir."
     },
-
-    // MOBİL İŞLETİM SİSTEMLERİ
     { 
         q: "Mobil işletim sistemleri, normal işletim sistemlerine göre daha '...' yapıdadır.", 
         t: "fill", 
@@ -311,12 +299,7 @@ window.questionBank = [
         importance: "medium",
         explanation: "iOS, Apple tarafından iPhone ve iPad için geliştirilmiş mobil işletim sistemidir."
     },
-
-    // ----------------------------------------------------------------------------------
-    // --- HAFTA 3: Mantıksal Yapı / Fonksiyonlar / Tarihçe (50 Soru) ---
-    // ----------------------------------------------------------------------------------
-
-    // İŞLETİM SİSTEMİ FONKSİYONLARI
+    // HAFTA 3: Mantıksal Yapı / Fonksiyonlar / Tarihçe
     { 
         q: "İşletim sisteminin temel görevlerinden biri, donanımı '...' 'tır.", 
         t: "fill", 
@@ -347,8 +330,6 @@ window.questionBank = [
         importance: "high",
         explanation: "Kaynak yönetimi, CPU, RAM, disk gibi kaynakların işlemler arasında adil dağıtımını sağlar."
     },
-
-    // İŞLETİM SİSTEMLERİ TARİHÇESİ
     { 
         q: "1950'lerde kullanılan ve kart delme makineleri ile veri girişinin yapıldığı sistemlere ne ad verilir?", 
         t: "fill", 
@@ -399,8 +380,6 @@ window.questionBank = [
         importance: "low",
         explanation: "1990'larda Windows ve grafik arayüzler gelişim gösterdi."
     },
-
-    // BELLEK YÖNETİMİ
     { 
         q: "RAM yetersiz kaldığında disk alanının kullanılması hangi bellek yönetim tekniği ile ilgilidir?", 
         t: "fill", 
@@ -441,8 +420,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "MMU, Memory Management Unit (Bellek Yönetim Birimi) anlamına gelir."
     },
-
-    // DOSYA YÖNETİMİ
     { 
         q: "Dosya yönetiminde, kalıcı veri saklama birimine ne ad verilir?", 
         t: "fill", 
@@ -494,8 +471,6 @@ window.questionBank = [
         importance: "high",
         explanation: "NTFS (New Technology File System), Windows'un modern ve gelişmiş dosya sistemidir."
     },
-
-    // DİSK YÖNETİMİ VE RAID
     { 
         q: "RAID 0'ın avantajı '...' 'dır.", 
         t: "fill", 
@@ -527,8 +502,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "RAID teknolojisi, farklı seviyelerde hem performans hem de veri güvenliği sağlamayı amaçlar."
     },
-
-    // GİRİŞ/ÇIKIŞ YÖNETİMİ
     { 
         q: "Klavye, fare, yazıcı gibi donanımların yönetiminden hangi işletim sistemi bileşeni sorumludur?", 
         t: "fill", 
@@ -549,8 +522,6 @@ window.questionBank = [
         importance: "high",
         explanation: "Sürücüler (drivers), donanım ile işletim sistemi arasında iletişim sağlar."
     },
-
-    // GÜVENLİK VE KORUMA
     { 
         q: "İşletim sisteminin, kullanıcıların ve işlemlerin kaynaklara erişimini kontrol etme görevine ne denir?", 
         t: "fill", 
@@ -571,12 +542,7 @@ window.questionBank = [
         importance: "high",
         explanation: "Kimlik doğrulama (authentication), kullanıcının kim olduğunu doğrulama işlemidir."
     },
-
-    // ----------------------------------------------------------------------------------
-    // --- HAFTA 4: İS Katmanları, Çekirdek, Sistem Çağrıları (50 Soru) ---
-    // ----------------------------------------------------------------------------------
-
-    // GENEL KAVRAMLAR
+    // HAFTA 4: İS Katmanları, Çekirdek, Sistem Çağrıları
     { 
         q: "Bir işletim sisteminin yazılım tasarımında ele alınması gereken iki önemli konudan biri Performans, diğeri nedir?", 
         t: "fill", 
@@ -587,8 +553,6 @@ window.questionBank = [
         importance: "high",
         explanation: "İşletim sistemi tasarımında iki önemli konu: Performans ve Kaynakların özel kullanımı (yalıtım/koruma)."
     },
-
-    // ÇEKİRDEK VE MODLAR
     { 
         q: "İşlemcinin, işletim sisteminin kodlarını çalıştırmaya başladığı yetkili moda ne ad verilir?", 
         t: "fill", 
@@ -639,8 +603,6 @@ window.questionBank = [
         importance: "high",
         explanation: "İşletim sistemi programları, tüm kaynaklara erişebilmek için supervisor modda çalışır."
     },
-
-    // SİSTEM ÇAĞRILARI
     { 
         q: "İşletim sistemi ve işlemler arasında bir arayüz görevi gören, genellikle Assembly dili komutları şeklinde olan yapı nedir?", 
         t: "fill", 
@@ -681,8 +643,6 @@ window.questionBank = [
         importance: "high",
         explanation: "Sistem çağrıları, dosya işlemleri, işlem yönetimi gibi işletim sistemi hizmetlerine erişim sağlar."
     },
-
-    // KATMANLAR
     { 
         q: "Word, Excel gibi kullanıcı tarafından kullanılan her tür program, işletim sistemi katmanlarının hangi seviyesinde yer alır?", 
         t: "fill", 
@@ -764,8 +724,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Hibrid çekirdekler, monolitik ve mikrokernel yaklaşımlarının avantajlarını birleştirir."
     },
-
-    // WINDOWS NT MİMARİSİ
     { 
         q: "Windows NT mimarisinde donanım detaylarının soyutlanmasını sağlayan katman nedir?", 
         t: "fill", 
@@ -796,8 +754,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Executive katmanı, Windows'ta üst düzey sistem hizmetlerini sağlar."
     },
-
-    // KESME VE TUZAK
     { 
         q: "Donanım tarafından oluşturulan ve işlemciyi durduran sinyallere ne denir?", 
         t: "fill", 
@@ -818,12 +774,7 @@ window.questionBank = [
         importance: "high",
         explanation: "Tuzak (trap), yazılım kaynaklı istisnai durumlarda oluşur (örn: sıfıra bölme hatası)."
     },
-
-    // ----------------------------------------------------------------------------------
-    // --- HAFTA 5: İşlem Yönetimi / Zamanlama Algoritmaları (50 Soru) ---
-    // ----------------------------------------------------------------------------------
-
-    // İŞLEM KAVRAMI
+    // HAFTA 5: İşlem Yönetimi / Zamanlama Algoritmaları
     { 
         q: "Bir programın çalışmakta olan hâline ne denir?", 
         t: "fill", 
@@ -874,8 +825,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "İşlem çalıştığında bellekte kendine alan tahsis eder, program ise diskte pasif olarak durur."
     },
-
-    // İŞLEM DURUMLARI
     { 
         q: "İşlem Durumları (Process States) arasında 'Ready' durumunun anlamı nedir?", 
         t: "fill", 
@@ -916,8 +865,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Terminated durumunda işlem çalışmasını tamamlamış ve sonlandırılmıştır."
     },
-
-    // PCB (PROCESS CONTROL BLOCK)
     { 
         q: "Bir işlemin tüm bilgilerini tutan veri yapısının kısaltması nedir?", 
         t: "fill", 
@@ -969,8 +916,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "PID, Process ID (İşlem Kimliği) anlamına gelir."
     },
-
-    // ZAMANLAMA ALGORİTMALARI
     { 
         q: "En basit zamanlama algoritması olup, ilk gelenin önce çalıştığı algoritmanın kısaltması nedir?", 
         t: "fill", 
@@ -1064,8 +1009,6 @@ window.questionBank = [
         importance: "high",
         explanation: "SJF'de kısa işlemler öncelikli olduğundan, uzun işlemler sürekli ertelenebilir (starvation)."
     },
-
-    // CONTEXT SWITCH
     { 
         q: "Bir işlemden diğerine geçiş sırasında CPU'nun durum bilgilerini kaydetme ve yükleme işlemine ne denir?", 
         t: "fill", 
@@ -1086,8 +1029,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Context Switch overhead'i, sistem performansını düşürür çünkü bu sürede yararlı iş yapılmaz."
     },
-
-    // İŞLEM OLUŞTURMA
     { 
         q: "UNIX/Linux sistemlerinde yeni işlem oluşturmak için kullanılan sistem çağrısı nedir?", 
         t: "fill", 
@@ -1108,8 +1049,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "exit() sistem çağrısı, işlemi sonlandırır ve kaynaklarını serbest bırakır."
     },
-
-    // İŞLEM İLETİŞİMİ
     { 
         q: "İşlemler arası iletişime ne denir?", 
         t: "fill", 
@@ -1141,8 +1080,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "IPC mekanizmaları: Paylaşılan bellek, mesaj kuyrukları, pipe, socket vb. Cache bellek IPC mekanizması değildir."
     },
-
-    // THREAD (İŞ PARÇACIĞI)
     { 
         q: "Bir işlem içinde çalışan ve CPU tarafından zamanlanan en küçük birime ne denir?", 
         t: "fill", 
@@ -1174,8 +1111,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Çok çekirdekli sistemlerde thread'ler aynı anda farklı çekirdeklerde çalışabilir (gerçek paralellik)."
     },
-
-    // SENKRONIZASYON
     { 
         q: "Birden fazla işlem veya thread'in paylaşılan kaynağa eşzamanlı erişimde oluşan problemlere ne denir?", 
         t: "fill", 
@@ -1226,8 +1161,6 @@ window.questionBank = [
         importance: "high",
         explanation: "Deadlock (kilitlenme), işlemlerin birbirlerinin kaynaklarını bekleyerek sonsuz döngüye girmesidir."
     },
-
-    // ÖNCELIK VE STARVATION
     { 
         q: "Öncelik tabanlı zamanlamada, düşük öncelikli işlemlerin sürekli ertelenmesi durumuna ne denir?", 
         t: "fill", 
@@ -1248,8 +1181,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Aging, bekleyen işlemlerin önceliğini zamanla artırarak starvation'ı önler."
     },
-
-    // PERFORMANS METRİKLERİ
     { 
         q: "Bir işlemin sistemde toplam geçirdiği süreye (bekleme + çalışma) ne denir?", 
         t: "fill", 
@@ -1300,8 +1231,6 @@ window.questionBank = [
         importance: "medium",
         explanation: "Throughput (verim), sistemin birim zamanda kaç işlem tamamladığını gösterir."
     },
-
-    // ÇOK İŞLEMCİLİ SİSTEMLER
     { 
         q: "Birden fazla CPU veya çekirdeğe sahip sistemlere ne denir?", 
         t: "fill", 
@@ -1322,8 +1251,6 @@ window.questionBank = [
         importance: "low",
         explanation: "Distributed sistemlerde işlemciler fiziksel olarak ayrı ve ağ üzerinden haberleşir."
     },
-
-    // GERÇEK ZAMANLI SİSTEMLER
     { 
         q: "Belirli süre kısıtlamaları içinde görevleri tamamlaması gereken sistemlere ne denir?", 
         t: "fill", 
@@ -1334,8 +1261,6 @@ window.questionBank = [
         importance: "low",
         explanation: "Real-time sistemlerde görevler belirli zaman sınırları içinde tamamlanmalıdır (örn: uçak kontrol sistemleri)."
     },
-
-    // EKLEME SORULAR - KAPSAMLI KAVRAMLAR
     { 
         q: "İşletim sisteminin kaynak yönetimi görevlerinden biri *değildir*?", 
         t: "mcq", 
@@ -1581,120 +1506,5 @@ window.questionBank = [
         importance: "low",
         explanation: "Disk Management aracı, disk bölümlerini oluşturma, silme ve yönetme işlemlerini yapar."
     },
-    { 
-        q: "Bir işlemin tamamlanması için gereken tahmini CPU süresine ne denir?", 
-        t: "fill", 
-        a: "Burst time",
-        difficulty: "hard",
-        week: 5,
-        topic: "Zamanlama Algoritmaları",
-        importance: "medium",
-        explanation: "Burst time (patlama süresi), işlemin CPU'da kesintisiz çalışması gereken süredir."
-    },
-    { 
-        q: "İşletim sisteminin kernel panic durumuna düşmesi ne anlama gelir?", 
-        t: "mcq", 
-        o: ["Normal kapatma", "Kritik hata nedeniyle durdurma", "Güncelleme yapma", "Enerji tasarrufu"], 
-        a: "Kritik hata nedeniyle durdurma",
-        difficulty: "medium",
-        week: 4,
-        topic: "Çekirdek",
-        importance: "low",
-        explanation: "Kernel panic, çekirdeğin kurtarılamaz bir hata ile karşılaştığında sistemi durdurmasıdır."
-    },
-    { 
-        q: "Hangi zamanlama algoritması ortalama bekleme süresini minimize eder?", 
-        t: "mcq", 
-        o: ["FCFS", "SJF", "Round Robin", "Priority Scheduling"], 
-        a: "SJF",
-        difficulty: "hard",
-        week: 5,
-        topic: "Zamanlama Algoritmaları",
-        importance: "high",
-        explanation: "SJF (Shortest Job First), ortalama bekleme süresini minimize eden optimal algoritmadır."
-    },
-    { 
-        q: "Sanal makinelerin çalıştırılmasını sağlayan yazılıma ne denir?", 
-        t: "fill", 
-        a: "Hypervisor",
-        difficulty: "hard",
-        week: 3,
-        topic: "Sanallaştırma",
-        importance: "low",
-        explanation: "Hypervisor (VMM - Virtual Machine Monitor), sanal makineleri yönetir ve donanım kaynaklarını paylaştırır."
-    },
-    { 
-        q: "Bir işlemin sahip olduğu en yüksek yetki seviyesine ne denir?", 
-        t: "fill", 
-        a: "Privilege level",
-        difficulty: "hard",
-        week: 4,
-        topic: "Güvenlik",
-        importance: "medium",
-        explanation: "Privilege level (yetki seviyesi), işlemin hangi kaynaklara erişebileceğini belirler."
-    },
-    { 
-        q: "CPU önbelleğinin (cache) amacı nedir?", 
-        t: "mcq", 
-        o: ["Disk alanını genişletmek", "Sık kullanılan verilere hızlı erişim sağlamak", "Virüsleri engellemek", "Güvenlik sağlamak"], 
-        a: "Sık kullanılan verilere hızlı erişim sağlamak",
-        difficulty: "medium",
-        week: 3,
-        topic: "Bellek Yönetimi",
-        importance: "medium",
-        explanation: "Cache, sık kullanılan verileri hızlı erişim için CPU'ya yakın bellekte tutar."
-    },
-    { 
-        q: "İşletim sisteminin bellek sayfalarını diskten belleğe getirme işlemine ne denir?", 
-        t: "fill", 
-        a: "Page in",
-        difficulty: "hard",
-        week: 3,
-        topic: "Bellek Yönetimi",
-        importance: "medium",
-        explanation: "Page in (sayfa getirme), sanal bellekte diskten RAM'e sayfa yükleme işlemidir."
-    },
-    { 
-        q: "Zombi işlem (zombie process) nedir?", 
-        t: "mcq", 
-        o: ["Silinmemiş geçici dosya", "Çalışması bitmiş ancak PCB'si temizlenmemiş işlem", "Virüslü işlem", "Çok yavaş çalışan işlem"], 
-        a: "Çalışması bitmiş ancak PCB'si temizlenmemiş işlem",
-        difficulty: "hard",
-        week: 5,
-        topic: "İşlem Yönetimi",
-        importance: "low",
-        explanation: "Zombi işlem, çalışmasını bitirmiş ancak ebeveyn işlem henüz durumunu okumadığı için PCB'si temizlenmemiş işlemdir."
-    },
-    { 
-        q: "İşletim sisteminin başlangıçta çalıştırdığı ilk işleme genellikle ne ad verilir?", 
-        t: "fill", 
-        a: "init",
-        difficulty: "hard",
-        week: 5,
-        topic: "İşlem Yönetimi",
-        importance: "low",
-        explanation: "Unix/Linux sistemlerde init (veya systemd), sistem açılışında çalışan ilk işlemdir (PID 1)."
-    },
-    { 
-        q: "Çok işlemcili sistemlerde her işlemcinin ayrı belleğe sahip olduğu mimari nedir?", 
-        t: "fill", 
-        a: "NUMA",
-        difficulty: "hard",
-        week: 5,
-        topic: "Çok İşlemcili Sistemler",
-        importance: "low",
-        explanation: "NUMA (Non-Uniform Memory Access), her işlemcinin kendi yerel belleği olan mimaridir."
-    },
-    { 
-        q: "NUMA'nın açılımı nedir?", 
-        t: "fill", 
-        a: "Non-Uniform Memory Access",
-        difficulty: "hard",
-        week: 5,
-        topic: "Çok İşlemcili Sistemler",
-        importance: "low",
-        explanation: "NUMA, Non-Uniform Memory Access (Tekdüze Olmayan Bellek Erişimi) anlamına gelir."
-    }
-];
 
 console.log(`✅ ${window.questionBank.length} soru yüklendi!`);
