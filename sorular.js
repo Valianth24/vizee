@@ -1,5 +1,3 @@
-// İşletim Sistemleri Quiz - Soru Bankası (Tümü 4 Şıklı Test)
-// Bu dosya HTML sayfası tarafından yüklenecek
 
 window.questionBank = [
     // HAFTA 1: Windows, Mac OS, Linux/Pardus, Mobil, Genel Kavramlar
