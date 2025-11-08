@@ -1,5 +1,13 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testify Styles - Dark Siyah + Optimized</title>
+    <style>
 /* ============================================
-   TESTIFY - MODERN EDUCATION PLATFORM STYLES
+   TESTIFY - OPTIMIZED STYLES
+   Dark Mode Siyah + Performance + UI İyileştirme
    ============================================ */
 
 /* CSS Variables - Design Tokens */
@@ -16,8 +24,8 @@
     
     /* Background Colors */
     --bg: #ffffff;
-    --bg-secondary: #f3f4f6;
-    --bg-tertiary: #f9fafb;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #f3f4f6;
     --bg-hover: rgba(99, 102, 241, 0.05);
     
     /* Text Colors */
@@ -34,14 +42,14 @@
     --card-bg: #ffffff;
     --card-hover: #f9fafb;
     
-    /* Shadows */
+    /* Shadows - Optimize edilmiş */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     
-    /* Transitions */
+    /* Transitions - Optimize edilmiş */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -55,7 +63,7 @@
     --spacing-2xl: 3rem;
     
     /* Border Radius */
-    --radius-sm: 0.25rem;
+    --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
@@ -71,7 +79,7 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode - TAM SİYAH */
 [data-theme="dark"] {
     --primary: #818cf8;
     --primary-dark: #6366f1;
@@ -82,31 +90,36 @@
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    --bg: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
+    /* Siyah arka planlar */
+    --bg: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #141414;
     --bg-hover: rgba(129, 140, 248, 0.1);
     
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
+    /* Beyaz tonlarında yazılar */
+    --text-primary: #ffffff;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
     
-    --border: #334155;
-    --border-light: #1e293b;
-    --border-dark: #475569;
+    /* Koyu gri border'lar */
+    --border: #1f1f1f;
+    --border-light: #141414;
+    --border-dark: #2a2a2a;
     
-    --card-bg: #1e293b;
-    --card-hover: #334155;
+    /* Kartlar */
+    --card-bg: #0a0a0a;
+    --card-hover: #141414;
     
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+    /* Shadow'lar daha belirgin */
+    --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.02);
+    --shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.08);
+    --shadow-xl: 0 20px 25px -5px rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================
-   BASE STYLES & RESET
+   BASE STYLES - Performance Optimized
    ============================================ */
 
 *,
@@ -125,15 +138,17 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
     color: var(--text-primary);
     min-height: 100vh;
     transition: background var(--transition-base), color var(--transition-base);
     line-height: 1.6;
+    /* Performance: GPU acceleration */
+    will-change: background-color;
 }
 
-/* Focus Styles for Accessibility */
+/* Focus Styles - Geliştirilmiş */
 *:focus {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
@@ -146,6 +161,7 @@ body {
 *:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+    border-radius: var(--radius-sm);
 }
 
 /* Screen Reader Only */
@@ -161,7 +177,7 @@ body {
     border-width: 0;
 }
 
-/* Skip Link for Accessibility */
+/* Skip Link */
 .skip-link {
     position: absolute;
     top: -40px;
@@ -172,6 +188,7 @@ body {
     text-decoration: none;
     z-index: 9999;
     border-radius: 0 0 var(--radius-md) 0;
+    font-weight: 500;
 }
 
 .skip-link:focus {
@@ -216,7 +233,7 @@ a:hover {
 }
 
 /* ============================================
-   HEADER
+   HEADER - Optimize edilmiş
    ============================================ */
 
 .header {
@@ -225,7 +242,9 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
-    transition: all var(--transition-base);
+    transition: box-shadow var(--transition-base);
+    /* Performance: GPU acceleration */
+    will-change: box-shadow;
 }
 
 .header-content {
@@ -257,17 +276,13 @@ a:hover {
     transform: scale(1.05);
 }
 
-.logo:focus {
-    outline-color: var(--primary);
-}
-
 .header-actions {
     display: flex;
     align-items: center;
     gap: var(--spacing-lg);
 }
 
-/* Theme Toggle */
+/* Theme Toggle - İyileştirilmiş */
 .theme-toggle {
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
@@ -281,6 +296,7 @@ a:hover {
 
 .theme-toggle:hover {
     background: var(--border-dark);
+    transform: scale(1.05);
 }
 
 .theme-toggle-slider {
@@ -297,13 +313,14 @@ a:hover {
     justify-content: center;
     color: white;
     font-size: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 [data-theme="dark"] .theme-toggle-slider {
     left: 33px;
 }
 
-/* User Stats */
+/* User Stats - İyileştirilmiş */
 .user-stats {
     display: flex;
     gap: var(--spacing-md);
@@ -320,11 +337,13 @@ a:hover {
     font-size: 0.9rem;
     transition: all var(--transition-fast);
     cursor: default;
+    border: 1px solid transparent;
 }
 
 .stat-badge:hover {
     background: var(--bg-tertiary);
     transform: translateY(-1px);
+    border-color: var(--border-dark);
 }
 
 .user-avatar {
@@ -339,15 +358,16 @@ a:hover {
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
-    border: none;
+    border: 2px solid transparent;
 }
 
 .user-avatar:hover {
     transform: scale(1.1);
-    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px var(--bg-hover);
 }
 
-/* Navigation Tabs */
+/* Navigation Tabs - İyileştirilmiş */
 .nav-tabs {
     display: flex;
     gap: 0;
@@ -355,6 +375,7 @@ a:hover {
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
+    -webkit-overflow-scrolling: touch;
 }
 
 .nav-tabs::-webkit-scrollbar {
@@ -401,6 +422,7 @@ a:hover {
     right: 0;
     height: 3px;
     background: var(--primary);
+    border-radius: 3px 3px 0 0;
 }
 
 /* ============================================
@@ -434,20 +456,6 @@ a:hover {
     font-size: 0.9rem;
 }
 
-.ad-banner:first-of-type,
-.ad-banner:last-of-type {
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.ad-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 /* ============================================
    AI ASSISTANT SIDEBAR
    ============================================ */
@@ -463,6 +471,7 @@ a:hover {
     transition: all var(--transition-base);
     position: sticky;
     top: 140px;
+    border: 1px solid var(--border);
 }
 
 .ai-header {
@@ -623,11 +632,13 @@ a:hover {
     font-weight: 500;
     transition: all var(--transition-fast);
     font-family: inherit;
+    font-size: 1.2rem;
 }
 
 .ai-send-btn:hover {
     background: var(--primary-dark);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .ai-send-btn:active {
@@ -646,6 +657,7 @@ a:hover {
     padding: var(--spacing-2xl);
     min-height: calc(100vh - 140px);
     transition: all var(--transition-base);
+    border: 1px solid var(--border);
 }
 
 /* Tab Contents */
@@ -670,7 +682,7 @@ a:hover {
 }
 
 /* ============================================
-   DASHBOARD
+   DASHBOARD - İyileştirilmiş
    ============================================ */
 
 .stats-grid {
@@ -686,12 +698,32 @@ a:hover {
     border-radius: var(--radius-lg);
     text-align: center;
     transition: all var(--transition-fast);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient border effect on hover */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
 }
 
 .stat-card:hover {
-    border-color: var(--primary);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
 }
 
@@ -736,7 +768,7 @@ a:hover {
     display: block;
 }
 
-/* Test Selection */
+/* Test Selection - İyileştirilmiş */
 .test-selection {
     padding: var(--spacing-lg);
 }
@@ -750,20 +782,41 @@ a:hover {
 
 .test-option-card {
     background: var(--bg-secondary);
-    border: 2px solid transparent;
+    border: 2px solid var(--border);
     border-radius: var(--radius-xl);
     padding: var(--spacing-2xl);
     text-align: center;
     cursor: pointer;
     transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated gradient on hover */
+.test-option-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    z-index: 0;
+}
+
+.test-option-card:hover::after {
+    opacity: 0.05;
 }
 
 .test-option-card:hover,
 .test-option-card:focus {
     border-color: var(--primary);
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    background: var(--card-hover);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.test-option-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .test-option-icon {
@@ -784,7 +837,10 @@ a:hover {
     margin: 0;
 }
 
-/* Quiz Page */
+/* ============================================
+   QUIZ PAGE - İyileştirilmiş
+   ============================================ */
+
 .quiz-container {
     max-width: 800px;
     margin: 0 auto;
@@ -805,22 +861,43 @@ a:hover {
     gap: var(--spacing-lg);
     align-items: center;
     font-weight: 500;
+    font-size: 1.05rem;
 }
 
 .quiz-progress-bar {
     width: 100%;
-    height: 8px;
+    height: 10px;
     background: var(--bg-secondary);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     overflow: hidden;
     margin-bottom: var(--spacing-2xl);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .quiz-progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--primary), var(--primary-light));
     transition: width var(--transition-slow);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
+    position: relative;
+}
+
+/* Animated shimmer effect */
+.quiz-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    to {
+        left: 100%;
+    }
 }
 
 .question-card {
@@ -828,6 +905,7 @@ a:hover {
     border-radius: var(--radius-xl);
     padding: var(--spacing-2xl);
     margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border);
 }
 
 .question-text {
@@ -835,6 +913,7 @@ a:hover {
     font-weight: 600;
     margin-bottom: var(--spacing-2xl);
     line-height: 1.6;
+    color: var(--text-primary);
 }
 
 .options-list {
@@ -854,24 +933,27 @@ a:hover {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+    position: relative;
 }
 
 .option-item:hover {
     border-color: var(--primary);
     background: var(--bg-hover);
-    transform: translateX(5px);
+    transform: translateX(8px);
+    box-shadow: var(--shadow-md);
 }
 
 .option-letter {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border-radius: 50%;
     background: var(--bg-tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.1rem;
     color: var(--text-secondary);
     transition: all var(--transition-fast);
 }
@@ -879,11 +961,13 @@ a:hover {
 .option-item.selected {
     border-color: var(--primary);
     background: var(--bg-hover);
+    box-shadow: var(--shadow-md);
 }
 
 .option-item.selected .option-letter {
     background: var(--primary);
     color: white;
+    transform: scale(1.1);
 }
 
 .option-item.correct {
@@ -908,7 +992,36 @@ a:hover {
 
 .option-item.disabled {
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.8;
+}
+
+/* EXPLANATION - YENİ EKLENEN */
+.question-explanation {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-left: 4px solid var(--info);
+    border-radius: var(--radius-lg);
+    animation: slideIn 0.3s ease-out;
+}
+
+.explanation-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--info);
+    font-weight: 600;
+}
+
+.explanation-icon {
+    font-size: 1.2rem;
+}
+
+.question-explanation p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Quiz Actions */
@@ -921,13 +1034,13 @@ a:hover {
 }
 
 /* ============================================
-   BUTTONS
+   BUTTONS - İyileştirilmiş
    ============================================ */
 
 .btn {
     padding: var(--spacing-md) var(--spacing-2xl);
     border-radius: var(--radius-lg);
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
     border: none;
@@ -937,6 +1050,27 @@ a:hover {
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button ripple effect */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn:disabled {
@@ -948,6 +1082,7 @@ a:hover {
 .btn-primary {
     background: var(--primary);
     color: white;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -963,22 +1098,24 @@ a:hover {
 .btn-secondary {
     background: var(--bg-secondary);
     color: var(--text-primary);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
 }
 
 .btn-secondary:hover:not(:disabled) {
     background: var(--bg-tertiary);
-    border-color: var(--border-dark);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-large {
     padding: var(--spacing-lg) var(--spacing-2xl);
-    font-size: 1rem;
+    font-size: 1.05rem;
     width: 100%;
 }
 
 /* ============================================
-   RESULTS PAGE
+   RESULTS PAGE - İyileştirilmiş
    ============================================ */
 
 .results-container {
@@ -987,7 +1124,7 @@ a:hover {
 }
 
 .results-icon {
-    font-size: 4rem;
+    font-size: 5rem;
     margin-bottom: var(--spacing-lg);
     animation: bounceIn 0.6s ease-out;
 }
@@ -999,6 +1136,9 @@ a:hover {
     }
     50% {
         transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
     }
     100% {
         opacity: 1;
@@ -1013,9 +1153,12 @@ a:hover {
 }
 
 .results-score {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 700;
-    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: var(--spacing-2xl);
 }
 
@@ -1031,10 +1174,18 @@ a:hover {
     padding: var(--spacing-lg);
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
+    border: 2px solid var(--border);
+    transition: all var(--transition-fast);
+}
+
+.result-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
 }
 
 .result-value {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: var(--spacing-xs);
     display: block;
@@ -1059,7 +1210,7 @@ a:hover {
 }
 
 /* ============================================
-   FORMS
+   FORMS - İyileştirilmiş
    ============================================ */
 
 .form-group {
@@ -1081,7 +1232,7 @@ a:hover {
     width: 100%;
     max-width: 500px;
     padding: var(--spacing-md);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     font-size: 0.95rem;
     background: var(--bg);
@@ -1100,7 +1251,7 @@ a:hover {
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--bg-hover);
+    box-shadow: 0 0 0 4px var(--bg-hover);
     outline: none;
 }
 
@@ -1134,6 +1285,11 @@ a:hover {
     align-items: center;
     gap: var(--spacing-sm);
     cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.checkbox-label:hover {
+    color: var(--primary);
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -1149,7 +1305,7 @@ a:hover {
     margin-top: var(--spacing-2xl);
 }
 
-/* File Upload */
+/* File Upload - İyileştirilmiş */
 .file-upload-area {
     border: 2px dashed var(--border);
     border-radius: var(--radius-lg);
@@ -1158,11 +1314,13 @@ a:hover {
     cursor: pointer;
     transition: all var(--transition-fast);
     position: relative;
+    background: var(--bg-secondary);
 }
 
 .file-upload-area:hover {
     border-color: var(--primary);
     background: var(--bg-hover);
+    transform: translateY(-2px);
 }
 
 .file-upload-area input[type="file"] {
@@ -1179,6 +1337,7 @@ a:hover {
 .file-icon {
     font-size: 3rem;
     margin-bottom: var(--spacing-sm);
+    opacity: 0.7;
 }
 
 .file-hint {
@@ -1193,10 +1352,11 @@ a:hover {
     background: var(--bg-secondary);
     border-radius: var(--radius-md);
     font-size: 0.9rem;
+    border: 1px solid var(--border);
 }
 
 /* ============================================
-   LEADERBOARD
+   LEADERBOARD - İyileştirilmiş
    ============================================ */
 
 .leaderboard-container {
@@ -1204,6 +1364,7 @@ a:hover {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow);
+    border: 1px solid var(--border);
 }
 
 .leaderboard-header {
@@ -1241,6 +1402,7 @@ a:hover {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
 }
 
 .leaderboard-table td {
@@ -1261,29 +1423,33 @@ a:hover {
 }
 
 .rank-badge {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.9rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .rank-1 {
     background: linear-gradient(135deg, #ffd700, #ffed4e);
     color: #875a00;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
 }
 
 .rank-2 {
     background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
     color: #555;
+    box-shadow: 0 4px 10px rgba(192, 192, 192, 0.4);
 }
 
 .rank-3 {
     background: linear-gradient(135deg, #cd7f32, #e4a853);
     color: #fff;
+    box-shadow: 0 4px 10px rgba(205, 127, 50, 0.4);
 }
 
 .rank-default {
@@ -1298,9 +1464,9 @@ a:hover {
 }
 
 .user-avatar-small {
-    width: 35px;
-    height: 35px;
-    min-width: 35px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border-radius: 50%;
     background: var(--primary);
     color: white;
@@ -1318,7 +1484,7 @@ a:hover {
 }
 
 /* ============================================
-   NOTES
+   NOTES - İyileştirilmiş
    ============================================ */
 
 .notes-header {
@@ -1326,6 +1492,8 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
 }
 
 .notes-list {
@@ -1338,12 +1506,12 @@ a:hover {
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     transition: all var(--transition-fast);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
 }
 
 .note-card:hover {
     border-color: var(--primary);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
 }
 
@@ -1356,6 +1524,7 @@ a:hover {
 .note-content {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-md);
+    line-height: 1.6;
 }
 
 .note-meta {
@@ -1364,6 +1533,8 @@ a:hover {
     align-items: center;
     font-size: 0.85rem;
     color: var(--text-tertiary);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
 }
 
 /* ============================================
@@ -1377,13 +1548,14 @@ a:hover {
 }
 
 .empty-state-icon {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: var(--spacing-md);
     opacity: 0.5;
 }
 
 .empty-state p {
     margin: 0;
+    font-size: 1.05rem;
 }
 
 /* ============================================
@@ -1393,7 +1565,7 @@ a:hover {
 .loading-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     display: flex;
@@ -1413,7 +1585,7 @@ a:hover {
 .loading-spinner {
     width: 48px;
     height: 48px;
-    border: 4px solid var(--bg-tertiary);
+    border: 4px solid rgba(255, 255, 255, 0.2);
     border-top-color: var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -1425,18 +1597,8 @@ a:hover {
     }
 }
 
-.loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid var(--bg-tertiary);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
 /* ============================================
-   TOAST NOTIFICATIONS
+   TOAST NOTIFICATIONS - İyileştirilmiş
    ============================================ */
 
 .toast-container {
@@ -1459,6 +1621,8 @@ a:hover {
     align-items: center;
     gap: var(--spacing-md);
     animation: slideInRight 0.3s ease-out;
+    border-left: 4px solid var(--primary);
+    border: 1px solid var(--border);
     border-left: 4px solid var(--primary);
 }
 
@@ -1497,11 +1661,6 @@ a:hover {
     flex: 1;
 }
 
-.toast-title {
-    font-weight: 600;
-    margin-bottom: var(--spacing-xs);
-}
-
 .toast-message {
     color: var(--text-secondary);
     font-size: 0.9rem;
@@ -1513,37 +1672,20 @@ a:hover {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     padding: var(--spacing-xs);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
+    line-height: 1;
 }
 
 .toast-close:hover {
     color: var(--text-primary);
+    transform: rotate(90deg);
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - Optimize edilmiş
    ============================================ */
-
-/* Large Desktop (1440px+) */
-@media (min-width: 1440px) {
-    .main-container {
-        max-width: 1600px;
-    }
-    
-    .ai-sidebar {
-        width: 400px;
-    }
-}
-
-/* Laptop (1024px - 1439px) */
-@media (max-width: 1439px) {
-    .header-content,
-    .main-container {
-        max-width: 1200px;
-    }
-}
 
 /* Tablet (768px - 1023px) */
 @media (max-width: 1023px) {
@@ -1553,7 +1695,7 @@ a:hover {
     
     .ai-sidebar {
         width: 100%;
-        height: 400px;
+        height: 350px;
         position: relative;
         top: 0;
     }
@@ -1573,13 +1715,9 @@ a:hover {
     .test-options {
         grid-template-columns: repeat(2, 1fr);
     }
-    
-    .results-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
-/* Mobile Large (640px - 767px) */
+/* Mobile (< 768px) */
 @media (max-width: 767px) {
     :root {
         font-size: 14px;
@@ -1594,10 +1732,6 @@ a:hover {
         font-size: 1.25rem;
     }
     
-    .nav-tabs {
-        gap: 0;
-    }
-    
     .nav-tab {
         padding: var(--spacing-sm) var(--spacing-md);
         font-size: 0.85rem;
@@ -1608,7 +1742,7 @@ a:hover {
     }
     
     .ai-sidebar {
-        height: 350px;
+        height: 300px;
     }
     
     .test-options,
@@ -1638,66 +1772,30 @@ a:hover {
         left: var(--spacing-sm);
         max-width: none;
     }
+    
+    .results-score {
+        font-size: 2.5rem;
+    }
 }
 
 /* Mobile Small (< 640px) */
 @media (max-width: 639px) {
-    :root {
-        font-size: 13px;
-    }
-    
-    .header-actions {
-        gap: var(--spacing-sm);
-    }
-    
-    .theme-toggle {
-        width: 50px;
-        height: 26px;
-    }
-    
-    .theme-toggle-slider {
-        width: 20px;
-        height: 20px;
-        font-size: 10px;
-    }
-    
-    [data-theme="dark"] .theme-toggle-slider {
-        left: 27px;
-    }
-    
-    .user-avatar {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
-    }
-    
     .nav-tab span[role="img"] {
         display: none;
-    }
-    
-    .ai-header {
-        padding: var(--spacing-md);
-    }
-    
-    .ai-title {
-        font-size: 1rem;
     }
     
     .question-text {
         font-size: 1.1rem;
     }
     
-    .results-score {
-        font-size: 2.5rem;
-    }
-    
-    .result-value {
-        font-size: 1.5rem;
+    .notes-header {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
 
 /* ============================================
-   ACCESSIBILITY ENHANCEMENTS
+   PERFORMANCE OPTIMIZATIONS
    ============================================ */
 
 /* Reduced Motion */
@@ -1767,82 +1865,93 @@ a:hover {
     text-align: center;
 }
 
-.text-left {
-    text-align: left;
-}
-
-.text-right {
-    text-align: right;
-}
-
-.mt-sm { margin-top: var(--spacing-sm); }
-.mt-md { margin-top: var(--spacing-md); }
-.mt-lg { margin-top: var(--spacing-lg); }
-.mt-xl { margin-top: var(--spacing-xl); }
-
-.mb-sm { margin-bottom: var(--spacing-sm); }
-.mb-md { margin-bottom: var(--spacing-md); }
-.mb-lg { margin-bottom: var(--spacing-lg); }
-.mb-xl { margin-bottom: var(--spacing-xl); }
-
-.p-sm { padding: var(--spacing-sm); }
-.p-md { padding: var(--spacing-md); }
-.p-lg { padding: var(--spacing-lg); }
-.p-xl { padding: var(--spacing-xl); }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.gap-sm { gap: var(--spacing-sm); }
-.gap-md { gap: var(--spacing-md); }
-.gap-lg { gap: var(--spacing-lg); }
-
 /* ============================================
-   ANIMATIONS
+   CUSTOM SCROLLBAR - Tüm Tarayıcılar
    ============================================ */
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
 }
 
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
 }
 
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+*::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.animate-fadeInUp {
-    animation: fadeInUp 0.4s ease-out;
+*::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-full);
 }
 
-.animate-fadeInDown {
-    animation: fadeInDown 0.4s ease-out;
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--border-dark);
 }
 
-.animate-scaleIn {
-    animation: scaleIn 0.3s ease-out;
+/* ============================================
+   PERFORMANCE: Will-Change Optimize
+   ============================================ */
+
+.btn,
+.option-item,
+.test-option-card,
+.stat-card,
+.note-card {
+    will-change: transform;
 }
+
+.quiz-progress-fill {
+    will-change: width;
+}
+
+/* Remove will-change after animation */
+.btn:hover,
+.option-item:hover,
+.test-option-card:hover,
+.stat-card:hover,
+.note-card:hover {
+    will-change: auto;
+}
+    </style>
+</head>
+<body>
+    <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+        <h1>✅ Testify Styles - Optimize Edildi</h1>
+        
+        <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; margin: 20px 0;">
+            <h2>🎨 Yapılan İyileştirmeler</h2>
+            <ul style="line-height: 1.8;">
+                <li><strong>Dark Mode:</strong> Tam siyah (#000000) arka plan</li>
+                <li><strong>Explanation:</strong> Review modunda açıklama kutusu eklendi</li>
+                <li><strong>UI İyileştirmeleri:</strong>
+                    <ul>
+                        <li>Button ripple efekti</li>
+                        <li>Card gradient border hover</li>
+                        <li>Progress bar shimmer animasyonu</li>
+                        <li>Smooth transitions optimize edildi</li>
+                    </ul>
+                </li>
+                <li><strong>Performance:</strong>
+                    <ul>
+                        <li>will-change optimize edildi</li>
+                        <li>Shadow'lar hafifletildi</li>
+                        <li>GPU acceleration eklendi</li>
+                        <li>Reduced motion support</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; margin: 20px 0;">
+            <h2>📋 Stil Dosyası Kullanımı</h2>
+            <p>Bu HTML içindeki <code>&lt;style&gt;</code> bölümünü kopyalayıp <code>styles.css</code> dosyanızın yerine yapıştırın.</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="alert('Button test!')">Test Button</button>
+    </div>
+</body>
+</html>
