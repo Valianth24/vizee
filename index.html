@@ -445,19 +445,21 @@
 
         .option.selected {
             border-color: var(--primary);
-            background: #eff6ff;
+            background: var(--white);
         }
 
         .option.correct {
             border-color: var(--success);
-            background: #ecfdf5;
+            background: var(--white);
             color: var(--dark);
+            border-width: 3px;
         }
 
         .option.incorrect {
             border-color: var(--danger);
-            background: #fef2f2;
+            background: var(--white);
             color: var(--dark);
+            border-width: 3px;
         }
 
         .option.disabled {
@@ -1499,14 +1501,18 @@
 
             document.getElementById('feedback-icon').textContent = isCorrect ? '✓' : '✗';
             
+            const feedbackTextEl = document.getElementById('feedback-text');
+            
             if (isCorrect) {
                 document.getElementById('feedback-title').textContent = "Great! 🎉";
-                document.getElementById('feedback-text').textContent = currentStreak >= 5 
-                    ? `${currentStreak} correct in a row! 🔥` 
-                    : "Correct answer!";
+                if (currentStreak >= 5) {
+                    feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">${currentStreak} correct in a row! 🔥</strong>`;
+                } else {
+                    feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">Correct answer!</strong>`;
+                }
             } else {
                 document.getElementById('feedback-title').textContent = "Incorrect ❌";
-                document.getElementById('feedback-text').textContent = `Correct answer: ${question.a}`;
+                feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">Correct answer:</strong> <span style="color: #0f172a; font-weight: 600;">${question.a}</span>`;
             }
 
             if (question.explanation) {
