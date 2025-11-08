@@ -71,7 +71,7 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode - TAM SİYAH */
 [data-theme="dark"] {
     --primary: #818cf8;
     --primary-dark: #6366f1;
@@ -82,21 +82,21 @@
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    --bg: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
+    --bg: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #1a1a1a;
     --bg-hover: rgba(129, 140, 248, 0.1);
     
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
     --text-tertiary: #94a3b8;
     
-    --border: #334155;
-    --border-light: #1e293b;
-    --border-dark: #475569;
+    --border: #1e1e1e;
+    --border-light: #0a0a0a;
+    --border-dark: #2a2a2a;
     
-    --card-bg: #1e293b;
-    --card-hover: #334155;
+    --card-bg: #0a0a0a;
+    --card-hover: #1a1a1a;
     
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
