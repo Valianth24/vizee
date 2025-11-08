@@ -581,20 +581,31 @@
         }
 
         .feedback-text {
-            color: var(--gray);
+            color: var(--dark);
             line-height: 1.6;
+            font-weight: 500;
         }
 
         .explanation {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #cbd5e1;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 16px;
+            border-radius: 8px;
         }
 
         .explanation-title {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary);
             margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .explanation-text {
+            color: var(--dark);
+            line-height: 1.6;
+            font-weight: 500;
         }
 
         /* Progress Ring */
@@ -991,7 +1002,7 @@
                                 <div class="feedback-text" id="feedback-text"></div>
                                 <div class="explanation" id="explanation" style="display: none;">
                                     <div class="explanation-title">💡 Explanation:</div>
-                                    <div id="explanation-text"></div>
+                                    <div class="explanation-text" id="explanation-text"></div>
                                 </div>
                             </div>
 
