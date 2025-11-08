@@ -71,9 +71,9 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode - Modern & Balanced Edition ✨ */
+/* Dark Mode - Deep & Contrasting Edition ✨ */
 [data-theme="dark"] {
-    /* Balanced Color Palette */
+    /* Vibrant Color Palette */
     --primary: #818cf8;
     --primary-dark: #6366f1;
     --primary-light: #a5b4fc;
@@ -83,32 +83,32 @@
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    /* Modern Dark Backgrounds */
-    --bg: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --bg-hover: rgba(129, 140, 248, 0.1);
+    /* Deep Dark Backgrounds with Contrast */
+    --bg: #0a0e1a;
+    --bg-secondary: #141b2e;
+    --bg-tertiary: #1e293b;
+    --bg-hover: rgba(129, 140, 248, 0.12);
     
-    /* Readable Typography */
-    --text-primary: #f1f5f9;
+    /* High Contrast Typography */
+    --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-tertiary: #94a3b8;
     
-    /* Clean Borders */
-    --border: #334155;
-    --border-light: #1e293b;
-    --border-dark: #475569;
+    /* Defined Borders */
+    --border: #1e293b;
+    --border-light: #141b2e;
+    --border-dark: #334155;
     
-    /* Clean Card Surfaces */
-    --card-bg: #1e293b;
-    --card-hover: #334155;
+    /* Elevated Card Surfaces */
+    --card-bg: #1a2332;
+    --card-hover: #1e293b;
     
-    /* Subtle Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 8px 12px -2px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 12px 20px -4px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 20px 30px -6px rgba(0, 0, 0, 0.6);
+    /* Deep Shadows with Depth */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    --shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 12px 24px -6px rgba(0, 0, 0, 0.7);
+    --shadow-xl: 0 20px 35px -8px rgba(0, 0, 0, 0.8);
     
     /* Accent Glow Effects */
     --glow-primary: 0 0 20px rgba(129, 140, 248, 0.3);
