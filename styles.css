@@ -71,7 +71,7 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode - Deep & Contrasting Edition ✨ */
+/* Dark Mode - True Black Edition ✨ */
 [data-theme="dark"] {
     /* Vibrant Color Palette */
     --primary: #818cf8;
@@ -83,37 +83,37 @@
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    /* Deep Dark Backgrounds with Contrast */
-    --bg: #0a0e1a;
-    --bg-secondary: #141b2e;
-    --bg-tertiary: #1e293b;
-    --bg-hover: rgba(129, 140, 248, 0.12);
+    /* True Black with Layered Contrast */
+    --bg: #000000;
+    --bg-secondary: #0f1419;
+    --bg-tertiary: #1a1f2e;
+    --bg-hover: rgba(129, 140, 248, 0.15);
     
-    /* High Contrast Typography */
-    --text-primary: #f8fafc;
+    /* Crisp White Typography */
+    --text-primary: #ffffff;
     --text-secondary: #cbd5e1;
     --text-tertiary: #94a3b8;
     
-    /* Defined Borders */
-    --border: #1e293b;
-    --border-light: #141b2e;
-    --border-dark: #334155;
+    /* Subtle Borders */
+    --border: #1a1f2e;
+    --border-light: #0f1419;
+    --border-dark: #2d3748;
     
-    /* Elevated Card Surfaces */
-    --card-bg: #1a2332;
-    --card-hover: #1e293b;
+    /* Elevated Surfaces */
+    --card-bg: #0f1419;
+    --card-hover: #1a1f2e;
     
-    /* Deep Shadows with Depth */
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
-    --shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.6);
-    --shadow-lg: 0 12px 24px -6px rgba(0, 0, 0, 0.7);
-    --shadow-xl: 0 20px 35px -8px rgba(0, 0, 0, 0.8);
+    /* Deep Shadows with Blue Glow */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.8);
+    --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.9), 0 0 8px rgba(129, 140, 248, 0.05);
+    --shadow-md: 0 8px 20px -4px rgba(0, 0, 0, 0.9), 0 0 12px rgba(129, 140, 248, 0.08);
+    --shadow-lg: 0 12px 28px -6px rgba(0, 0, 0, 0.95), 0 0 16px rgba(129, 140, 248, 0.1);
+    --shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.98), 0 0 24px rgba(129, 140, 248, 0.12);
     
     /* Accent Glow Effects */
-    --glow-primary: 0 0 20px rgba(129, 140, 248, 0.3);
-    --glow-success: 0 0 20px rgba(52, 211, 153, 0.3);
-    --glow-danger: 0 0 20px rgba(248, 113, 113, 0.3);
+    --glow-primary: 0 0 24px rgba(129, 140, 248, 0.4);
+    --glow-success: 0 0 24px rgba(52, 211, 153, 0.4);
+    --glow-danger: 0 0 24px rgba(248, 113, 113, 0.4);
 }
 
 /* ============================================
