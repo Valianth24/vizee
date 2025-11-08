@@ -71,49 +71,49 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode - True Black Edition ✨ */
+/* Dark Mode - True Black with High Contrast ✨ */
 [data-theme="dark"] {
     /* Vibrant Color Palette */
     --primary: #818cf8;
     --primary-dark: #6366f1;
     --primary-light: #a5b4fc;
-    --primary-hover: #6366f1;
+    --primary-hover: #7c3aed;
     --success: #34d399;
     --danger: #f87171;
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    /* True Black with Layered Contrast */
+    /* True Black Background + Visible Cards */
     --bg: #000000;
-    --bg-secondary: #0f1419;
-    --bg-tertiary: #1a1f2e;
+    --bg-secondary: #18181b;
+    --bg-tertiary: #27272a;
     --bg-hover: rgba(129, 140, 248, 0.15);
     
-    /* Crisp White Typography */
-    --text-primary: #ffffff;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
+    /* Crystal Clear Typography */
+    --text-primary: #fafafa;
+    --text-secondary: #d4d4d8;
+    --text-tertiary: #a1a1aa;
     
-    /* Subtle Borders */
-    --border: #1a1f2e;
-    --border-light: #0f1419;
-    --border-dark: #2d3748;
+    /* Strong Borders for Separation */
+    --border: #27272a;
+    --border-light: #18181b;
+    --border-dark: #3f3f46;
     
-    /* Elevated Surfaces */
-    --card-bg: #0f1419;
-    --card-hover: #1a1f2e;
+    /* Contrasting Card Surfaces */
+    --card-bg: #18181b;
+    --card-hover: #27272a;
     
-    /* Deep Shadows with Blue Glow */
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.8);
-    --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.9), 0 0 8px rgba(129, 140, 248, 0.05);
-    --shadow-md: 0 8px 20px -4px rgba(0, 0, 0, 0.9), 0 0 12px rgba(129, 140, 248, 0.08);
-    --shadow-lg: 0 12px 28px -6px rgba(0, 0, 0, 0.95), 0 0 16px rgba(129, 140, 248, 0.1);
-    --shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.98), 0 0 24px rgba(129, 140, 248, 0.12);
+    /* Deep Shadows with Subtle Glow */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.9);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(129, 140, 248, 0.1);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(129, 140, 248, 0.12);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.97), 0 0 0 1px rgba(129, 140, 248, 0.15);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.98), 0 0 0 1px rgba(129, 140, 248, 0.2);
     
     /* Accent Glow Effects */
-    --glow-primary: 0 0 24px rgba(129, 140, 248, 0.4);
-    --glow-success: 0 0 24px rgba(52, 211, 153, 0.4);
-    --glow-danger: 0 0 24px rgba(248, 113, 113, 0.4);
+    --glow-primary: 0 0 24px rgba(129, 140, 248, 0.5);
+    --glow-success: 0 0 24px rgba(52, 211, 153, 0.5);
+    --glow-danger: 0 0 24px rgba(248, 113, 113, 0.5);
 }
 
 /* ============================================
