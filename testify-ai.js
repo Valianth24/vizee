@@ -11,8 +11,8 @@ const TestifyAI = {
     config: {
         name: 'Testify Eğitim Asistanı',
         version: '4.0',
-        mode: 'local-first', // Öncelik yerel zekada
-        apiUsage: 'minimal', // Sadece gerektiğinde API
+        mode: 'local-first',
+        apiUsage: 'minimal',
         features: {
             smartQuestions: true,
             detailedExplanations: true,
@@ -21,9 +21,8 @@ const TestifyAI = {
         }
     },
 
-    // Gelişmiş soru havuzu - Çok detaylı açıklamalarla
+    // Gelişmiş soru havuzu
     questionBank: {
-        // HAFTA 1 - Windows, Mac, Linux, Mobil İS
         week1: {
             windows: [
                 {
@@ -190,8 +189,6 @@ chmod o=r dosya → Diğerlerine sadece okuma
                 }
             ]
         },
-
-        // HAFTA 3 - İS Mantığı, Bellek, Dosya Sistemleri
         week3: {
             memory: [
                 {
@@ -259,8 +256,6 @@ Chrome'da çok sekme → Sürekli page fault!`,
                 }
             ]
         },
-
-        // HAFTA 5 - İşlem Yönetimi ve Zamanlama
         week5: {
             scheduling: [
                 {
@@ -389,25 +384,6 @@ Hepsi aynı anda sol çatalı alırsa:
 • Timeout kullan
 • Başarısızlıkta bırak ve tekrar dene
 
-💻 KODLAMA ÖRNEĞİ:
-```
-semaphore forks[5] = {1,1,1,1,1};
-semaphore max_eaters = 4; // Max 4 kişi
-
-void philosopher(int i) {
-    while(true) {
-        think();
-        wait(max_eaters); // Masada yer var mı?
-        wait(forks[i]);   // Sol çatal
-        wait(forks[(i+1)%5]); // Sağ çatal
-        eat();
-        signal(forks[i]);
-        signal(forks[(i+1)%5]);
-        signal(max_eaters);
-    }
-}
-```
-
 🎯 GERÇEK HAYAT:
 • Database lock yönetimi
 • İşletim sistemi kaynak tahsisi
@@ -423,40 +399,31 @@ void philosopher(int i) {
         }
     },
 
-    // Akıllı yanıt sistemi - API kullanmadan
+    // Akıllı yanıt sistemi
     responseSystem: {
-        /**
-         * Kullanıcı mesajına göre yanıt üret
-         */
         generateResponse(message) {
             const lowerMsg = message.toLowerCase();
             
-            // Selamlama
             if (this.isGreeting(lowerMsg)) {
                 return this.greetingResponse();
             }
             
-            // Soru isteme
             if (this.wantsQuestion(lowerMsg)) {
                 return this.provideQuestion(lowerMsg);
             }
             
-            // Açıklama isteme
             if (this.wantsExplanation(lowerMsg)) {
                 return this.provideExplanation(lowerMsg);
             }
             
-            // Yardım isteme
             if (this.needsHelp(lowerMsg)) {
                 return this.provideHelp(lowerMsg);
             }
             
-            // Motivasyon
             if (this.needsMotivation(lowerMsg)) {
                 return this.motivate(lowerMsg);
             }
             
-            // Varsayılan yanıt
             return this.defaultResponse();
         },
         
@@ -484,7 +451,6 @@ void philosopher(int i) {
             if (msg.includes('kolay')) difficulty = 'easy';
             if (msg.includes('zor')) difficulty = 'hard';
             
-            // Rastgele bir soru seç
             const allQuestions = [];
             Object.values(TestifyAI.questionBank).forEach(week => {
                 Object.values(week).forEach(category => {
@@ -498,8 +464,7 @@ void philosopher(int i) {
             
             const question = allQuestions[Math.floor(Math.random() * allQuestions.length)];
             
-            return `
-📝 **SORU** (${difficulty === 'easy' ? 'Kolay' : difficulty === 'medium' ? 'Orta' : 'Zor'})
+            return `📝 **SORU** (${difficulty === 'easy' ? 'Kolay' : difficulty === 'medium' ? 'Orta' : 'Zor'})
 
 ${question.question}
 
@@ -509,8 +474,7 @@ C) ${question.options[2]}
 D) ${question.options[3]}
 
 💡 *İpucu ister misin? "ipucu" yaz*
-📖 *Açıklama için cevap verdikten sonra "açıkla" yaz*
-            `;
+📖 *Açıklama için cevap verdikten sonra "açıkla" yaz*`;
         },
         
         wantsExplanation(msg) {
@@ -519,7 +483,6 @@ D) ${question.options[3]}
         },
         
         provideExplanation(msg) {
-            // Konu tespiti
             if (msg.includes('page fault') || msg.includes('sayfa hatası')) {
                 return TestifyAI.questionBank.week3.memory[0].explanation;
             }
@@ -532,9 +495,7 @@ D) ${question.options[3]}
                 return TestifyAI.questionBank.week5.synchronization[0].explanation;
             }
             
-            // Varsayılan açıklama
-            return `
-📚 Hangi konuyu açıklamamı istersin? Örnekler:
+            return `📚 Hangi konuyu açıklamamı istersin? Örnekler:
 
 • **Page Fault** - Sayfa hataları ve bellek yönetimi
 • **Convoy Effect** - FCFS algoritmasındaki problem
@@ -551,8 +512,7 @@ Konuyu belirt, detaylı açıklayayım! 🎯`;
         },
         
         provideHelp(msg) {
-            return `
-🆘 **TESTIFY KULLANIM KILAVUZU**
+            return `🆘 **TESTIFY KULLANIM KILAVUZU**
 
 Ben sana şu konularda yardımcı olabilirim:
 
@@ -618,8 +578,7 @@ Seçim senin! 😊`
         },
         
         defaultResponse() {
-            return `
-🎓 **TESTIFY - EĞİTİM ASİSTANIN**
+            return `🎓 **TESTIFY - EĞİTİM ASİSTANIN**
 
 Tam olarak ne yapmak istediğini anlayamadım. İşte yapabileceklerim:
 
@@ -643,12 +602,18 @@ Ne yapmak istersin? 🤔`;
     isTyping: false,
     
     /**
-     * Mesaj gönder
+     * Mesaj gönder - DÜZELTİLDİ
      */
     sendMessage(event) {
-        event.preventDefault();
+        // ÇÖZÜM: Event kontrolü ekledik
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         
         const input = document.getElementById('aiInput');
+        if (!input) return;
+        
         const message = input.value.trim();
         
         if (!message) return;
@@ -659,7 +624,10 @@ Ne yapmak istersin? 🤔`;
         // Input'u temizle
         input.value = '';
         
-        // Yanıt oluştur (API KULLANMADAN)
+        // Focus'u koru
+        input.focus();
+        
+        // Yanıt oluştur
         this.generateLocalResponse(message);
     },
     
@@ -667,15 +635,13 @@ Ne yapmak istersin? 🤔`;
      * Yerel yanıt oluştur
      */
     generateLocalResponse(message) {
-        // Typing göster
         this.showTypingIndicator();
         
-        // Yanıt hazırla
         setTimeout(() => {
             const response = this.responseSystem.generateResponse(message);
             this.hideTypingIndicator();
             this.addMessage(response, 'ai');
-        }, 800 + Math.random() * 700); // Doğal gecikme
+        }, 800 + Math.random() * 700);
     },
     
     /**
@@ -689,7 +655,6 @@ Ne yapmak istersin? 🤔`;
         messageDiv.className = sender === 'user' ? 'ai-message user-message' : 'ai-message';
         
         if (sender === 'ai') {
-            // Markdown benzeri formatlamayı HTML'e çevir
             const formattedText = this.formatMessage(text);
             messageDiv.innerHTML = `
                 <div class="ai-avatar">T</div>
@@ -704,7 +669,6 @@ Ne yapmak istersin? 🤔`;
         chatContainer.appendChild(messageDiv);
         chatContainer.scrollTop = chatContainer.scrollHeight;
         
-        // Mesaj geçmişi
         this.messages.push({ text, sender, timestamp: Date.now() });
     },
     
@@ -764,6 +728,35 @@ Ne yapmak istersin? 🤔`;
     },
     
     /**
+     * Enter tuşu ile gönderme
+     */
+    setupEnterKeyListener() {
+        const input = document.getElementById('aiInput');
+        if (!input) return;
+        
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.sendMessage(e);
+            }
+        });
+    },
+    
+    /**
+     * Form submit listener
+     */
+    setupFormListener() {
+        const form = document.querySelector('.ai-input-group');
+        if (!form) return;
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.sendMessage(e);
+        });
+    },
+    
+    /**
      * Başlangıç
      */
     init() {
@@ -771,14 +764,30 @@ Ne yapmak istersin? 🤔`;
         console.log('✨ Özellikler: Zengin soru bankası, detaylı açıklamalar, akıllı yanıtlar');
         console.log('🚀 API kullanımı: Minimum (sadece gerektiğinde)');
         console.log('💪 Yerel zeka: Maksimum performans');
+        
+        // Event listener'ları ekle
+        this.setupFormListener();
+        this.setupEnterKeyListener();
+        
+        // Hoş geldin mesajı
+        setTimeout(() => {
+            this.addMessage(
+                "Merhaba! 👋 Ben Testify AI, senin kişisel eğitim asistanınım. Sana nasıl yardımcı olabilirim?\n\n" +
+                "• **Soru çözmek** için: 'Soru sor' veya 'Test başlat'\n" +
+                "• **Konu öğrenmek** için: 'Page fault nedir?' gibi sorular sor\n" +
+                "• **Yardım** için: 'Yardım' yaz\n\n" +
+                "Hadi başlayalım! 🚀",
+                'ai'
+            );
+        }, 500);
     }
 };
 
-// Sistemi başlat ve global yap
+// Sistemi başlat
 document.addEventListener('DOMContentLoaded', () => {
     TestifyAI.init();
     
-    // Mevcut aiChat objesini güncelle
+    // Global erişim
     if (window.aiChat) {
         window.aiChat = TestifyAI;
     }
