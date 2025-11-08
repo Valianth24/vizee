@@ -71,43 +71,49 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode - TAM SİYAH (#000000) */
+/* Dark Mode - ULTRA LUXURY PREMIUM EDITION ✨ */
 [data-theme="dark"] {
-    --primary: #818cf8;
-    --primary-dark: #6366f1;
-    --primary-light: #a5b4fc;
-    --primary-hover: #7c8adc;
-    --success: #34d399;
-    --danger: #f87171;
-    --warning: #fbbf24;
-    --info: #60a5fa;
+    /* Premium Color Palette */
+    --primary: #a78bfa;
+    --primary-dark: #8b5cf6;
+    --primary-light: #c4b5fd;
+    --primary-hover: #9333ea;
+    --success: #10b981;
+    --danger: #f43f5e;
+    --warning: #f59e0b;
+    --info: #3b82f6;
     
-    /* Tam Siyah Arka Planlar */
-    --bg: #000000;
-    --bg-secondary: #000000;
-    --bg-tertiary: #0f0f0f;
-    --bg-hover: rgba(129, 140, 248, 0.15);
+    /* Rich Dark Backgrounds - Gradient & Depth */
+    --bg: #0a0a0f;
+    --bg-secondary: #13131a;
+    --bg-tertiary: #1a1a24;
+    --bg-hover: rgba(167, 139, 250, 0.08);
     
-    /* Kontrast Artırılmış Metinler */
-    --text-primary: #ffffff;
-    --text-secondary: #e0e0e0;
-    --text-tertiary: #b0b0b0;
+    /* High Contrast Typography */
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
     
-    /* Daha Belirgin Borders */
-    --border: #2a2a2a;
-    --border-light: #1a1a1a;
-    --border-dark: #3a3a3a;
+    /* Elegant Borders with Purple Accent */
+    --border: #262633;
+    --border-light: #1a1a24;
+    --border-dark: #33334d;
     
-    /* Kartlar da Tam Siyah */
-    --card-bg: #000000;
-    --card-hover: #0a0a0a;
+    /* Premium Card Surfaces */
+    --card-bg: linear-gradient(145deg, #13131a 0%, #1a1a24 100%);
+    --card-hover: linear-gradient(145deg, #1a1a24 0%, #20202e 100%);
     
-    /* Gölgeler için Subtle Vurgular */
-    --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
-    --shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.08), 0 2px 4px -1px rgba(255, 255, 255, 0.04);
-    --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.08);
-    --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.06);
-    --shadow-xl: 0 20px 25px -5px rgba(255, 255, 255, 0.12), 0 10px 10px -5px rgba(255, 255, 255, 0.08);
+    /* Luxurious Shadows with Purple Glow */
+    --shadow-sm: 0 1px 2px 0 rgba(167, 139, 250, 0.05);
+    --shadow: 0 4px 12px -2px rgba(167, 139, 250, 0.15), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 16px -4px rgba(167, 139, 250, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 24px -6px rgba(167, 139, 250, 0.25), 0 6px 12px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 40px -8px rgba(167, 139, 250, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.6);
+    
+    /* Accent Glow Effects */
+    --glow-primary: 0 0 20px rgba(167, 139, 250, 0.4);
+    --glow-success: 0 0 20px rgba(16, 185, 129, 0.4);
+    --glow-danger: 0 0 20px rgba(244, 63, 94, 0.4);
 }
 
 /* ============================================
