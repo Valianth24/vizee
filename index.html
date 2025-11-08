@@ -574,12 +574,12 @@
         }
 
         .feedback.correct {
-            background: var(--white);
+            background: linear-gradient(135deg, #10b981, #059669);
             border-color: var(--success);
         }
 
         .feedback.incorrect {
-            background: var(--white);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             border-color: var(--danger);
         }
 
@@ -592,23 +592,17 @@
 
         .feedback-icon {
             font-size: 1.5rem;
+            color: white;
         }
 
         .feedback-title {
             font-weight: 700;
             font-size: 1.1rem;
-        }
-
-        .feedback.correct .feedback-title {
-            color: var(--success);
-        }
-
-        .feedback.incorrect .feedback-title {
-            color: var(--danger);
+            color: white;
         }
 
         .feedback-text {
-            color: #1e293b;
+            color: white;
             line-height: 1.6;
             font-weight: 600;
             font-size: 1rem;
@@ -617,22 +611,23 @@
         .explanation {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 2px solid #e2e8f0;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
             padding: 16px;
             border-radius: 8px;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .explanation-title {
             font-weight: 700;
-            color: #0f172a;
+            color: white;
             margin-bottom: 10px;
             font-size: 1.05rem;
         }
 
         .explanation-text {
-            color: #1e293b;
+            color: white;
             line-height: 1.7;
             font-weight: 500;
             font-size: 0.95rem;
@@ -1506,13 +1501,18 @@
             if (isCorrect) {
                 document.getElementById('feedback-title').textContent = "Great! 🎉";
                 if (currentStreak >= 5) {
-                    feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">${currentStreak} correct in a row! 🔥</strong>`;
+                    feedbackTextEl.innerHTML = `<strong style="color: white;">${currentStreak} correct in a row! 🔥</strong>`;
                 } else {
-                    feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">Correct answer!</strong>`;
+                    feedbackTextEl.innerHTML = `<strong style="color: white;">Correct answer!</strong>`;
                 }
             } else {
                 document.getElementById('feedback-title').textContent = "Incorrect ❌";
-                feedbackTextEl.innerHTML = `<strong style="color: #0f172a;">Correct answer:</strong> <span style="color: #0f172a; font-weight: 600;">${question.a}</span>`;
+                feedbackTextEl.innerHTML = `
+                    <div style="background: white; padding: 12px 16px; border-radius: 8px; margin-top: 8px;">
+                        <strong style="color: #dc2626;">Correct answer:</strong> 
+                        <span style="color: #0f172a; font-weight: 700;">${question.a}</span>
+                    </div>
+                `;
             }
 
             if (question.explanation) {
