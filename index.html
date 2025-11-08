@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizMaster - Interactive Learning Platform</title>
+    <title>Vizee - Modern Öğrenme Platformu</title>
     <script src="sorular.js"></script>
     <style>
         * {
@@ -13,466 +13,214 @@
         }
 
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --primary-light: #3b82f6;
-            --secondary: #7c3aed;
-            --success: #10b981;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --success: #22c55e;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --info: #06b6d4;
-            --dark: #1e293b;
+            --dark: #0f172a;
             --gray: #64748b;
-            --light: #f8fafc;
+            --gray-light: #e2e8f0;
             --white: #ffffff;
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --bg: #f8fafc;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: var(--dark);
             line-height: 1.6;
         }
 
-        /* Navigation */
+        /* Navbar */
         .navbar {
-            background: var(--white);
-            border-bottom: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: var(--shadow);
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 64px;
         }
 
         .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-stats {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+
+        .stat-value {
             font-weight: 700;
             color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.25rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .language-selector {
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: var(--white);
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--gray);
-            transition: all 0.2s;
-        }
-
-        .language-selector:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .user-profile {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
         }
 
         /* Main Container */
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px;
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
         }
 
-        /* Dashboard Header */
-        .dashboard-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 24px;
-            color: white;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .welcome-section h1 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .welcome-section p {
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        .level-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 16px 24px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .level-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .level-icon {
-            font-size: 1.5rem;
-        }
-
-        .level-text {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .xp-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .xp-progress {
-            height: 100%;
-            background: var(--white);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        .xp-text {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* Main Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr 320px;
-            gap: 24px;
-        }
-
-        @media (max-width: 1200px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-            .sidebar-left, .sidebar-right {
-                order: 2;
-            }
-        }
-
-        /* Cards */
+        /* Card */
         .card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            margin-bottom: 2rem;
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--dark);
-        }
-
-        .card-icon {
-            font-size: 1.25rem;
-        }
-
-        /* Study Modes */
-        .study-mode {
-            padding: 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 12px;
-        }
-
-        .study-mode:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-            transform: translateX(4px);
-        }
-
-        .study-mode.active {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
-
-        .mode-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
-
-        .mode-emoji {
-            font-size: 1.5rem;
-        }
-
-        .mode-title {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .mode-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-left: 40px;
-        }
-
-        .mode-badge {
-            background: var(--primary);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: auto;
-        }
-
-        /* Quiz Section */
-        .quiz-card {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-        }
-
+        /* Quiz Header */
         .quiz-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 24px;
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
 
-        .quiz-progress {
+        .quiz-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .progress-info {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            font-size: 0.9rem;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 99px;
+            overflow: hidden;
         }
 
         .progress-bar {
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .progress-fill {
             height: 100%;
-            background: white;
-            border-radius: 3px;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 99px;
+            transition: width 0.4s ease;
         }
 
-        .quiz-body {
-            padding: 32px;
+        /* Question */
+        .question-section {
+            margin-bottom: 2rem;
         }
 
-        .question-meta {
+        .question-badges {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
-        .meta-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
+        .badge {
+            padding: 0.4rem 1rem;
+            border-radius: 99px;
             font-size: 0.85rem;
             font-weight: 600;
         }
 
         .badge-number {
             background: #eff6ff;
-            color: var(--primary);
-        }
-
-        .badge-difficulty {
-            background: #fef3c7;
-            color: #92400e;
+            color: #2563eb;
         }
 
         .badge-category {
-            background: #f3e8ff;
-            color: #6b21a8;
+            background: #f0fdf4;
+            color: #16a34a;
         }
 
         .question-text {
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            line-height: 1.5;
             color: var(--dark);
-            margin-bottom: 32px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         /* Options */
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .option {
-            padding: 18px 24px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-size: 1.05rem;
             background: var(--white);
             position: relative;
         }
 
         .option:hover:not(.disabled) {
             border-color: var(--primary);
-            background: #eff6ff;
-            transform: translateX(4px);
-        }
-
-        .option.selected {
-            border-color: var(--primary);
-            background: var(--white);
+            background: #f8faff;
+            transform: translateX(8px);
         }
 
         .option.correct {
             border-color: var(--success);
-            background: var(--white);
-            color: var(--dark);
+            background: #f0fdf4;
             border-width: 3px;
         }
 
         .option.incorrect {
             border-color: var(--danger);
-            background: var(--white);
-            color: var(--dark);
+            background: #fef2f2;
             border-width: 3px;
         }
 
         .option.disabled {
             cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .option.correct::after {
             content: '✓';
             position: absolute;
-            right: 20px;
+            right: 1.5rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             color: var(--success);
             font-weight: bold;
         }
@@ -480,295 +228,128 @@
         .option.incorrect::after {
             content: '✗';
             position: absolute;
-            right: 20px;
+            right: 1.5rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             color: var(--danger);
             font-weight: bold;
         }
 
-        /* Fill Input */
-        .fill-container {
+        /* Feedback */
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .feedback-content {
             display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
+            align-items: flex-start;
+            gap: 1rem;
         }
 
-        .fill-input {
+        .feedback-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .feedback-text {
             flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.2s;
         }
 
-        .fill-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        .feedback-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-message {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
         /* Buttons */
         .btn {
-            padding: 12px 24px;
+            padding: 0.875rem 2rem;
             border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
         }
 
         .btn-secondary {
-            background: var(--light);
-            color: var(--dark);
-            border: 2px solid #e2e8f0;
+            background: var(--gray-light);
+            color: var(--gray);
         }
 
         .btn-secondary:hover {
-            background: #e2e8f0;
+            background: #cbd5e1;
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
         }
 
         .btn-group {
             display: flex;
-            gap: 12px;
+            gap: 1rem;
             justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Feedback */
-        .feedback {
-            padding: 20px 24px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            display: none;
-            border-left: 4px solid;
-            background: var(--white);
-            border: 2px solid;
-        }
-
-        .feedback.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        .feedback.correct {
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-color: var(--success);
-        }
-
-        .feedback.incorrect {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            border-color: var(--danger);
-        }
-
-        .feedback-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .feedback-icon {
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .feedback-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: white;
-        }
-
-        .feedback-text {
-            color: white;
-            line-height: 1.6;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .explanation {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 16px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .explanation-title {
-            font-weight: 700;
-            color: white;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-
-        .explanation-text {
-            color: white;
-            line-height: 1.7;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        /* Progress Ring */
-        .progress-ring {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .progress-ring svg {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-bg {
-            fill: none;
-            stroke: #e2e8f0;
-            stroke-width: 10;
-        }
-
-        .progress-ring-fill {
-            fill: none;
-            stroke: url(#gradient);
-            stroke-width: 10;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .progress-percent {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .progress-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        /* Topic List */
-        .topic-item {
-            margin-bottom: 16px;
-        }
-
-        .topic-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .topic-name {
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .topic-percent {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .topic-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .topic-progress {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-high { background: linear-gradient(90deg, var(--success), #059669); }
-        .progress-medium { background: linear-gradient(90deg, var(--warning), #d97706); }
-        .progress-low { background: linear-gradient(90deg, var(--danger), #dc2626); }
-
-        /* Achievements */
-        .achievement {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
-            background: var(--light);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .achievement.unlocked {
-            border-color: var(--success);
-            background: #ecfdf5;
-        }
-
-        .achievement-icon {
-            font-size: 2.5rem;
-            filter: grayscale(100%);
-            opacity: 0.4;
-        }
-
-        .achievement.unlocked .achievement-icon {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-
-        .achievement-info {
-            flex: 1;
-        }
-
-        .achievement-title {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .achievement-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .achievement-xp {
-            font-weight: 700;
-            color: var(--warning);
         }
 
         /* Results */
         .results {
             display: none;
             text-align: center;
-            padding: 40px 32px;
+            padding: 2rem 0;
         }
 
         .results.show {
@@ -777,45 +358,140 @@
 
         .results-icon {
             font-size: 5rem;
-            margin-bottom: 24px;
+            margin-bottom: 1.5rem;
         }
 
         .results-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--dark);
+            margin-bottom: 1rem;
         }
 
         .results-score {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 32px;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
         }
 
-        .results-grid {
+        .results-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .result-stat {
-            padding: 20px;
-            background: var(--light);
-            border-radius: 12px;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: 16px;
         }
 
         .result-value {
             font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 0.5rem;
         }
 
         .result-label {
             font-size: 0.9rem;
             color: var(--gray);
+        }
+
+        /* Category Selector */
+        .category-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            padding: 1.5rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            border-color: var(--primary);
+            background: #f8faff;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .category-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-desc {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Fill Input */
+        .fill-container {
+            display: none;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .fill-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+        }
+
+        .fill-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
         }
 
         /* Animations */
@@ -830,559 +506,329 @@
             }
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-menu {
+            .nav-stats {
                 display: none;
             }
 
-            .dashboard-header {
-                padding: 24px;
+            .container {
+                margin: 1.5rem auto;
+                padding: 0 1rem;
             }
 
-            .welcome-section h1 {
-                font-size: 1.5rem;
-            }
-
-            .quiz-body {
-                padding: 24px 20px;
+            .card {
+                padding: 2rem 1.5rem;
+                border-radius: 20px;
             }
 
             .question-text {
-                font-size: 1.15rem;
+                font-size: 1.25rem;
+            }
+
+            .results-title {
+                font-size: 2rem;
+            }
+
+            .results-score {
+                font-size: 2.5rem;
+            }
+
+            .category-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <div class="logo-icon">🎓</div>
-                <span>QuizMaster</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="#" class="nav-link">Dashboard</a></li>
-                <li><a href="#" class="nav-link">My Progress</a></li>
-                <li><a href="#" class="nav-link">Courses</a></li>
-                <li><a href="#" class="nav-link">Leaderboard</a></li>
-            </ul>
-            <div class="nav-actions">
-                <select class="language-selector" id="language-selector">
-                    <option value="en">🇬🇧 English</option>
-                    <option value="tr">🇹🇷 Türkçe</option>
-                    <option value="es">🇪🇸 Español</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="de">🇩🇪 Deutsch</option>
-                </select>
-                <div class="user-profile" title="Profile">U</div>
+            <div class="logo">Vizee</div>
+            <div class="nav-stats">
+                <div class="stat-item">
+                    <span>Toplam Skor:</span>
+                    <span class="stat-value" id="nav-score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Doğruluk:</span>
+                    <span class="stat-value" id="nav-accuracy">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span>🔥</span>
+                    <span class="stat-value" id="nav-streak">0</span>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Main Container -->
     <div class="container">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-            <div class="header-top">
-                <div class="welcome-section">
-                    <h1 id="welcome-text">Welcome back, Learner!</h1>
-                    <p id="welcome-subtitle">Ready to continue your learning journey?</p>
-                </div>
-                <div class="level-card">
-                    <div class="level-info">
-                        <span class="level-icon" id="level-icon">⭐</span>
-                        <span class="level-text" id="level-text">Level 1 - Beginner</span>
+        <div class="card">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="welcome-screen">
+                <div class="welcome-icon">🎯</div>
+                <h1 class="welcome-title">Öğrenme Yolculuğuna Başla</h1>
+                <p class="welcome-subtitle">Bilgini test et, gelişimini takip et</p>
+
+                <div class="category-selector">
+                    <div class="category-card" data-mode="all">
+                        <div class="category-icon">🎯</div>
+                        <div class="category-title">Tüm Sorular</div>
+                        <div class="category-desc">Karma çalışma</div>
                     </div>
-                    <div class="xp-bar">
-                        <div class="xp-progress" id="xp-progress" style="width: 0%"></div>
+                    <div class="category-card" data-mode="week1">
+                        <div class="category-icon">📘</div>
+                        <div class="category-title">Hafta 1</div>
+                        <div class="category-desc">İşletim Sistemleri Temelleri</div>
                     </div>
-                    <div class="xp-text" id="xp-text">0 / 100 XP to next level</div>
+                    <div class="category-card" data-mode="week3">
+                        <div class="category-icon">📗</div>
+                        <div class="category-title">Hafta 3</div>
+                        <div class="category-desc">Sistem Mimarisi</div>
+                    </div>
+                    <div class="category-card" data-mode="week4">
+                        <div class="category-icon">📙</div>
+                        <div class="category-title">Hafta 4</div>
+                        <div class="category-desc">İşletim Sistemi Katmanları</div>
+                    </div>
+                    <div class="category-card" data-mode="week5">
+                        <div class="category-icon">📕</div>
+                        <div class="category-title">Hafta 5</div>
+                        <div class="category-desc">Süreç Yönetimi</div>
+                    </div>
+                    <div class="category-card" data-mode="exam">
+                        <div class="category-icon">⚡</div>
+                        <div class="category-title">Sınav Modu</div>
+                        <div class="category-desc">50 soru - zamanlı</div>
+                    </div>
                 </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="total-xp">0</div>
-                    <div class="stat-label" id="stat-xp-label">Total XP</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="total-score">0</div>
-                    <div class="stat-label" id="stat-score-label">Score</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="accuracy">0%</div>
-                    <div class="stat-label" id="stat-accuracy-label">Accuracy</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="streak-count">0</div>
-                    <div class="stat-label" id="stat-streak-label">Day Streak 🔥</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Main Layout -->
-        <div class="main-layout">
-            <!-- Left Sidebar -->
-            <aside class="sidebar-left">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <span class="card-icon">📚</span>
-                            <span id="study-modes-title">Study Modes</span>
-                        </h3>
+            <!-- Quiz Section -->
+            <div id="quiz-section" style="display: none;">
+                <!-- Quiz Header -->
+                <div class="quiz-header">
+                    <h2 class="quiz-title" id="quiz-mode-title">Quiz</h2>
+                    <div class="progress-info">
+                        <span id="question-counter">Soru 0 / 0</span>
+                        <span id="timer-display">⏱️ 00:00</span>
                     </div>
-                    <div class="study-mode active" data-mode="all">
-                        <div class="mode-header">
-                            <span class="mode-emoji">🎯</span>
-                            <span class="mode-title" data-i18n="mode-all">All Questions</span>
-                        </div>
-                        <div class="mode-desc" data-i18n="mode-all-desc">Mixed practice - All topics</div>
-                    </div>
-                    <div class="study-mode" data-mode="week1">
-                        <div class="mode-header">
-                            <span class="mode-emoji">📘</span>
-                            <span class="mode-title" data-i18n="mode-week1">Week 1</span>
-                        </div>
-                        <div class="mode-desc">Operating Systems Basics</div>
-                    </div>
-                    <div class="study-mode" data-mode="week3">
-                        <div class="mode-header">
-                            <span class="mode-emoji">📗</span>
-                            <span class="mode-title" data-i18n="mode-week3">Week 3</span>
-                        </div>
-                        <div class="mode-desc">System Architecture</div>
-                    </div>
-                    <div class="study-mode" data-mode="week4">
-                        <div class="mode-header">
-                            <span class="mode-emoji">📙</span>
-                            <span class="mode-title" data-i18n="mode-week4">Week 4</span>
-                        </div>
-                        <div class="mode-desc">OS Layers</div>
-                    </div>
-                    <div class="study-mode" data-mode="week5">
-                        <div class="mode-header">
-                            <span class="mode-emoji">📕</span>
-                            <span class="mode-title" data-i18n="mode-week5">Week 5</span>
-                        </div>
-                        <div class="mode-desc">Process Management</div>
-                    </div>
-                    <div class="study-mode" data-mode="weak">
-                        <div class="mode-header">
-                            <span class="mode-emoji">🎯</span>
-                            <span class="mode-title" data-i18n="mode-weak">Weak Topics</span>
-                            <span class="mode-badge">Review</span>
-                        </div>
-                        <div class="mode-desc" data-i18n="mode-weak-desc">Questions you got wrong</div>
-                    </div>
-                    <div class="study-mode" data-mode="exam">
-                        <div class="mode-header">
-                            <span class="mode-emoji">⚡</span>
-                            <span class="mode-title" data-i18n="mode-exam">Exam Mode</span>
-                            <span class="mode-badge">50Q</span>
-                        </div>
-                        <div class="mode-desc" data-i18n="mode-exam-desc">Timed simulation</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
                     </div>
                 </div>
-            </aside>
 
-            <!-- Main Content -->
-            <main>
-                <div class="quiz-card">
-                    <div class="quiz-header">
-                        <div class="quiz-progress">
-                            <span id="question-counter">Question 0 / 0</span>
-                            <span id="timer-display">⏱️ 00:00</span>
+                <!-- Question -->
+                <div id="question-container">
+                    <div class="question-section">
+                        <div class="question-badges">
+                            <span class="badge badge-number" id="question-number">Soru 1</span>
+                            <span class="badge badge-category" id="category-badge">Genel</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill"></div>
-                        </div>
+                        <h3 class="question-text" id="question-text">Soru yükleniyor...</h3>
                     </div>
 
-                    <div class="quiz-body">
-                        <div id="quiz-container">
-                            <div class="question-meta">
-                                <span class="meta-badge badge-number" id="question-number">Question 1</span>
-                                <span class="meta-badge badge-difficulty" id="difficulty-badge">Medium</span>
-                                <span class="meta-badge badge-category" id="category-badge">Week 1</span>
-                            </div>
+                    <div class="options" id="options-container">
+                        <!-- Options will be populated by JS -->
+                    </div>
 
-                            <h2 class="question-text" id="question-text">Loading question...</h2>
+                    <div class="fill-container" id="fill-container">
+                        <input type="text" class="fill-input" id="fill-input" placeholder="Cevabınızı yazın...">
+                        <button class="btn btn-primary" id="submit-fill">Gönder</button>
+                    </div>
 
-                            <div class="options" id="options-container">
-                                <!-- Options populated by JS -->
-                            </div>
-
-                            <div class="fill-container" id="fill-container" style="display: none;">
-                                <input type="text" class="fill-input" id="fill-input" placeholder="Type your answer...">
-                                <button class="btn btn-primary" id="submit-fill">
-                                    <span>Submit</span>
-                                </button>
-                            </div>
-
-                            <div class="feedback" id="feedback">
-                                <div class="feedback-header">
-                                    <span class="feedback-icon" id="feedback-icon">✓</span>
-                                    <span class="feedback-title" id="feedback-title">Correct!</span>
-                                </div>
-                                <div class="feedback-text" id="feedback-text"></div>
+                    <div class="feedback" id="feedback">
+                        <div class="feedback-content">
+                            <div class="feedback-icon" id="feedback-icon">✓</div>
+                            <div class="feedback-text">
+                                <div class="feedback-title" id="feedback-title">Doğru!</div>
+                                <div class="feedback-message" id="feedback-message"></div>
                                 <div class="explanation" id="explanation" style="display: none;">
-                                    <div class="explanation-title">💡 Explanation:</div>
-                                    <div class="explanation-text" id="explanation-text"></div>
+                                    <div class="explanation-title">💡 Açıklama:</div>
+                                    <div id="explanation-text"></div>
                                 </div>
-                            </div>
-
-                            <div class="btn-group">
-                                <button class="btn btn-primary" id="next-btn" style="display: none;">
-                                    <span id="next-btn-text">Next Question</span>
-                                    <span>→</span>
-                                </button>
-                                <button class="btn btn-secondary" id="skip-btn">
-                                    <span id="skip-btn-text">Skip</span>
-                                    <span>⏭️</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="results" id="results-container">
-                            <div class="results-icon">🎉</div>
-                            <h2 class="results-title" id="results-title">Congratulations!</h2>
-                            <div class="results-score" id="results-score">0/0</div>
-                            
-                            <div class="results-grid">
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--success);" id="correct-count">0</div>
-                                    <div class="result-label" id="result-correct-label">Correct</div>
-                                </div>
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--danger);" id="incorrect-count">0</div>
-                                    <div class="result-label" id="result-incorrect-label">Incorrect</div>
-                                </div>
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--info);" id="time-spent">0:00</div>
-                                    <div class="result-label" id="result-time-label">Time</div>
-                                </div>
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--warning);" id="xp-earned">+0 XP</div>
-                                    <div class="result-label" id="result-xp-label">XP Earned</div>
-                                </div>
-                            </div>
-
-                            <div class="btn-group">
-                                <button class="btn btn-primary" id="retry-wrong-btn">
-                                    <span id="retry-btn-text">Retry Wrong Answers</span>
-                                    <span>🔄</span>
-                                </button>
-                                <button class="btn btn-secondary" id="new-quiz-btn">
-                                    <span id="new-quiz-btn-text">New Quiz</span>
-                                    <span>🎯</span>
-                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
 
-            <!-- Right Sidebar -->
-            <aside class="sidebar-right">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <span class="card-icon">📊</span>
-                            <span id="progress-title">Your Progress</span>
-                        </h3>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="next-btn" style="display: none;">
+                            Sonraki Soru →
+                        </button>
+                        <button class="btn btn-secondary" id="skip-btn">
+                            Atla
+                        </button>
                     </div>
-                    <div class="progress-ring">
-                        <svg width="140" height="140">
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <circle class="progress-ring-bg" cx="70" cy="70" r="60"></circle>
-                            <circle class="progress-ring-fill" cx="70" cy="70" r="60" 
-                                    stroke-dasharray="377" stroke-dashoffset="377" id="progress-circle"></circle>
-                        </svg>
-                        <div class="progress-text">
-                            <div class="progress-percent" id="mastery-percent">0%</div>
-                            <div class="progress-label" id="mastery-label">Mastery</div>
+                </div>
+
+                <!-- Results -->
+                <div class="results" id="results-container">
+                    <div class="results-icon" id="results-icon">🎉</div>
+                    <h2 class="results-title" id="results-title">Tebrikler!</h2>
+                    <div class="results-score" id="results-score">0/0</div>
+
+                    <div class="results-stats">
+                        <div class="result-stat">
+                            <div class="result-value" style="color: var(--success);" id="correct-count">0</div>
+                            <div class="result-label">Doğru</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-value" style="color: var(--danger);" id="incorrect-count">0</div>
+                            <div class="result-label">Yanlış</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-value" style="color: var(--primary);" id="accuracy-percent">0%</div>
+                            <div class="result-label">Doğruluk</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-value" style="color: var(--gray);" id="time-spent">0:00</div>
+                            <div class="result-label">Süre</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <span class="card-icon">🎯</span>
-                            <span id="topic-mastery-title">Topic Mastery</span>
-                        </h3>
-                    </div>
-                    <div id="topic-mastery-list">
-                        <!-- Populated by JS -->
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="retry-btn">
+                            🔄 Yeniden Başla
+                        </button>
+                        <button class="btn btn-secondary" id="home-btn">
+                            🏠 Ana Sayfa
+                        </button>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <span class="card-icon">🏆</span>
-                            <span id="achievements-title">Achievements</span>
-                        </h3>
-                    </div>
-                    <div id="achievements-list">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </aside>
+            </div>
         </div>
     </div>
 
     <script>
-        // ===== INTERNATIONALIZATION =====
-        const translations = {
-            en: {
-                welcomeText: "Welcome back, Learner!",
-                welcomeSubtitle: "Ready to continue your learning journey?",
-                levelText: "Level {level} - {name}",
-                xpText: "{current} / {next} XP to next level",
-                statXp: "Total XP",
-                statScore: "Score",
-                statAccuracy: "Accuracy",
-                statStreak: "Day Streak 🔥",
-                studyModesTitle: "Study Modes",
-                questionCounter: "Question {current} / {total}",
-                nextBtn: "Next Question",
-                skipBtn: "Skip",
-                submitBtn: "Submit",
-                correctFeedback: "Correct!",
-                incorrectFeedback: "Incorrect",
-                congratulations: "Congratulations!",
-                resultCorrect: "Correct",
-                resultIncorrect: "Incorrect",
-                resultTime: "Time",
-                resultXp: "XP Earned",
-                retryBtn: "Retry Wrong Answers",
-                newQuizBtn: "New Quiz",
-                progressTitle: "Your Progress",
-                masteryLabel: "Mastery",
-                topicMasteryTitle: "Topic Mastery",
-                achievementsTitle: "Achievements",
-                levelBeginner: "Beginner",
-                levelStudent: "Student",
-                levelScholar: "Scholar",
-                levelExpert: "Expert",
-                levelMaster: "Master",
-                levelProfessor: "Professor"
-            },
-            tr: {
-                welcomeText: "Tekrar hoş geldin, Öğrenci!",
-                welcomeSubtitle: "Öğrenme yolculuğuna devam etmeye hazır mısın?",
-                levelText: "Seviye {level} - {name}",
-                xpText: "Sonraki seviyeye {current} / {next} XP",
-                statXp: "Toplam XP",
-                statScore: "Skor",
-                statAccuracy: "Doğruluk",
-                statStreak: "Gün Serisi 🔥",
-                studyModesTitle: "Çalışma Modları",
-                questionCounter: "Soru {current} / {total}",
-                nextBtn: "Sonraki Soru",
-                skipBtn: "Atla",
-                submitBtn: "Gönder",
-                correctFeedback: "Doğru!",
-                incorrectFeedback: "Yanlış",
-                congratulations: "Tebrikler!",
-                resultCorrect: "Doğru",
-                resultIncorrect: "Yanlış",
-                resultTime: "Süre",
-                resultXp: "Kazanılan XP",
-                retryBtn: "Yanlışları Tekrar Çöz",
-                newQuizBtn: "Yeni Quiz",
-                progressTitle: "İlerlemeniz",
-                masteryLabel: "Ustalık",
-                topicMasteryTitle: "Konu Ustalığı",
-                achievementsTitle: "Başarımlar",
-                levelBeginner: "Çaylak",
-                levelStudent: "Öğrenci",
-                levelScholar: "Bilgin",
-                levelExpert: "Uzman",
-                levelMaster: "Usta",
-                levelProfessor: "Profesör"
-            }
-        };
-
-        let currentLang = 'en';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-            
-            document.getElementById('welcome-text').textContent = t.welcomeText;
-            document.getElementById('welcome-subtitle').textContent = t.welcomeSubtitle;
-            document.getElementById('stat-xp-label').textContent = t.statXp;
-            document.getElementById('stat-score-label').textContent = t.statScore;
-            document.getElementById('stat-accuracy-label').textContent = t.statAccuracy;
-            document.getElementById('stat-streak-label').textContent = t.statStreak;
-            document.getElementById('study-modes-title').textContent = t.studyModesTitle;
-            document.getElementById('next-btn-text').textContent = t.nextBtn;
-            document.getElementById('skip-btn-text').textContent = t.skipBtn;
-            document.getElementById('result-correct-label').textContent = t.resultCorrect;
-            document.getElementById('result-incorrect-label').textContent = t.resultIncorrect;
-            document.getElementById('result-time-label').textContent = t.resultTime;
-            document.getElementById('result-xp-label').textContent = t.resultXp;
-            document.getElementById('retry-btn-text').textContent = t.retryBtn;
-            document.getElementById('new-quiz-btn-text').textContent = t.newQuizBtn;
-            document.getElementById('progress-title').textContent = t.progressTitle;
-            document.getElementById('mastery-label').textContent = t.masteryLabel;
-            document.getElementById('topic-mastery-title').textContent = t.topicMasteryTitle;
-            document.getElementById('achievements-title').textContent = t.achievementsTitle;
-            
-            updateLevel();
-        }
-
         // ===== DATA STRUCTURES =====
         let questionBank = [];
         let currentQuestions = [];
         let currentQuestionIndex = 0;
-        let incorrectQuestions = [];
         let userAnswers = [];
         let startTime = Date.now();
         let timerInterval = null;
         let currentStreak = 0;
 
         let userData = {
-            totalXP: 0,
             totalScore: 0,
             totalAnswered: 0,
             totalCorrect: 0,
-            level: 1,
             streak: 0,
-            lastStudyDate: null,
-            topicMastery: {},
-            achievements: {},
-            questionHistory: {}
         };
-
-        const achievements = {
-            first_step: { name: "First Step", nameI18n: {en: "First Step", tr: "İlk Adım"}, desc: "Answer your first question", icon: "🎯", xp: 10, condition: () => userData.totalAnswered >= 1 },
-            beginner: { name: "Beginner", nameI18n: {en: "Beginner", tr: "Başlangıç"}, desc: "Answer 10 questions", icon: "📚", xp: 25, condition: () => userData.totalAnswered >= 10 },
-            dedicated: { name: "Dedicated", nameI18n: {en: "Dedicated", tr: "Kararlı"}, desc: "Answer 50 questions", icon: "💪", xp: 50, condition: () => userData.totalAnswered >= 50 },
-            century: { name: "Century", nameI18n: {en: "Century", tr: "Yüzlük"}, desc: "Answer 100 questions", icon: "💯", xp: 100, condition: () => userData.totalAnswered >= 100 },
-            perfectionist: { name: "Perfectionist", nameI18n: {en: "Perfectionist", tr: "Mükemmeliyetçi"}, desc: "10 correct answers in a row", icon: "🏆", xp: 75, condition: () => currentStreak >= 10 },
-            scholar: { name: "Scholar", nameI18n: {en: "Scholar", tr: "Bilgin"}, desc: "80%+ overall accuracy", icon: "🎓", xp: 150, condition: () => (userData.totalCorrect / userData.totalAnswered) >= 0.8 },
-            master: { name: "Master", nameI18n: {en: "Master", tr: "Usta"}, desc: "90%+ overall accuracy", icon: "🌟", xp: 200, condition: () => (userData.totalCorrect / userData.totalAnswered) >= 0.9 },
-            consistent: { name: "Consistent", nameI18n: {en: "Consistent", tr: "Düzenli"}, desc: "3 day streak", icon: "📅", xp: 50, condition: () => userData.streak >= 3 },
-            dedicated_learner: { name: "Dedicated Learner", nameI18n: {en: "Dedicated Learner", tr: "Azimli"}, desc: "7 day streak", icon: "🔥", xp: 150, condition: () => userData.streak >= 7 }
-        };
-
-        const levelThresholds = [
-            { level: 1, name: "Beginner", minXP: 0, icon: "⭐" },
-            { level: 2, name: "Student", minXP: 100, icon: "📚" },
-            { level: 3, name: "Scholar", minXP: 300, icon: "🎓" },
-            { level: 4, name: "Expert", minXP: 600, icon: "💎" },
-            { level: 5, name: "Master", minXP: 1000, icon: "👑" },
-            { level: 6, name: "Professor", minXP: 2000, icon: "🌟" }
-        ];
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', () => {
             loadUserData();
             loadQuestions();
             initializeEventListeners();
-            updateUI();
-            startTimer();
-            setLanguage('en');
+            updateNavStats();
         });
 
         function initializeEventListeners() {
-            document.getElementById('language-selector').addEventListener('change', (e) => {
-                setLanguage(e.target.value);
-            });
-
-            document.querySelectorAll('.study-mode').forEach(mode => {
-                mode.addEventListener('click', () => {
-                    document.querySelectorAll('.study-mode').forEach(m => m.classList.remove('active'));
-                    mode.classList.add('active');
-                    startQuiz(mode.dataset.mode);
+            // Category selection
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const mode = card.dataset.mode;
+                    startQuiz(mode);
                 });
             });
 
+            // Quiz controls
             document.getElementById('submit-fill').addEventListener('click', handleFillAnswer);
             document.getElementById('fill-input').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleFillAnswer();
             });
             document.getElementById('next-btn').addEventListener('click', nextQuestion);
             document.getElementById('skip-btn').addEventListener('click', skipQuestion);
-            document.getElementById('retry-wrong-btn').addEventListener('click', () => {
-                if (incorrectQuestions.length > 0) startQuiz('retry');
+            document.getElementById('retry-btn').addEventListener('click', () => {
+                document.getElementById('welcome-screen').style.display = 'block';
+                document.getElementById('quiz-section').style.display = 'none';
             });
-            document.getElementById('new-quiz-btn').addEventListener('click', () => startQuiz('all'));
+            document.getElementById('home-btn').addEventListener('click', () => {
+                document.getElementById('welcome-screen').style.display = 'block';
+                document.getElementById('quiz-section').style.display = 'none';
+            });
         }
 
         function loadQuestions() {
             if (typeof window.questionBank !== 'undefined') {
-                questionBank = window.questionBank;
-                console.log(`✅ ${questionBank.length} questions loaded!`);
+                questionBank = window.questionBank.map((q, index) => ({
+                    ...q,
+                    id: `q_${index}`,
+                    difficulty: q.difficulty || 'medium',
+                    week: q.week || 1,
+                    topic: q.topic || 'Genel'
+                }));
+                console.log(`✅ ${questionBank.length} soru yüklendi!`);
             } else {
-                console.error('❌ ERROR: questionBank not found!');
-                document.getElementById('question-text').textContent = '❌ Questions could not be loaded!';
-                return;
+                console.error('❌ Sorular yüklenemedi!');
             }
-
-            questionBank = questionBank.map((q, index) => ({
-                ...q,
-                id: `q_${index}`,
-                difficulty: q.difficulty || 'medium',
-                week: q.week || 3,
-                topic: q.topic || 'General'
-            }));
-
-            startQuiz('all');
         }
 
         function startQuiz(mode) {
             let filteredQuestions = [];
-            
+            let modeTitle = 'Quiz';
+
             switch(mode) {
                 case 'all':
                     filteredQuestions = [...questionBank];
+                    modeTitle = '🎯 Tüm Sorular';
                     break;
                 case 'week1':
                     filteredQuestions = questionBank.filter(q => q.week === 1);
+                    modeTitle = '📘 Hafta 1 - İşletim Sistemleri Temelleri';
                     break;
                 case 'week3':
                     filteredQuestions = questionBank.filter(q => q.week === 3);
+                    modeTitle = '📗 Hafta 3 - Sistem Mimarisi';
                     break;
                 case 'week4':
                     filteredQuestions = questionBank.filter(q => q.week === 4);
+                    modeTitle = '📙 Hafta 4 - İşletim Sistemi Katmanları';
                     break;
                 case 'week5':
                     filteredQuestions = questionBank.filter(q => q.week === 5);
-                    break;
-                case 'weak':
-                    filteredQuestions = getWeakQuestions();
+                    modeTitle = '📕 Hafta 5 - Süreç Yönetimi';
                     break;
                 case 'exam':
-                    filteredQuestions = questionBank.slice(0, 50);
-                    break;
-                case 'retry':
-                    filteredQuestions = [...incorrectQuestions];
+                    filteredQuestions = shuffleArray([...questionBank]).slice(0, 50);
+                    modeTitle = '⚡ Sınav Modu - 50 Soru';
                     break;
             }
 
             if (filteredQuestions.length === 0) {
-                alert('No questions found in this mode!');
+                alert('Bu kategoride soru bulunamadı!');
                 return;
             }
 
-            currentQuestions = shuffleArray([...filteredQuestions]);
+            currentQuestions = shuffleArray(filteredQuestions);
             currentQuestionIndex = 0;
-            incorrectQuestions = [];
             userAnswers = [];
             startTime = Date.now();
+            currentStreak = 0;
 
-            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('quiz-mode-title').textContent = modeTitle;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            document.getElementById('question-container').style.display = 'block';
             document.getElementById('results-container').classList.remove('show');
 
+            startTimer();
             showQuestion();
         }
 
@@ -1393,20 +839,19 @@
             }
 
             const question = currentQuestions[currentQuestionIndex];
-            
+
+            // Reset UI
             document.getElementById('feedback').classList.remove('show', 'correct', 'incorrect');
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('options-container').innerHTML = '';
             document.getElementById('fill-container').style.display = 'none';
 
-            document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1}`;
+            // Update question info
+            document.getElementById('question-number').textContent = `Soru ${currentQuestionIndex + 1}`;
             document.getElementById('question-text').textContent = question.q;
-            document.getElementById('category-badge').textContent = question.topic || 'General';
-            
-            const difficultyBadge = document.getElementById('difficulty-badge');
-            const diffMap = {easy: 'Easy', medium: 'Medium', hard: 'Hard'};
-            difficultyBadge.textContent = diffMap[question.difficulty] || 'Medium';
+            document.getElementById('category-badge').textContent = question.topic;
 
+            // Show options or fill input
             if (question.t === 'mcq') {
                 document.getElementById('options-container').style.display = 'flex';
                 shuffleArray([...question.o]).forEach(option => {
@@ -1420,18 +865,17 @@
                 document.getElementById('fill-container').style.display = 'flex';
                 document.getElementById('fill-input').value = '';
                 document.getElementById('fill-input').disabled = false;
-                document.getElementById('fill-input').classList.remove('correct', 'incorrect');
             }
 
-            updateQuizProgress();
+            updateProgress();
         }
 
         function handleMCQAnswer(optionEl, selectedOption, question) {
             document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
-            
+
             const isCorrect = normalizeAnswer(selectedOption) === normalizeAnswer(question.a);
             optionEl.classList.add(isCorrect ? 'correct' : 'incorrect');
-            
+
             if (!isCorrect) {
                 document.querySelectorAll('.option').forEach(opt => {
                     if (normalizeAnswer(opt.textContent) === normalizeAnswer(question.a)) {
@@ -1446,45 +890,37 @@
         function handleFillAnswer() {
             const question = currentQuestions[currentQuestionIndex];
             const userAnswer = document.getElementById('fill-input').value.trim();
-            
+
             if (!userAnswer) {
-                alert('Please enter an answer!');
+                alert('Lütfen bir cevap girin!');
                 return;
             }
 
             const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(question.a);
-            
             document.getElementById('fill-input').disabled = true;
             document.getElementById('submit-fill').disabled = true;
-            document.getElementById('fill-input').classList.add(isCorrect ? 'correct' : 'incorrect');
 
             processAnswer(isCorrect, question);
         }
 
         function processAnswer(isCorrect, question) {
-            userAnswers.push({ questionId: question.id, isCorrect, timestamp: Date.now() });
+            userAnswers.push({ questionId: question.id, isCorrect });
 
             userData.totalAnswered++;
             if (isCorrect) {
                 userData.totalCorrect++;
-                currentStreak++;
-                userData.totalXP += 10;
                 userData.totalScore += 100;
+                currentStreak++;
             } else {
                 currentStreak = 0;
-                incorrectQuestions.push(question);
             }
 
-            const topic = question.topic || 'General';
-            if (!userData.topicMastery[topic]) {
-                userData.topicMastery[topic] = { correct: 0, total: 0 };
+            if (currentStreak > userData.streak) {
+                userData.streak = currentStreak;
             }
-            userData.topicMastery[topic].total++;
-            if (isCorrect) userData.topicMastery[topic].correct++;
 
             showFeedback(isCorrect, question);
-            checkAchievements();
-            updateUI();
+            updateNavStats();
             saveUserData();
 
             document.getElementById('next-btn').style.display = 'inline-flex';
@@ -1495,25 +931,20 @@
             feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
 
             document.getElementById('feedback-icon').textContent = isCorrect ? '✓' : '✗';
-            
-            const feedbackTextEl = document.getElementById('feedback-text');
-            
+            document.getElementById('feedback-title').textContent = isCorrect ? 'Harika! 🎉' : 'Yanlış ❌';
+
+            let message = '';
             if (isCorrect) {
-                document.getElementById('feedback-title').textContent = "Great! 🎉";
                 if (currentStreak >= 5) {
-                    feedbackTextEl.innerHTML = `<strong style="color: white;">${currentStreak} correct in a row! 🔥</strong>`;
+                    message = `Üst üste ${currentStreak} doğru! Harikasın! 🔥`;
                 } else {
-                    feedbackTextEl.innerHTML = `<strong style="color: white;">Correct answer!</strong>`;
+                    message = 'Doğru cevap!';
                 }
             } else {
-                document.getElementById('feedback-title').textContent = "Incorrect ❌";
-                feedbackTextEl.innerHTML = `
-                    <div style="background: white; padding: 12px 16px; border-radius: 8px; margin-top: 8px;">
-                        <strong style="color: #dc2626;">Correct answer:</strong> 
-                        <span style="color: #0f172a; font-weight: 700;">${question.a}</span>
-                    </div>
-                `;
+                message = `Doğru cevap: <strong>${question.a}</strong>`;
             }
+
+            document.getElementById('feedback-message').innerHTML = message;
 
             if (question.explanation) {
                 document.getElementById('explanation').style.display = 'block';
@@ -1529,14 +960,15 @@
         }
 
         function skipQuestion() {
-            if (confirm('Are you sure you want to skip this question?')) {
+            if (confirm('Bu soruyu atlamak istediğinize emin misiniz?')) {
                 currentQuestionIndex++;
                 showQuestion();
             }
         }
 
         function showResults() {
-            document.getElementById('quiz-container').style.display = 'none';
+            clearInterval(timerInterval);
+            document.getElementById('question-container').style.display = 'none';
             document.getElementById('results-container').classList.add('show');
 
             const totalQuestions = currentQuestions.length;
@@ -1544,25 +976,54 @@
             const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
             const timeSpent = Math.floor((Date.now() - startTime) / 1000);
 
-            let icon = '🎉', title = 'Congratulations!';
-            if (accuracy >= 90) { icon = '🏆'; title = 'Perfect!'; }
-            else if (accuracy >= 80) { icon = '⭐'; title = 'Great Job!'; }
-            else if (accuracy >= 70) { icon = '👍'; title = 'Well Done!'; }
-            else if (accuracy < 60) { icon = '💪'; title = 'Keep Practicing!'; }
+            let icon = '🎉', title = 'Tebrikler!';
+            if (accuracy >= 90) { icon = '🏆'; title = 'Mükemmel!'; }
+            else if (accuracy >= 80) { icon = '⭐'; title = 'Harika!'; }
+            else if (accuracy >= 70) { icon = '👍'; title = 'İyi İş!'; }
+            else if (accuracy < 60) { icon = '💪'; title = 'Çalışmaya Devam!'; }
 
-            document.querySelector('.results-icon').textContent = icon;
+            document.getElementById('results-icon').textContent = icon;
             document.getElementById('results-title').textContent = title;
             document.getElementById('results-score').textContent = `${correctAnswers}/${totalQuestions}`;
             document.getElementById('correct-count').textContent = correctAnswers;
             document.getElementById('incorrect-count').textContent = totalQuestions - correctAnswers;
+            document.getElementById('accuracy-percent').textContent = accuracy + '%';
             document.getElementById('time-spent').textContent = formatTime(timeSpent);
-            document.getElementById('xp-earned').textContent = `+${correctAnswers * 10} XP`;
-
-            document.getElementById('retry-wrong-btn').style.display = 
-                incorrectQuestions.length > 0 ? 'inline-flex' : 'none';
 
             saveUserData();
-            updateUI();
+            updateNavStats();
+        }
+
+        function updateProgress() {
+            const progress = currentQuestions.length > 0
+                ? (currentQuestionIndex / currentQuestions.length) * 100
+                : 0;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('question-counter').textContent =
+                `Soru ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        }
+
+        function updateNavStats() {
+            document.getElementById('nav-score').textContent = userData.totalScore;
+            const accuracy = userData.totalAnswered > 0
+                ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100)
+                : 0;
+            document.getElementById('nav-accuracy').textContent = accuracy + '%';
+            document.getElementById('nav-streak').textContent = userData.streak;
+        }
+
+        function startTimer() {
+            let elapsed = 0;
+            timerInterval = setInterval(() => {
+                elapsed++;
+                document.getElementById('timer-display').textContent = `⏱️ ${formatTime(elapsed)}`;
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
         function normalizeAnswer(str) {
@@ -1585,263 +1046,26 @@
             return newArray;
         }
 
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function startTimer() {
-            let elapsed = 0;
-            timerInterval = setInterval(() => {
-                elapsed++;
-                document.getElementById('timer-display').textContent = `⏱️ ${formatTime(elapsed)}`;
-            }, 1000);
-        }
-
-        function updateQuizProgress() {
-            const progress = currentQuestions.length > 0 
-                ? (currentQuestionIndex / currentQuestions.length) * 100 
-                : 0;
-            document.getElementById('progress-fill').style.width = progress + '%';
-            
-            const t = translations[currentLang];
-            document.getElementById('question-counter').textContent = 
-                t.questionCounter
-                    .replace('{current}', currentQuestionIndex + 1)
-                    .replace('{total}', currentQuestions.length);
-        }
-
-        function updateUI() {
-            document.getElementById('total-xp').textContent = userData.totalXP;
-            document.getElementById('total-score').textContent = userData.totalScore;
-            const accuracy = userData.totalAnswered > 0 
-                ? Math.round((userData.totalCorrect / userData.totalAnswered) * 100) 
-                : 0;
-            document.getElementById('accuracy').textContent = accuracy + '%';
-
-            updateLevel();
-            updateProgressRing();
-            updateStreak();
-            updateTopicMastery();
-            updateAchievements();
-        }
-
-        function updateLevel() {
-            const currentLevel = levelThresholds.reduce((level, threshold) => {
-                return userData.totalXP >= threshold.minXP ? threshold : level;
-            });
-            
-            userData.level = currentLevel.level;
-            
-            const nextLevel = levelThresholds.find(l => l.minXP > userData.totalXP);
-            const xpToNext = nextLevel ? nextLevel.minXP - userData.totalXP : 0;
-            const xpProgress = nextLevel ? ((userData.totalXP - currentLevel.minXP) / (nextLevel.minXP - currentLevel.minXP)) * 100 : 100;
-            
-            document.getElementById('level-icon').textContent = currentLevel.icon;
-            
-            const t = translations[currentLang];
-            const levelName = t['level' + currentLevel.name] || currentLevel.name;
-            document.getElementById('level-text').textContent = 
-                t.levelText
-                    .replace('{level}', currentLevel.level)
-                    .replace('{name}', levelName);
-            
-            document.getElementById('xp-text').textContent = 
-                t.xpText
-                    .replace('{current}', userData.totalXP - currentLevel.minXP)
-                    .replace('{next}', nextLevel ? nextLevel.minXP - currentLevel.minXP : 0);
-            
-            document.getElementById('xp-progress').style.width = xpProgress + '%';
-        }
-
-        function updateProgressRing() {
-            const totalQuestions = questionBank.length;
-            const answeredQuestions = Object.keys(userData.questionHistory).length;
-            const masteryPercent = totalQuestions > 0 
-                ? Math.round((answeredQuestions / totalQuestions) * 100) 
-                : 0;
-            
-            document.getElementById('mastery-percent').textContent = masteryPercent + '%';
-            
-            const circle = document.getElementById('progress-circle');
-            const circumference = 2 * Math.PI * 60;
-            const offset = circumference - (masteryPercent / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-        }
-
-        function updateStreak() {
-            const today = new Date().toDateString();
-            const lastStudy = userData.lastStudyDate;
-            
-            if (lastStudy) {
-                const lastDate = new Date(lastStudy).toDateString();
-                const yesterday = new Date(Date.now() - 86400000).toDateString();
-                
-                if (lastDate === yesterday) {
-                    userData.streak++;
-                } else if (lastDate !== today) {
-                    userData.streak = 1;
-                }
-            } else {
-                userData.streak = 1;
-            }
-            
-            userData.lastStudyDate = Date.now();
-            document.getElementById('streak-count').textContent = userData.streak;
-        }
-
-        function updateTopicMastery() {
-            const container = document.getElementById('topic-mastery-list');
-            container.innerHTML = '';
-            
-            const topics = Object.keys(userData.topicMastery);
-            if (topics.length === 0) {
-                container.innerHTML = '<p style="color: var(--gray); text-align: center; font-size: 0.9rem;">No data yet. Start answering questions!</p>';
-                return;
-            }
-            
-            topics.forEach(topic => {
-                const data = userData.topicMastery[topic];
-                const percent = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
-                
-                let colorClass = 'progress-low';
-                if (percent >= 80) colorClass = 'progress-high';
-                else if (percent >= 60) colorClass = 'progress-medium';
-                
-                const topicEl = document.createElement('div');
-                topicEl.className = 'topic-item';
-                topicEl.innerHTML = `
-                    <div class="topic-header">
-                        <span class="topic-name">${topic}</span>
-                        <span class="topic-percent">${percent}%</span>
-                    </div>
-                    <div class="topic-bar">
-                        <div class="topic-progress ${colorClass}" style="width: ${percent}%"></div>
-                    </div>
-                `;
-                container.appendChild(topicEl);
-            });
-        }
-
-        function updateAchievements() {
-            const container = document.getElementById('achievements-list');
-            container.innerHTML = '';
-            
-            Object.keys(achievements).forEach(key => {
-                const achievement = achievements[key];
-                const isUnlocked = userData.achievements[key] || false;
-                
-                const achEl = document.createElement('div');
-                achEl.className = 'achievement' + (isUnlocked ? ' unlocked' : '');
-                achEl.innerHTML = `
-                    <div class="achievement-icon">${achievement.icon}</div>
-                    <div class="achievement-info">
-                        <div class="achievement-title">${achievement.name}</div>
-                        <div class="achievement-desc">${achievement.desc}</div>
-                    </div>
-                    <div class="achievement-xp">+${achievement.xp} XP</div>
-                `;
-                container.appendChild(achEl);
-            });
-        }
-
-        function checkAchievements() {
-            let newAchievements = [];
-            
-            Object.keys(achievements).forEach(key => {
-                if (!userData.achievements[key]) {
-                    if (achievements[key].condition()) {
-                        userData.achievements[key] = true;
-                        newAchievements.push(achievements[key]);
-                        userData.totalXP += achievements[key].xp;
-                    }
-                }
-            });
-            
-            if (newAchievements.length > 0) {
-                newAchievements.forEach(ach => showAchievementNotification(ach));
-            }
-        }
-
-        function showAchievementNotification(achievement) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 80px;
-                right: 20px;
-                background: linear-gradient(135deg, var(--success), #059669);
-                color: white;
-                padding: 20px 25px;
-                border-radius: 12px;
-                box-shadow: var(--shadow-xl);
-                z-index: 10000;
-                animation: slideInRight 0.5s ease;
-                max-width: 320px;
-            `;
-            notification.innerHTML = `
-                <div style="font-size: 2.5rem; margin-bottom: 12px;">${achievement.icon}</div>
-                <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">Achievement Unlocked!</div>
-                <div style="margin-bottom: 6px; font-weight: 600;">${achievement.name}</div>
-                <div style="opacity: 0.95; font-size: 0.9rem;">+${achievement.xp} XP</div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.5s ease';
-                setTimeout(() => notification.remove(), 500);
-            }, 4000);
-        }
-
-        function getWeakQuestions() {
-            return questionBank.filter(q => {
-                const history = userData.questionHistory[q.id];
-                return history && history.attempts > 0 && history.mastery < 70;
-            });
-        }
-
         function saveUserData() {
             try {
-                localStorage.setItem('quizMasterUserData', JSON.stringify(userData));
+                localStorage.setItem('vizeeUserData', JSON.stringify(userData));
             } catch (e) {
-                console.error('Failed to save data:', e);
+                console.error('Veri kaydedilemedi:', e);
             }
         }
 
         function loadUserData() {
             try {
-                const saved = localStorage.getItem('quizMasterUserData');
+                const saved = localStorage.getItem('vizeeUserData');
                 if (saved) {
-                    const loaded = JSON.parse(saved);
-                    userData = { ...userData, ...loaded };
+                    userData = { ...userData, ...JSON.parse(saved) };
                 }
             } catch (e) {
-                console.error('Failed to load data:', e);
+                console.error('Veri yüklenemedi:', e);
             }
         }
 
-        // Console commands for debugging
-        window.exportStats = function() {
-            const stats = {
-                totalXP: userData.totalXP,
-                level: userData.level,
-                totalAnswered: userData.totalAnswered,
-                totalCorrect: userData.totalCorrect,
-                accuracy: userData.totalAnswered > 0 ? ((userData.totalCorrect / userData.totalAnswered) * 100).toFixed(2) + '%' : '0%',
-                streak: userData.streak
-            };
-            console.table(stats);
-        };
-
-        window.resetData = function() {
-            if (confirm('Are you sure you want to reset all progress?')) {
-                localStorage.removeItem('quizMasterUserData');
-                location.reload();
-            }
-        };
-
-        // Add keyboard shortcuts
+        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && document.getElementById('next-btn').style.display !== 'none') {
                 nextQuestion();
@@ -1856,245 +1080,8 @@
             }
         });
 
-        console.log('🎓 QuizMaster - Interactive Learning Platform');
-        console.log('💡 Commands: window.exportStats() | window.resetData()');
-        console.log('⌨️ Shortcuts: 1-4 (select option) | Enter (next) | Esc (skip)');
+        console.log('🎯 Vizee - Modern Öğrenme Platformu');
+        console.log('⌨️ Kısayollar: 1-4 (seçenek) | Enter (sonraki) | Esc (atla)');
     </script>
-
-    <style>
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
-
-        /* Hamburger Menu for Mobile */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 3px;
-            background: var(--dark);
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 64px;
-                left: 0;
-                right: 0;
-                background: var(--white);
-                flex-direction: column;
-                padding: 20px;
-                box-shadow: var(--shadow-lg);
-                gap: 16px;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar-left, .sidebar-right {
-                order: 2;
-            }
-
-            .quiz-card {
-                order: 1;
-            }
-
-            .dashboard-header {
-                padding: 20px;
-            }
-
-            .header-top {
-                flex-direction: column;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .welcome-section h1 {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Loading State */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .loading-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #e2e8f0;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Tooltip */
-        [data-tooltip] {
-            position: relative;
-            cursor: help;
-        }
-
-        [data-tooltip]:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 8px 12px;
-            background: var(--dark);
-            color: white;
-            font-size: 0.85rem;
-            border-radius: 6px;
-            white-space: nowrap;
-            margin-bottom: 8px;
-            z-index: 1000;
-            animation: fadeIn 0.2s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(5px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        /* Print Styles */
-        @media print {
-            .navbar, .sidebar-left, .sidebar-right, .btn-group {
-                display: none;
-            }
-
-            .quiz-card {
-                box-shadow: none;
-            }
-
-            body {
-                background: white;
-            }
-        }
-
-        /* Dark Mode Support (Optional) */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --dark: #f8fafc;
-                --light: #1e293b;
-                --white: #0f172a;
-                --gray: #cbd5e1;
-            }
-
-            body {
-                background: #0f172a;
-            }
-
-            .navbar, .card, .quiz-card {
-                background: #1e293b;
-                border-color: #334155;
-            }
-
-            .option {
-                background: #0f172a;
-                border-color: #334155;
-            }
-
-            .option:hover:not(.disabled) {
-                background: #1e293b;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        *:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* High contrast mode */
-        @media (prefers-contrast: high) {
-            .btn-primary {
-                border: 2px solid var(--primary-dark);
-            }
-
-            .option {
-                border-width: 3px;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
 </body>
 </html>
