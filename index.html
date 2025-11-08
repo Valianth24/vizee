@@ -1,871 +1,160 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="light">
 <head>
+    <!-- Meta Tags - SEO Optimization -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testify - Akıllı Eğitim Platformu</title>
-    <!-- Google AdSense örnek -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXX" crossorigin="anonymous"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Light Mode */
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #a78bfa;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --bg: #ffffff;
-            --bg-secondary: #f3f4f6;
-            --bg-tertiary: #f9fafb;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border: #e5e7eb;
-            --card-bg: #ffffff;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --hover: rgba(99, 102, 241, 0.05);
-        }
-
-        /* Dark Mode */
-        [data-theme="dark"] {
-            --primary: #818cf8;
-            --primary-dark: #6366f1;
-            --primary-light: #a5b4fc;
-            --success: #34d399;
-            --danger: #f87171;
-            --warning: #fbbf24;
-            --info: #60a5fa;
-            --bg: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --border: #334155;
-            --card-bg: #1e293b;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-            --hover: rgba(129, 140, 248, 0.1);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        /* Header */
-        .header {
-            background: var(--card-bg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            width: 60px;
-            height: 30px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle-slider {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: var(--primary);
-            border-radius: 50%;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-        }
-
-        [data-theme="dark"] .theme-toggle-slider {
-            left: 33px;
-        }
-
-        .user-stats {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .stat-badge {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 6px 12px;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 0;
-            padding: 0;
-            overflow-x: auto;
-        }
-
-        .nav-tab {
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .nav-tab:hover {
-            color: var(--primary);
-            background: var(--hover);
-        }
-
-        .nav-tab.active {
-            color: var(--primary);
-        }
-
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1400px;
-            margin: 20px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 20px;
-        }
-
-        /* Ad Banner */
-        .ad-banner {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* AI Assistant Sidebar */
-        .ai-sidebar {
-            width: 350px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            height: calc(100vh - 140px);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-        }
-
-        .ai-header {
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .ai-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 5px;
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
-        }
-
-        .ai-chat {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: var(--bg-secondary);
-        }
-
-        .ai-message {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .ai-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .message-content {
-            background: var(--card-bg);
-            padding: 10px 15px;
-            border-radius: 12px;
-            flex: 1;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .user-message {
-            flex-direction: row-reverse;
-        }
-
-        .user-message .message-content {
-            background: var(--primary);
-            color: white;
-        }
-
-        .ai-input-container {
-            padding: 20px;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            border-radius: 0 0 12px 12px;
-        }
-
-        .ai-input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .ai-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            background: var(--bg);
-            color: var(--text-primary);
-            transition: all 0.3s;
-        }
-
-        .ai-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--hover);
-        }
-
-        .ai-send-btn {
-            padding: 12px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .ai-send-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            padding: 30px;
-            height: calc(100vh - 140px);
-            overflow-y: auto;
-            transition: all 0.3s;
-        }
-
-        /* Tab Contents */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Test Pages */
-        .test-page {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        .test-page.active {
-            display: block;
-        }
-
-        /* Test Selection Page */
-        .test-selection {
-            padding: 20px;
-        }
-
-        .test-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .test-option-card {
-            background: var(--bg-secondary);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .test-option-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .test-option-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .test-option-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-
-        .test-option-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Quiz Page */
-        .quiz-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .quiz-info {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .quiz-progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-secondary);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .quiz-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transition: width 0.3s;
-        }
-
-        .question-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .option-item {
-            padding: 15px 20px;
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .option-item:hover {
-            border-color: var(--primary);
-            background: var(--hover);
-        }
-
-        .option-letter {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-        }
-
-        .option-item.selected {
-            border-color: var(--primary);
-            background: var(--hover);
-        }
-
-        .option-item.selected .option-letter {
-            background: var(--primary);
-            color: white;
-        }
-
-        .option-item.correct {
-            border-color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .option-item.correct .option-letter {
-            background: var(--success);
-            color: white;
-        }
-
-        .option-item.incorrect {
-            border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.1);
-        }
-
-        .option-item.incorrect .option-letter {
-            background: var(--danger);
-            color: white;
-        }
-
-        .option-item.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        /* Quiz Actions */
-        .quiz-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Results Page */
-        .results-container {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .results-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .results-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .results-score {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-
-        .results-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        .result-stat {
-            padding: 20px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-        }
-
-        .result-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .result-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Leaderboard */
-        .leaderboard-container {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .leaderboard-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 20px;
-        }
-
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .leaderboard-table th {
-            background: var(--bg-secondary);
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .leaderboard-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .leaderboard-table tr:hover {
-            background: var(--hover);
-        }
-
-        .rank-badge {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #875a00; }
-        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #555; }
-        .rank-3 { background: linear-gradient(135deg, #cd7f32, #e4a853); color: #fff; }
-        .rank-default { background: var(--bg-tertiary); color: var(--text-secondary); }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-avatar-small {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .main-container {
-                flex-direction: column;
-            }
-
-            .ai-sidebar {
-                width: 100%;
-                height: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .user-stats {
-                display: none;
-            }
-
-            .test-options {
-                grid-template-columns: 1fr;
-            }
-
-            .results-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--bg-tertiary);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>Testify - Yapay Zeka Destekli Akıllı Eğitim Platformu | Online Test Çözme</title>
+    <meta name="description" content="Testify ile yapay zeka destekli test çözün, performansınızı analiz edin ve sınava hazırlanın. Ücretsiz online test platformu.">
+    <meta name="keywords" content="online test, sınav hazırlık, yapay zeka test, eğitim platformu, test çözme, YKS, LGS, KPSS">
+    <meta name="author" content="Testify Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://testify.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://testify.com">
+    <meta property="og:title" content="Testify - Akıllı Eğitim Platformu">
+    <meta property="og:description" content="Yapay zeka destekli test çözme platformu. Performansını analiz et, hedefine ulaş!">
+    <meta property="og:image" content="https://testify.com/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://testify.com">
+    <meta property="twitter:title" content="Testify - Akıllı Eğitim Platformu">
+    <meta property="twitter:description" content="Yapay zeka destekli test çözme platformu">
+    <meta property="twitter:image" content="https://testify.com/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    
+    <!-- Font - Preload for Performance -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Testify",
+      "description": "Yapay zeka destekli online test ve eğitim platformu",
+      "url": "https://testify.com"
+    }
+    </script>
 </head>
 <body>
+    <!-- Skip to Main Content (Accessibility) -->
+    <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
+
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
             <div class="header-top">
-                <a href="#" class="logo">
-                    <span>🎓</span>
+                <a href="/" class="logo" aria-label="Testify Ana Sayfa">
+                    <span role="img" aria-label="Eğitim ikonu">🎓</span>
                     <span>Testify</span>
                 </a>
                 
                 <div class="header-actions">
                     <!-- Theme Toggle -->
-                    <div class="theme-toggle" onclick="toggleTheme()">
-                        <div class="theme-toggle-slider">
-                            <span id="themeIcon">☀️</span>
-                        </div>
-                    </div>
+                    <button 
+                        class="theme-toggle" 
+                        onclick="themeManager.toggle()"
+                        aria-label="Tema değiştir"
+                        aria-pressed="false"
+                        title="Karanlık/Aydınlık mod">
+                        <span class="theme-toggle-slider">
+                            <span id="themeIcon" aria-hidden="true">☀️</span>
+                        </span>
+                    </button>
                     
-                    <div class="user-stats">
-                        <div class="stat-badge">
-                            <span>🔥</span>
-                            <span id="streak">0 Gün</span>
+                    <div class="user-stats" role="status" aria-live="polite">
+                        <div class="stat-badge" title="Günlük seri">
+                            <span role="img" aria-label="Ateş ikonu">🔥</span>
+                            <span id="streak" aria-label="Seri günler">0 Gün</span>
                         </div>
-                        <div class="stat-badge">
-                            <span>⭐</span>
-                            <span id="totalPoints">0 XP</span>
+                        <div class="stat-badge" title="Toplam puan">
+                            <span role="img" aria-label="Yıldız ikonu">⭐</span>
+                            <span id="totalPoints" aria-label="Toplam XP">0 XP</span>
                         </div>
-                        <div class="stat-badge">
-                            <span>🏆</span>
-                            <span id="rank">#--</span>
+                        <div class="stat-badge" title="Sıralama">
+                            <span role="img" aria-label="Kupa ikonu">🏆</span>
+                            <span id="rank" aria-label="Sıralama">#--</span>
                         </div>
                     </div>
-                    <div class="user-avatar" id="userAvatar">U</div>
+                    <button class="user-avatar" id="userAvatar" aria-label="Kullanıcı menüsü" title="Profil">U</button>
                 </div>
             </div>
             
             <!-- Navigation Tabs -->
-            <nav class="nav-tabs">
-                <button class="nav-tab active" data-tab="dashboard">📊 Dashboard</button>
-                <button class="nav-tab" data-tab="test">📝 Test Çöz</button>
-                <button class="nav-tab" data-tab="create">➕ Test Oluştur</button>
-                <button class="nav-tab" data-tab="notes">📚 Notlarım</button>
-                <button class="nav-tab" data-tab="leaderboard">🏆 Liderlik</button>
-                <button class="nav-tab" data-tab="analysis">📈 Analizler</button>
-                <button class="nav-tab" data-tab="settings">⚙️ Ayarlar</button>
+            <nav class="nav-tabs" role="navigation" aria-label="Ana navigasyon">
+                <button class="nav-tab active" data-tab="dashboard" role="tab" aria-selected="true" aria-controls="dashboard">
+                    <span role="img" aria-hidden="true">📊</span> Dashboard
+                </button>
+                <button class="nav-tab" data-tab="test" role="tab" aria-selected="false" aria-controls="test">
+                    <span role="img" aria-hidden="true">📝</span> Test Çöz
+                </button>
+                <button class="nav-tab" data-tab="create" role="tab" aria-selected="false" aria-controls="create">
+                    <span role="img" aria-hidden="true">➕</span> Test Oluştur
+                </button>
+                <button class="nav-tab" data-tab="notes" role="tab" aria-selected="false" aria-controls="notes">
+                    <span role="img" aria-hidden="true">📚</span> Notlarım
+                </button>
+                <button class="nav-tab" data-tab="leaderboard" role="tab" aria-selected="false" aria-controls="leaderboard">
+                    <span role="img" aria-hidden="true">🏆</span> Liderlik
+                </button>
+                <button class="nav-tab" data-tab="analysis" role="tab" aria-selected="false" aria-controls="analysis">
+                    <span role="img" aria-hidden="true">📈</span> Analizler
+                </button>
+                <button class="nav-tab" data-tab="settings" role="tab" aria-selected="false" aria-controls="settings">
+                    <span role="img" aria-hidden="true">⚙️</span> Ayarlar
+                </button>
             </nav>
         </div>
     </header>
 
     <!-- Top Ad Banner -->
-    <div class="ad-banner" style="max-width: 1400px; margin: 20px auto;">
-        <!-- Google AdSense veya başka reklam -->
-        <span>📢 Reklam Alanı (728x90)</span>
-    </div>
+    <aside class="ad-banner" aria-label="Reklam" role="complementary">
+        <div id="ad-top" class="ad-container">
+            <span>📢 Reklam Alanı (728x90)</span>
+        </div>
+    </aside>
 
     <!-- Main Container -->
     <div class="main-container">
         <!-- AI Assistant Sidebar -->
-        <aside class="ai-sidebar">
+        <aside class="ai-sidebar" role="complementary" aria-label="Yapay zeka asistanı">
             <div class="ai-header">
-                <div class="ai-title">
-                    <span>🤖</span>
+                <h2 class="ai-title">
+                    <span role="img" aria-label="Robot ikonu">🤖</span>
                     <span>Testify AI</span>
-                </div>
-                <div class="ai-status">
-                    <span class="status-dot"></span>
+                </h2>
+                <div class="ai-status" role="status" aria-live="polite">
+                    <span class="status-dot" aria-hidden="true"></span>
                     <span>Çevrimiçi</span>
                 </div>
             </div>
             
-            <div class="ai-chat" id="aiChat">
+            <div class="ai-chat" id="aiChat" role="log" aria-live="polite" aria-atomic="false">
                 <div class="ai-message">
-                    <div class="ai-avatar">T</div>
+                    <div class="ai-avatar" aria-hidden="true">T</div>
                     <div class="message-content">
                         Merhaba! Ben Testify AI, senin kişisel eğitim asistanınım. Sana test hazırlama, soru çözme ve öğrenme sürecinde yardımcı olabilirim. Nasıl yardımcı olabilirim?
                     </div>
@@ -873,540 +162,380 @@
             </div>
             
             <div class="ai-input-container">
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiInput" placeholder="Testify AI'ya sor..." />
-                    <button class="ai-send-btn" id="aiSendBtn">→</button>
-                </div>
+                <form class="ai-input-group" onsubmit="aiChat.sendMessage(event)" aria-label="AI mesaj formu">
+                    <label for="aiInput" class="sr-only">Testify AI'ya mesajınız</label>
+                    <input 
+                        type="text" 
+                        class="ai-input" 
+                        id="aiInput" 
+                        placeholder="Testify AI'ya sor..." 
+                        maxlength="500"
+                        aria-label="Mesaj giriş alanı"
+                        autocomplete="off" />
+                    <button 
+                        type="submit" 
+                        class="ai-send-btn" 
+                        id="aiSendBtn"
+                        aria-label="Mesaj gönder">→</button>
+                </form>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="main-content">
+        <main class="main-content" id="main-content" role="main">
             <!-- Dashboard Tab -->
-            <div class="tab-content active" id="dashboard">
-                <h2 style="margin-bottom: 20px;">Dashboard</h2>
+            <section class="tab-content active" id="dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+                <h1>Dashboard</h1>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
-                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">📝</div>
-                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary);">0</div>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Çözülen Test</div>
-                    </div>
-                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">✅</div>
-                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary);">0%</div>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Başarı Oranı</div>
-                    </div>
-                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🎯</div>
-                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary);">0</div>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Toplam Soru</div>
-                    </div>
-                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 10px; text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">⏱️</div>
-                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary);">0s</div>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">Ort. Süre</div>
-                    </div>
+                <div class="stats-grid" role="region" aria-label="İstatistikler">
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">📝</div>
+                        <div class="stat-value" id="totalTests" aria-label="Çözülen test sayısı">0</div>
+                        <div class="stat-label">Çözülen Test</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">✅</div>
+                        <div class="stat-value" id="successRate" aria-label="Başarı oranı">0%</div>
+                        <div class="stat-label">Başarı Oranı</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">🎯</div>
+                        <div class="stat-value" id="totalQuestions" aria-label="Toplam soru sayısı">0</div>
+                        <div class="stat-label">Toplam Soru</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">⏱️</div>
+                        <div class="stat-value" id="avgTime" aria-label="Ortalama süre">0s</div>
+                        <div class="stat-label">Ort. Süre</div>
+                    </article>
                 </div>
+
+                <!-- Recent Activity -->
+                <section class="recent-activity" aria-labelledby="recent-activity-title">
+                    <h2 id="recent-activity-title">Son Aktiviteler</h2>
+                    <div id="activityList" class="activity-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon" aria-hidden="true">📊</div>
+                            <p>Henüz aktivite yok. Test çözerek başla!</p>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Side Ad -->
-                <div class="ad-banner">
-                    <span>📢 Reklam Alanı (300x250)</span>
-                </div>
-            </div>
+                <aside class="ad-banner" aria-label="Reklam">
+                    <div id="ad-dashboard" class="ad-container">
+                        <span>📢 Reklam Alanı (300x250)</span>
+                    </div>
+                </aside>
+            </section>
 
             <!-- Test Tab -->
-            <div class="tab-content" id="test">
+            <section class="tab-content" id="test" role="tabpanel" aria-labelledby="tab-test">
                 <!-- Test Selection Page -->
                 <div class="test-page active" id="testSelection">
                     <div class="test-selection">
-                        <h2>Test Seç</h2>
-                        <div class="test-options">
-                            <div class="test-option-card" onclick="selectTestMode('practice')">
-                                <div class="test-option-icon">📖</div>
-                                <div class="test-option-title">Pratik Modu</div>
-                                <div class="test-option-desc">Zaman baskısı olmadan pratik yap</div>
-                            </div>
-                            <div class="test-option-card" onclick="selectTestMode('exam')">
-                                <div class="test-option-icon">⏱️</div>
-                                <div class="test-option-title">Sınav Modu</div>
-                                <div class="test-option-desc">Gerçek sınav deneyimi</div>
-                            </div>
-                            <div class="test-option-card" onclick="selectTestMode('ai')">
-                                <div class="test-option-icon">🤖</div>
-                                <div class="test-option-title">AI Test</div>
-                                <div class="test-option-desc">AI tarafından oluşturulan sorular</div>
-                            </div>
-                            <div class="test-option-card" onclick="selectTestMode('custom')">
-                                <div class="test-option-icon">⚙️</div>
-                                <div class="test-option-title">Özel Test</div>
-                                <div class="test-option-desc">Kendi kriterlerine göre</div>
-                            </div>
+                        <h1>Test Seç</h1>
+                        <div class="test-options" role="group" aria-label="Test modu seçenekleri">
+                            <article class="test-option-card" tabindex="0" role="button" aria-label="Pratik modu">
+                                <div class="test-option-icon" aria-hidden="true">📖</div>
+                                <h3 class="test-option-title">Pratik Modu</h3>
+                                <p class="test-option-desc">Zaman baskısı olmadan pratik yap</p>
+                            </article>
+                            <article class="test-option-card" tabindex="0" role="button" aria-label="Sınav modu">
+                                <div class="test-option-icon" aria-hidden="true">⏱️</div>
+                                <h3 class="test-option-title">Sınav Modu</h3>
+                                <p class="test-option-desc">Gerçek sınav deneyimi</p>
+                            </article>
+                            <article class="test-option-card" tabindex="0" role="button" aria-label="AI test">
+                                <div class="test-option-icon" aria-hidden="true">🤖</div>
+                                <h3 class="test-option-title">AI Test</h3>
+                                <p class="test-option-desc">AI tarafından oluşturulan sorular</p>
+                            </article>
+                            <article class="test-option-card" tabindex="0" role="button" aria-label="Özel test">
+                                <div class="test-option-icon" aria-hidden="true">⚙️</div>
+                                <h3 class="test-option-title">Özel Test</h3>
+                                <p class="test-option-desc">Kendi kriterlerine göre</p>
+                            </article>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quiz Page -->
-                <div class="test-page" id="quizPage">
+                <div class="test-page" id="quizPage" aria-live="polite">
                     <div class="quiz-container">
                         <div class="quiz-header">
                             <div class="quiz-info">
-                                <span>Soru <span id="currentQuestion">1</span> / <span id="totalQuestions">10</span></span>
+                                <span>Soru <span id="currentQuestion">1</span> / <span id="totalQuestionsQuiz">10</span></span>
                             </div>
                             <div class="quiz-info">
-                                <span>⏱️ <span id="quizTimer">00:00</span></span>
+                                <span role="img" aria-label="Süre">⏱️</span> 
+                                <time id="quizTimer">00:00</time>
                             </div>
                         </div>
 
-                        <div class="quiz-progress-bar">
-                            <div class="quiz-progress-fill" id="progressFill" style="width: 10%"></div>
+                        <div class="quiz-progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                            <div class="quiz-progress-fill" id="progressFill"></div>
                         </div>
 
-                        <div class="question-card">
-                            <div class="question-text" id="questionText">
+                        <article class="question-card">
+                            <h2 class="question-text" id="questionText">
                                 İşletim sisteminin temel görevlerinden biri nedir?
-                            </div>
+                            </h2>
 
-                            <div class="options-list" id="optionsList">
-                                <div class="option-item" data-option="0">
-                                    <span class="option-letter">A</span>
-                                    <span>Donanımı soyutlamak</span>
-                                </div>
-                                <div class="option-item" data-option="1">
-                                    <span class="option-letter">B</span>
-                                    <span>Oyun oynamak</span>
-                                </div>
-                                <div class="option-item" data-option="2">
-                                    <span class="option-letter">C</span>
-                                    <span>İnternet bağlantısı kurmak</span>
-                                </div>
-                                <div class="option-item" data-option="3">
-                                    <span class="option-letter">D</span>
-                                    <span>Video izlemek</span>
-                                </div>
-                            </div>
-                        </div>
+                            <fieldset class="options-list" id="optionsList" aria-label="Cevap seçenekleri">
+                                <legend class="sr-only">Cevabınızı seçin</legend>
+                            </fieldset>
+                        </article>
 
-                        <div class="quiz-actions">
-                            <button class="btn btn-secondary" onclick="previousQuestion()">← Önceki</button>
-                            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Sonraki →</button>
-                            <button class="btn btn-primary" id="submitBtn" style="display:none" onclick="submitAnswer()">Cevapla</button>
-                        </div>
+                        <nav class="quiz-actions" aria-label="Test navigasyonu">
+                            <button class="btn btn-secondary" id="prevBtn" aria-label="Önceki soru">
+                                ← Önceki
+                            </button>
+                            <button class="btn btn-primary" id="nextBtn" aria-label="Sonraki soru">
+                                Sonraki →
+                            </button>
+                            <button class="btn btn-primary" id="submitBtn" style="display:none" aria-label="Testi bitir">
+                                Testi Bitir
+                            </button>
+                        </nav>
                     </div>
                 </div>
 
                 <!-- Results Page -->
                 <div class="test-page" id="resultsPage">
-                    <div class="results-container">
-                        <div class="results-icon">🏆</div>
-                        <h2 class="results-title">Test Tamamlandı!</h2>
-                        <div class="results-score" id="finalScore">8/10</div>
+                    <article class="results-container">
+                        <div class="results-icon" aria-hidden="true">🏆</div>
+                        <h1 class="results-title">Test Tamamlandı!</h1>
+                        <div class="results-score" id="finalScore" role="status" aria-live="polite">8/10</div>
                         
-                        <div class="results-stats">
+                        <div class="results-stats" role="region" aria-label="Test sonuçları">
                             <div class="result-stat">
-                                <div class="result-value" style="color: var(--success);">8</div>
+                                <div class="result-value success-color" id="correctAnswers">8</div>
                                 <div class="result-label">Doğru</div>
                             </div>
                             <div class="result-stat">
-                                <div class="result-value" style="color: var(--danger);">2</div>
+                                <div class="result-value danger-color" id="wrongAnswers">2</div>
                                 <div class="result-label">Yanlış</div>
                             </div>
                             <div class="result-stat">
-                                <div class="result-value" style="color: var(--primary);">80%</div>
+                                <div class="result-value primary-color" id="successPercent">80%</div>
                                 <div class="result-label">Başarı</div>
                             </div>
                             <div class="result-stat">
-                                <div class="result-value" id="totalTime">00:00</div>
+                                <time class="result-value" id="totalTimeResult">00:00</time>
                                 <div class="result-label">Süre</div>
                             </div>
                         </div>
 
-                        <div class="quiz-actions">
-                            <button class="btn btn-secondary" onclick="reviewAnswers()">Cevapları Gör</button>
-                            <button class="btn btn-primary" onclick="newQuiz()">Yeni Test</button>
-                        </div>
-                    </div>
+                        <nav class="quiz-actions" aria-label="Sonuç sayfası aksiyonları">
+                            <button class="btn btn-secondary" id="reviewBtn" aria-label="Cevapları incele">
+                                Cevapları Gör
+                            </button>
+                            <button class="btn btn-primary" id="newQuizBtn" aria-label="Yeni test başlat">
+                                Yeni Test
+                            </button>
+                        </nav>
+                    </article>
                 </div>
-            </div>
+            </section>
 
             <!-- Create Test Tab -->
-            <div class="tab-content" id="create">
-                <h2>Test Oluştur</h2>
+            <section class="tab-content" id="create" role="tabpanel" aria-labelledby="tab-create">
+                <h1>Test Oluştur</h1>
                 
-                <div style="background: var(--bg-secondary); border-radius: 10px; padding: 30px; margin-top: 20px;">
-                    <input type="text" placeholder="Test Başlığı" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; background: var(--bg); color: var(--text-primary);">
-                    
-                    <div style="border: 2px dashed var(--border); border-radius: 10px; padding: 40px; text-align: center; cursor: pointer;">
-                        <div style="font-size: 3rem; margin-bottom: 10px;">📁</div>
-                        <div>PDF, DOCX veya TXT dosyası yükle</div>
+                <form class="create-test-form" id="createTestForm" aria-label="Test oluşturma formu">
+                    <div class="form-group">
+                        <label for="testTitle">Test Başlığı <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="testTitle" 
+                            name="testTitle"
+                            placeholder="Örn: Matematik Final Sınavı" 
+                            required
+                            maxlength="100"
+                            aria-required="true">
+                        <span class="error-message" id="testTitleError" role="alert"></span>
                     </div>
                     
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">🤖 Testify AI ile Oluştur</button>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="testCategory">Kategori <span class="required">*</span></label>
+                        <select id="testCategory" name="testCategory" required aria-required="true">
+                            <option value="">Seçiniz...</option>
+                            <option value="matematik">Matematik</option>
+                            <option value="fen">Fen Bilimleri</option>
+                            <option value="turkce">Türkçe</option>
+                            <option value="sosyal">Sosyal Bilgiler</option>
+                            <option value="ingilizce">İngilizce</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fileUpload">Dosya Yükle</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input 
+                                type="file" 
+                                id="fileUpload" 
+                                name="fileUpload"
+                                accept=".pdf,.docx,.txt"
+                                aria-label="Dosya seç">
+                            <div class="file-upload-content">
+                                <div class="file-icon" aria-hidden="true">📁</div>
+                                <p>PDF, DOCX veya TXT dosyası yükle</p>
+                                <p class="file-hint">veya sürükle bırak</p>
+                            </div>
+                        </div>
+                        <div id="fileInfo" class="file-info" role="status"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <span role="img" aria-hidden="true">🤖</span> Testify AI ile Oluştur
+                    </button>
+                </form>
+            </section>
 
             <!-- Notes Tab -->
-            <div class="tab-content" id="notes">
-                <h2>Notlarım</h2>
-                <div class="empty-state">
-                    <div class="empty-state-icon">📚</div>
-                    <div>Henüz not eklemedin</div>
+            <section class="tab-content" id="notes" role="tabpanel" aria-labelledby="tab-notes">
+                <div class="notes-header">
+                    <h1>Notlarım</h1>
+                    <button class="btn btn-primary" id="addNoteBtn" aria-label="Yeni not ekle">
+                        <span aria-hidden="true">+</span> Yeni Not
+                    </button>
                 </div>
-            </div>
+                <div id="notesList" class="notes-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">📚</div>
+                        <p>Henüz not eklemedin</p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Leaderboard Tab -->
-            <div class="tab-content" id="leaderboard">
-                <div class="leaderboard-container">
-                    <div class="leaderboard-header">
-                        <h2 style="margin: 0;">🏆 Liderlik Tablosu</h2>
-                        <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">Haftalık Sıralama</p>
-                    </div>
+            <section class="tab-content" id="leaderboard" role="tabpanel" aria-labelledby="tab-leaderboard">
+                <article class="leaderboard-container">
+                    <header class="leaderboard-header">
+                        <h1>🏆 Liderlik Tablosu</h1>
+                        <p>Haftalık Sıralama</p>
+                    </header>
                     
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 80px;">Sıra</th>
-                                <th>Kullanıcı</th>
-                                <th>XP</th>
-                                <th>Test</th>
-                                <th>Başarı</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboardBody">
-                            <tr>
-                                <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                                    Henüz veri bulunmuyor
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table class="leaderboard-table" role="table" aria-label="Liderlik tablosu">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sıra</th>
+                                    <th scope="col">Kullanıcı</th>
+                                    <th scope="col">XP</th>
+                                    <th scope="col">Test</th>
+                                    <th scope="col">Başarı</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardBody">
+                                <tr>
+                                    <td colspan="5" class="empty-cell">
+                                        Henüz veri bulunmuyor
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
 
                 <!-- Ad Banner -->
-                <div class="ad-banner" style="margin-top: 20px;">
-                    <span>📢 Reklam Alanı (728x90)</span>
-                </div>
-            </div>
+                <aside class="ad-banner" aria-label="Reklam">
+                    <div id="ad-leaderboard" class="ad-container">
+                        <span>📢 Reklam Alanı (728x90)</span>
+                    </div>
+                </aside>
+            </section>
 
             <!-- Analysis Tab -->
-            <div class="tab-content" id="analysis">
-                <h2>Performans Analizi</h2>
-                <div class="empty-state">
-                    <div class="empty-state-icon">📈</div>
-                    <div>Analiz için daha fazla test çöz</div>
+            <section class="tab-content" id="analysis" role="tabpanel" aria-labelledby="tab-analysis">
+                <h1>Performans Analizi</h1>
+                <div id="analysisContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">📈</div>
+                        <p>Analiz için daha fazla test çöz</p>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Settings Tab -->
-            <div class="tab-content" id="settings">
-                <h2>Ayarlar</h2>
+            <section class="tab-content" id="settings" role="tabpanel" aria-labelledby="tab-settings">
+                <h1>Ayarlar</h1>
                 
-                <div style="background: var(--bg-secondary); border-radius: 10px; padding: 20px; margin-top: 20px;">
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Kullanıcı Adı</label>
-                        <input type="text" value="user123" style="width: 100%; max-width: 400px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-primary);">
+                <form class="settings-form" id="settingsForm" aria-label="Ayarlar formu">
+                    <div class="form-group">
+                        <label for="username">Kullanıcı Adı <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            value="user123"
+                            required
+                            minlength="3"
+                            maxlength="20"
+                            aria-required="true">
+                        <span class="error-message" id="usernameError" role="alert"></span>
                     </div>
                     
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">E-posta</label>
-                        <input type="email" value="user@example.com" style="width: 100%; max-width: 400px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-primary);">
+                    <div class="form-group">
+                        <label for="email">E-posta <span class="required">*</span></label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            value="user@example.com"
+                            required
+                            aria-required="true">
+                        <span class="error-message" id="emailError" role="alert"></span>
                     </div>
                     
-                    <button class="btn btn-primary">Kaydet</button>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="notifications">Bildirimler</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="emailNotif" name="emailNotif" checked>
+                                <span>E-posta bildirimleri</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="pushNotif" name="pushNotif">
+                                <span>Push bildirimleri</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <button type="button" class="btn btn-secondary" id="resetBtn">Sıfırla</button>
+                    </div>
+                </form>
+            </section>
         </main>
     </div>
 
     <!-- Bottom Ad Banner -->
-    <div class="ad-banner" style="max-width: 1400px; margin: 20px auto;">
-        <span>📢 Reklam Alanı (728x90)</span>
+    <aside class="ad-banner" aria-label="Reklam" role="complementary">
+        <div id="ad-bottom" class="ad-container">
+            <span>📢 Reklam Alanı (728x90)</span>
+        </div>
+    </aside>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="loading-spinner" role="status">
+            <span class="sr-only">Yükleniyor...</span>
+        </div>
     </div>
 
-    <script src="testify-ai.js"></script>
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- External JavaScript -->
+    <script src="utils.js"></script>
+    <script src="config.js"></script>
+    <script src="storage.js"></script>
     <script src="sorular.js"></script>
-    <script>
-        // Theme Toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            
-            const themeIcon = document.getElementById('themeIcon');
-            themeIcon.textContent = newTheme === 'light' ? '☀️' : '🌙';
-            
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeIcon').textContent = savedTheme === 'light' ? '☀️' : '🌙';
-
-        // Tab Navigation
-        const tabs = document.querySelectorAll('.nav-tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === tab.dataset.tab) {
-                        content.classList.add('active');
-                    }
-                });
-            });
-        });
-
-        // Quiz System
-        let currentQuestionIndex = 0;
-        let selectedAnswers = [];
-        let quizTimer = null;
-        let seconds = 0;
-        let quizQuestions = [];
-
-        function selectTestMode(mode) {
-            document.getElementById('testSelection').classList.remove('active');
-            document.getElementById('quizPage').classList.add('active');
-            startQuiz(mode);
-        }
-
-        function startQuiz(mode) {
-            // Load questions from questionBank
-            if (window.questionBank) {
-                quizQuestions = window.questionBank.slice(0, 10); // Get first 10 questions
-            } else {
-                // Fallback questions
-                quizQuestions = [
-                    {
-                        q: "İşletim sisteminin temel görevlerinden biri nedir?",
-                        o: ["Donanımı soyutlamak", "Oyun oynamak", "İnternet bağlantısı kurmak", "Video izlemek"],
-                        a: "Donanımı soyutlamak"
-                    }
-                ];
-            }
-            
-            currentQuestionIndex = 0;
-            selectedAnswers = new Array(quizQuestions.length).fill(null);
-            seconds = 0;
-            
-            // Start timer
-            clearInterval(quizTimer);
-            quizTimer = setInterval(() => {
-                seconds++;
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                document.getElementById('quizTimer').textContent = 
-                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }, 1000);
-            
-            displayQuestion();
-        }
-
-        function displayQuestion() {
-            const question = quizQuestions[currentQuestionIndex];
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            document.getElementById('totalQuestions').textContent = quizQuestions.length;
-            document.getElementById('questionText').textContent = question.q;
-            
-            // Update progress
-            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            // Display options
-            const optionsList = document.getElementById('optionsList');
-            optionsList.innerHTML = '';
-            
-            const letters = ['A', 'B', 'C', 'D'];
-            question.o.forEach((option, index) => {
-                const optionEl = document.createElement('div');
-                optionEl.className = 'option-item';
-                optionEl.dataset.option = index;
-                
-                if (selectedAnswers[currentQuestionIndex] === index) {
-                    optionEl.classList.add('selected');
-                }
-                
-                optionEl.innerHTML = `
-                    <span class="option-letter">${letters[index]}</span>
-                    <span>${option}</span>
-                `;
-                
-                optionEl.addEventListener('click', () => selectOption(index));
-                optionsList.appendChild(optionEl);
-            });
-            
-            // Update buttons
-            document.getElementById('nextBtn').style.display = 
-                currentQuestionIndex < quizQuestions.length - 1 ? 'inline-block' : 'none';
-            document.getElementById('submitBtn').style.display = 
-                currentQuestionIndex === quizQuestions.length - 1 ? 'inline-block' : 'none';
-        }
-
-        function selectOption(index) {
-            selectedAnswers[currentQuestionIndex] = index;
-            
-            // Update UI
-            document.querySelectorAll('.option-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            document.querySelector(`[data-option="${index}"]`).classList.add('selected');
-        }
-
-        function nextQuestion() {
-            if (selectedAnswers[currentQuestionIndex] === null) {
-                alert('Lütfen bir cevap seçin!');
-                return;
-            }
-            
-            // Check answer
-            const question = quizQuestions[currentQuestionIndex];
-            const selectedOption = question.o[selectedAnswers[currentQuestionIndex]];
-            const isCorrect = selectedOption === question.a;
-            
-            // Show feedback
-            document.querySelectorAll('.option-item').forEach((item, idx) => {
-                item.classList.add('disabled');
-                if (idx === selectedAnswers[currentQuestionIndex]) {
-                    item.classList.add(isCorrect ? 'correct' : 'incorrect');
-                }
-                if (question.o[idx] === question.a) {
-                    item.classList.add('correct');
-                }
-            });
-            
-            // Move to next question after delay
-            setTimeout(() => {
-                if (currentQuestionIndex < quizQuestions.length - 1) {
-                    currentQuestionIndex++;
-                    displayQuestion();
-                }
-            }, 1500);
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-
-        function submitAnswer() {
-            if (selectedAnswers[currentQuestionIndex] === null) {
-                alert('Lütfen bir cevap seçin!');
-                return;
-            }
-            finishQuiz();
-        }
-
-        function finishQuiz() {
-            clearInterval(quizTimer);
-            
-            // Calculate results
-            let correct = 0;
-            quizQuestions.forEach((question, idx) => {
-                if (question.o[selectedAnswers[idx]] === question.a) {
-                    correct++;
-                }
-            });
-            
-            // Show results page
-            document.getElementById('quizPage').classList.remove('active');
-            document.getElementById('resultsPage').classList.add('active');
-            
-            document.getElementById('finalScore').textContent = `${correct}/${quizQuestions.length}`;
-            document.querySelector('.results-stats .result-stat:nth-child(1) .result-value').textContent = correct;
-            document.querySelector('.results-stats .result-stat:nth-child(2) .result-value').textContent = quizQuestions.length - correct;
-            document.querySelector('.results-stats .result-stat:nth-child(3) .result-value').textContent = 
-                Math.round((correct / quizQuestions.length) * 100) + '%';
-            
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            document.getElementById('totalTime').textContent = 
-                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function newQuiz() {
-            document.getElementById('resultsPage').classList.remove('active');
-            document.getElementById('testSelection').classList.add('active');
-        }
-
-        function reviewAnswers() {
-            alert('Cevap inceleme özelliği yakında eklenecek!');
-        }
-
-        // AI Chat
-        const aiInput = document.getElementById('aiInput');
-        const aiSendBtn = document.getElementById('aiSendBtn');
-        const aiChat = document.getElementById('aiChat');
-
-        aiSendBtn.addEventListener('click', sendAIMessage);
-        aiInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendAIMessage();
-        });
-
-        function sendAIMessage() {
-            const message = aiInput.value.trim();
-            if (!message) return;
-
-            // Add user message
-            const userMessageDiv = document.createElement('div');
-            userMessageDiv.className = 'ai-message user-message';
-            userMessageDiv.innerHTML = `
-                <div class="message-content">${message}</div>
-            `;
-            aiChat.appendChild(userMessageDiv);
-
-            aiInput.value = '';
-            
-            // Simulate AI response
-            setTimeout(() => {
-                const aiResponse = TestifyAI ? TestifyAI.processMessage(message) : 
-                    "Testify AI şu anda hazırlanıyor. Lütfen daha sonra tekrar deneyin.";
-                
-                const aiMessageDiv = document.createElement('div');
-                aiMessageDiv.className = 'ai-message';
-                aiMessageDiv.innerHTML = `
-                    <div class="ai-avatar">T</div>
-                    <div class="message-content">${aiResponse}</div>
-                `;
-                aiChat.appendChild(aiMessageDiv);
-                aiChat.scrollTop = aiChat.scrollHeight;
-            }, 1000);
-            
-            aiChat.scrollTop = aiChat.scrollHeight;
-        }
-
-        // Initialize user data
-        function initializeUserData() {
-            const userData = localStorage.getItem('testifyUserData');
-            if (!userData) {
-                const newUser = {
-                    username: 'user' + Math.floor(Math.random() * 10000),
-                    points: 0,
-                    streak: 0,
-                    testsCompleted: 0,
-                    rank: null
-                };
-                localStorage.setItem('testifyUserData', JSON.stringify(newUser));
-            }
-            updateUserDisplay();
-        }
-
-        function updateUserDisplay() {
-            const userData = JSON.parse(localStorage.getItem('testifyUserData') || '{}');
-            document.getElementById('streak').textContent = userData.streak + ' Gün';
-            document.getElementById('totalPoints').textContent = userData.points + ' XP';
-            document.getElementById('rank').textContent = userData.rank ? '#' + userData.rank : '#--';
-            document.getElementById('userAvatar').textContent = userData.username ? userData.username[0].toUpperCase() : 'U';
-        }
-
-        // Initialize on load
-        initializeUserData();
-    </script>
+    <script src="testify-ai.js"></script>
+    <script src="quiz.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
