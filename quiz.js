@@ -265,17 +265,35 @@ const QuizManager = {
     },
 
     /**
-     * Seçenek seçer
+     * Seçenek seçer - ANINDA DOĞRU/YANLIŞ GÖSTER
      */
     selectOption(index) {
         if (this.state.isReviewing) return;
 
         try {
+            const question = this.state.questions[this.state.currentIndex];
+            const selectedOption = question.o[index];
+            const correctAnswer = question.a;
+            const isCorrect = selectedOption === correctAnswer;
+
             // Cevabı kaydet
             this.state.answers[this.state.currentIndex] = index;
 
-            // UI'ı güncelle
+            // Tüm seçenekleri disable et
             document.querySelectorAll('.option-item').forEach((item, idx) => {
+                item.classList.add('disabled');
+                item.style.pointerEvents = 'none';
+                
+                // Doğru cevabı yeşil yap
+                if (question.o[idx] === correctAnswer) {
+                    item.classList.add('correct');
+                }
+                
+                // Yanlış seçimi kırmızı yap
+                if (idx === index && !isCorrect) {
+                    item.classList.add('incorrect');
+                }
+                
                 if (idx === index) {
                     item.classList.add('selected');
                     item.setAttribute('aria-checked', 'true');
@@ -285,11 +303,55 @@ const QuizManager = {
                 }
             });
 
+            // Açıklamayı göster (yanlış cevapsa veya her zaman)
+            this.showExplanation(question, isCorrect);
+
             // State'i kaydet
             this.saveState();
         } catch (error) {
             console.error('Seçenek seçme hatası:', error);
         }
+    },
+
+    /**
+     * Açıklamayı gösterir
+     */
+    showExplanation(question, isCorrect) {
+        // Eski açıklamayı kaldır
+        const oldExplanation = document.querySelector('.question-explanation');
+        if (oldExplanation) {
+            oldExplanation.remove();
+        }
+
+        // Açıklama yoksa çık
+        if (!question.explanation) return;
+
+        const optionsList = document.getElementById('optionsList');
+        if (!optionsList) return;
+
+        const explanationDiv = document.createElement('div');
+        explanationDiv.className = 'question-explanation';
+        explanationDiv.style.cssText = 'margin-top: 20px; padding: 15px; background: var(--bg-tertiary); border-left: 4px solid var(--info); border-radius: 8px; animation: slideIn 0.3s ease-out;';
+        
+        const statusIcon = isCorrect ? '✅' : '❌';
+        const statusText = isCorrect ? 'Doğru!' : 'Yanlış!';
+        const statusColor = isCorrect ? 'var(--success)' : 'var(--danger)';
+        
+        explanationDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="font-size: 1.2rem;">${statusIcon}</span>
+                <strong style="color: ${statusColor}; font-size: 1.1rem;">${statusText}</strong>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 10px;">
+                <span style="font-size: 1.2rem;">💡</span>
+                <div>
+                    <strong style="color: var(--info);">Açıklama:</strong>
+                    <p style="color: var(--text-secondary); line-height: 1.6; margin: 5px 0 0;">${Utils.sanitizeHTML(question.explanation)}</p>
+                </div>
+            </div>
+        `;
+        
+        optionsList.appendChild(explanationDiv);
     },
 
     /**
