@@ -1,7 +1,3 @@
-/**
- * TESTIFY ADS MANAGER - MULTI-LANGUAGE SUPPORT
- * Dile göre optimize edilmiş reklamlar
- */
 
 'use strict';
 
