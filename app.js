@@ -1,622 +1,819 @@
 /**
- * TESTIFY MAIN APPLICATION
- * Tüm özellikleri çalışır hale getiren ana uygulama
+ * TESTIFY - MAIN APPLICATION
+ * Tüm sistemin koordinasyonu
  */
 
 'use strict';
 
-const App = {
-    /**
-     * Uygulamayı başlatır
-     */
-    init() {
-        console.log('🎓 Testify başlatılıyor...');
-        
-        // Storage'ı kontrol et
-        this.checkStorage();
-        
-        // Kullanıcı verilerini yükle
-        this.loadUserData();
-        
-        // Tema yükle
-        this.loadTheme();
-        
-        // Event listener'ları ekle
-        this.attachEventListeners();
-        
-        // Dashboard'ı güncelle
-        this.updateDashboard();
-        
-        // Leaderboard'ı güncelle
-        this.updateLeaderboard();
-        
-        console.log('✅ Testify hazır!');
-    },
+// ============================================
+// TAB MANAGER
+// ============================================
 
+const TabManager = {
+    currentTab: 'dashboard',
+    
     /**
-     * Storage kontrolü
-     */
-    checkStorage() {
-        try {
-            const test = '__storage_test__';
-            localStorage.setItem(test, test);
-            localStorage.removeItem(test);
-        } catch (e) {
-            Utils.showToast('LocalStorage kullanılamıyor! Veriler kaydedilmeyecek.', 'warning');
-            console.error('Storage hatası:', e);
-        }
-    },
-
-    /**
-     * Kullanıcı verilerini yükler
-     */
-    loadUserData() {
-        try {
-            const userData = StorageManager.getUserData();
-            
-            // Header'daki bilgileri güncelle
-            document.getElementById('userAvatar').textContent = 
-                userData.username.charAt(0).toUpperCase();
-            document.getElementById('streak').textContent = 
-                userData.stats.streak + ' Gün';
-            document.getElementById('totalPoints').textContent = 
-                userData.stats.xp + ' XP';
-            document.getElementById('rank').textContent = 
-                userData.stats.rank ? '#' + userData.stats.rank : '#--';
-        } catch (error) {
-            console.error('Kullanıcı verisi yükleme hatası:', error);
-        }
-    },
-
-    /**
-     * Tema yöneticisi
-     */
-    themeManager: {
-        toggle() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            html.setAttribute('data-theme', newTheme);
-            
-            const themeIcon = document.getElementById('themeIcon');
-            if (themeIcon) {
-                themeIcon.textContent = newTheme === 'light' ? '☀️' : '🌙';
-            }
-            
-            // Theme butonunun pressed durumu
-            const themeBtn = document.querySelector('.theme-toggle');
-            if (themeBtn) {
-                themeBtn.setAttribute('aria-pressed', newTheme === 'dark');
-            }
-            
-            Utils.setToStorage(Config.STORAGE_KEYS.THEME, newTheme);
-        }
-    },
-
-    /**
-     * Temayı yükler
-     */
-    loadTheme() {
-        const savedTheme = Utils.getFromStorage(Config.STORAGE_KEYS.THEME, 'light');
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        const themeIcon = document.getElementById('themeIcon');
-        if (themeIcon) {
-            themeIcon.textContent = savedTheme === 'light' ? '☀️' : '🌙';
-        }
-        
-        const themeBtn = document.querySelector('.theme-toggle');
-        if (themeBtn) {
-            themeBtn.setAttribute('aria-pressed', savedTheme === 'dark');
-        }
-    },
-
-    /**
-     * Tab navigasyonu
+     * TAB DEĞİŞTİR
      */
     switchTab(tabName) {
-        // Tab butonlarını güncelle
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            const isActive = tab.dataset.tab === tabName;
-            tab.classList.toggle('active', isActive);
-            tab.setAttribute('aria-selected', isActive);
+        console.log(`📑 Tab değiştiriliyor: ${tabName}`);
+        
+        // Önceki tab'ı kaydet
+        this.currentTab = tabName;
+        
+        // Tüm tab içeriklerini gizle
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
         });
-
-        // Tab içeriklerini güncelle
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.toggle('active', content.id === tabName);
+        
+        // Tüm nav butonlarını pasif yap
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.classList.remove('active');
         });
-
-        // Tab'a özel yüklemeler
-        switch(tabName) {
-            case 'leaderboard':
-                this.updateLeaderboard();
-                break;
-            case 'notes':
-                this.updateNotes();
-                break;
-            case 'analysis':
-                this.updateAnalysis();
-                break;
-        }
-    },
-
-    /**
-     * Dashboard'ı günceller
-     */
-    updateDashboard() {
-        const userData = StorageManager.getUserData();
-        const stats = userData.stats;
-
-        document.getElementById('totalTests').textContent = stats.totalTests;
-        document.getElementById('totalQuestions').textContent = stats.totalQuestions;
         
-        const successRate = stats.totalQuestions > 0 
-            ? Math.round((stats.correctAnswers / stats.totalQuestions) * 100)
-            : 0;
-        document.getElementById('successRate').textContent = successRate + '%';
+        // Seçili tab butonunu aktif yap
+        const targetButton = document.querySelector(`[data-tab="${tabName}"]`);
+        if (targetButton) {
+            targetButton.classList.add('active');
+        }
         
-        const avgTime = stats.totalTests > 0 
-            ? Math.round(stats.totalTime / stats.totalTests)
-            : 0;
-        document.getElementById('avgTime').textContent = avgTime + 's';
-
-        // Son aktiviteleri göster
-        this.updateActivityList();
-    },
-
-    /**
-     * Aktivite listesini günceller
-     */
-    updateActivityList() {
-        const activities = StorageManager.getActivities(5);
-        const activityList = document.getElementById('activityList');
+        // İçerik ID'sini belirle
+        let contentId = tabName + 'Content';
         
-        if (!activityList) return;
-
-        if (activities.length === 0) {
-            activityList.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📊</div>
-                    <p>Henüz aktivite yok. Test çözerek başla!</p>
-                </div>
-            `;
-            return;
-        }
-
-        activityList.innerHTML = activities.map(activity => `
-            <div class="activity-item" style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <strong>${this.getActivityTitle(activity)}</strong>
-                        <p style="margin: 5px 0 0; color: var(--text-secondary); font-size: 0.9rem;">
-                            ${this.getActivityDescription(activity)}
-                        </p>
-                    </div>
-                    <small style="color: var(--text-tertiary);">
-                        ${Utils.formatDate(activity.timestamp)}
-                    </small>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    /**
-     * Aktivite başlığı
-     */
-    getActivityTitle(activity) {
-        switch(activity.type) {
-            case 'test_completed':
-                return '✅ Test Tamamlandı';
-            case 'note_created':
-                return '📝 Not Oluşturuldu';
-            case 'level_up':
-                return '🎉 Level Atlandı';
-            default:
-                return 'Aktivite';
-        }
-    },
-
-    /**
-     * Aktivite açıklaması
-     */
-    getActivityDescription(activity) {
-        switch(activity.type) {
-            case 'test_completed':
-                return `${activity.data.correctAnswers}/${activity.data.totalQuestions} doğru - %${activity.data.successRate} başarı`;
-            case 'note_created':
-                return activity.data.title || 'Yeni not';
-            case 'level_up':
-                return `Level ${activity.data.level}!`;
-            default:
-                return '';
-        }
-    },
-
-    /**
-     * Leaderboard'ı günceller
-     */
-    updateLeaderboard() {
-        const leaderboard = StorageManager.getLeaderboard(100);
-        const tbody = document.getElementById('leaderboardBody');
-        
-        if (!tbody) return;
-
-        if (leaderboard.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="empty-cell">Henüz veri bulunmuyor</td>
-                </tr>
-            `;
-            return;
-        }
-
-        tbody.innerHTML = leaderboard.map(user => `
-            <tr>
-                <td>
-                    <span class="rank-badge ${this.getRankClass(user.rank)}">${user.rank}</span>
-                </td>
-                <td>
-                    <div class="user-info">
-                        <div class="user-avatar-small">${user.username.charAt(0).toUpperCase()}</div>
-                        <span>${Utils.sanitizeHTML(user.username)}</span>
-                    </div>
-                </td>
-                <td><strong>${user.xp} XP</strong></td>
-                <td>${user.totalTests}</td>
-                <td><span style="color: var(--success);">${user.successRate}%</span></td>
-            </tr>
-        `).join('');
-    },
-
-    /**
-     * Rank class
-     */
-    getRankClass(rank) {
-        if (rank === 1) return 'rank-1';
-        if (rank === 2) return 'rank-2';
-        if (rank === 3) return 'rank-3';
-        return 'rank-default';
-    },
-
-    /**
-     * Notları günceller
-     */
-    updateNotes() {
-        const notes = StorageManager.getNotes();
-        const notesList = document.getElementById('notesList');
-        
-        if (!notesList) return;
-
-        if (notes.length === 0) {
-            notesList.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📚</div>
-                    <p>Henüz not eklemedin</p>
-                </div>
-            `;
-            return;
-        }
-
-        notesList.innerHTML = notes.map(note => `
-            <div class="note-card">
-                <h3 class="note-title">${Utils.sanitizeHTML(note.title || 'Başlıksız Not')}</h3>
-                <p class="note-content">${Utils.sanitizeHTML(note.content || '')}</p>
-                <div class="note-meta">
-                    <span>${Utils.formatDate(note.createdAt)}</span>
-                    <div>
-                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.85rem;" onclick="App.editNote('${note.id}')">
-                            Düzenle
-                        </button>
-                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.85rem;" onclick="App.deleteNote('${note.id}')">
-                            Sil
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    /**
-     * Not ekler
-     */
-    async addNote() {
-        const title = prompt('Not Başlığı:');
-        if (!title) return;
-
-        const content = prompt('Not İçeriği:');
-        if (!content) return;
-
-        const note = {
-            title: title,
-            content: content
-        };
-
-        if (StorageManager.saveNote(note)) {
-            this.updateNotes();
-        }
-    },
-
-    /**
-     * Not düzenler
-     */
-    async editNote(noteId) {
-        const notes = StorageManager.getNotes();
-        const note = notes.find(n => n.id === noteId);
-        
-        if (!note) return;
-
-        const title = prompt('Not Başlığı:', note.title);
-        if (title === null) return;
-
-        const content = prompt('Not İçeriği:', note.content);
-        if (content === null) return;
-
-        note.title = title;
-        note.content = content;
-
-        if (StorageManager.saveNote(note)) {
-            this.updateNotes();
-        }
-    },
-
-    /**
-     * Not siler
-     */
-    async deleteNote(noteId) {
-        const confirmed = await Utils.confirm('Bu notu silmek istediğinizden emin misiniz?');
-        
-        if (confirmed && StorageManager.deleteNote(noteId)) {
-            this.updateNotes();
-        }
-    },
-
-    /**
-     * Analiz sayfasını günceller
-     */
-    updateAnalysis() {
-        const userData = StorageManager.getUserData();
-        const stats = userData.stats;
-        const analysisContent = document.getElementById('analysisContent');
-        
-        if (!analysisContent) return;
-
-        if (stats.totalTests === 0) {
-            analysisContent.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📈</div>
-                    <p>Analiz için daha fazla test çöz</p>
-                </div>
-            `;
-            return;
-        }
-
-        const successRate = Math.round((stats.correctAnswers / stats.totalQuestions) * 100);
-        const avgTime = Math.round(stats.totalTime / stats.totalTests);
-
-        analysisContent.innerHTML = `
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-value">${successRate}%</div>
-                    <div class="stat-label">Ortalama Başarı</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-value">${Utils.formatTime(avgTime)}</div>
-                    <div class="stat-label">Ortalama Süre</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-value">${stats.correctAnswers}</div>
-                    <div class="stat-label">Toplam Doğru</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">❌</div>
-                    <div class="stat-value">${stats.wrongAnswers}</div>
-                    <div class="stat-label">Toplam Yanlış</div>
-                </div>
-            </div>
-            <div style="margin-top: 30px; padding: 20px; background: var(--bg-secondary); border-radius: 10px;">
-                <h3>Performans Değerlendirmesi</h3>
-                <p style="margin-top: 10px; line-height: 1.6;">
-                    ${this.getPerformanceText(successRate)}
-                </p>
-            </div>
-        `;
-    },
-
-    /**
-     * Performans metni
-     */
-    getPerformanceText(successRate) {
-        if (successRate >= 90) {
-            return '🌟 Mükemmel! Harika bir performans gösteriyorsun. Böyle devam et!';
-        } else if (successRate >= 75) {
-            return '👏 Çok iyi! Başarılı bir performans. Biraz daha çalışarak daha da iyileştirebilirsin.';
-        } else if (successRate >= 60) {
-            return '💪 İyi gidiyorsun! Biraz daha pratik yaparsan hedeflerine ulaşabilirsin.';
-        } else if (successRate >= 40) {
-            return '📚 Daha fazla çalışma gerekiyor. Düzenli pratik yaparak gelişebilirsin.';
-        } else {
-            return '🎯 Temel konuları tekrar etmen önerilir. Yavaş yavaş ilerlemeye devam et!';
-        }
-    },
-
-    /**
-     * Ayarları kaydeder
-     */
-    saveSettings(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const username = form.username.value.trim();
-        const email = form.email.value.trim();
-
-        // Validasyon
-        if (!Utils.validateUsername(username)) {
-            Utils.showToast('Geçersiz kullanıcı adı! (3-20 karakter, sadece harf, rakam ve _)', 'error');
-            return;
-        }
-
-        if (email && !Utils.validateEmail(email)) {
-            Utils.showToast('Geçersiz e-posta adresi!', 'error');
-            return;
-        }
-
-        // Kaydet
-        const settings = {
-            username: username,
-            email: email,
-            notifications: {
-                email: form.emailNotif.checked,
-                push: form.pushNotif.checked
+        // Özel durumlar
+        if (tabName === 'test') {
+            contentId = 'testContent';
+            // Test seçim ekranını göster
+            this.showTestSelection();
+        } else if (tabName === 'my-quizzes') {
+            contentId = 'myQuizzesContent';
+            // Quizleri yükle
+            if (window.MyQuizzesManager) {
+                setTimeout(() => {
+                    MyQuizzesManager.displayQuizzes();
+                }, 100);
             }
-        };
-
-        const userData = StorageManager.getUserData();
-        userData.username = username;
-        userData.email = email;
-        userData.settings.notifications = settings.notifications;
-
-        if (StorageManager.updateUserData(userData)) {
-            Utils.showToast(Config.SUCCESS.SAVED, 'success');
-            this.loadUserData();
+        } else if (tabName === 'dashboard') {
+            // Dashboard yükle
+            if (window.DashboardManager) {
+                setTimeout(() => {
+                    DashboardManager.loadDashboard();
+                }, 100);
+            }
+        }
+        
+        // Seçili içeriği göster
+        const content = document.getElementById(contentId);
+        if (content) {
+            content.classList.add('active');
+            console.log(`✅ Tab gösteriliyor: ${contentId}`);
         } else {
-            Utils.showToast(Config.ERRORS.GENERIC, 'error');
+            console.error(`❌ Tab içeriği bulunamadı: ${contentId}`);
         }
-    },
-
-    /**
-     * Ayarları sıfırlar
-     */
-    async resetSettings() {
-        const confirmed = await Utils.confirm('Ayarlar varsayılan değerlere dönecek. Emin misiniz?');
         
-        if (!confirmed) return;
-
-        const userData = StorageManager.getUserData();
-        document.getElementById('username').value = userData.username;
-        document.getElementById('email').value = userData.email || '';
-        document.getElementById('emailNotif').checked = true;
-        document.getElementById('pushNotif').checked = false;
-
-        Utils.showToast('Ayarlar sıfırlandı', 'info');
-    },
-
-    /**
-     * Dosya yükleme işlemi
-     */
-    handleFileUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        // Dosya boyutu kontrolü
-        if (file.size > Config.FILE_UPLOAD.MAX_SIZE) {
-            Utils.showToast(Config.ERRORS.FILE_SIZE, 'error');
-            return;
-        }
-
-        // Dosya türü kontrolü
-        const ext = file.name.split('.').pop().toLowerCase();
-        if (!Config.FILE_UPLOAD.ALLOWED_TYPES.includes(ext)) {
-            Utils.showToast(Config.ERRORS.FILE_TYPE, 'error');
-            return;
-        }
-
-        // Dosya bilgisini göster
-        const fileInfo = document.getElementById('fileInfo');
-        if (fileInfo) {
-            fileInfo.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span>📄</span>
-                    <div>
-                        <div><strong>${Utils.sanitizeHTML(file.name)}</strong></div>
-                        <small style="color: var(--text-secondary);">${Utils.formatFileSize(file.size)}</small>
-                    </div>
-                </div>
-            `;
-        }
-
-        Utils.showToast(Config.SUCCESS.FILE_UPLOADED, 'success');
-    },
-
-    /**
-     * Test oluşturma formu
-     */
-    handleCreateTest(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const title = form.testTitle.value.trim();
-        const category = form.testCategory.value;
-
-        if (!title) {
-            Utils.showToast('Test başlığı gerekli!', 'error');
-            return;
-        }
-
-        if (!category) {
-            Utils.showToast('Kategori seçmelisiniz!', 'error');
-            return;
-        }
-
-        Utils.showToast('Test oluşturma özelliği yakında eklenecek!', 'info');
+        // Smooth scroll
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        // Form sıfırla
-        form.reset();
-        document.getElementById('fileInfo').innerHTML = '';
+        // LocalStorage'a kaydet
+        try {
+            localStorage.setItem('testify_last_tab', tabName);
+        } catch (e) {
+            console.warn('Tab tercihi kaydedilemedi:', e);
+        }
     },
-
+    
     /**
-     * Event listener'ları ekler
+     * TEST SEÇİM EKRANINI GÖSTER
      */
-    attachEventListeners() {
-        // Tab navigasyonu
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
+    showTestSelection() {
+        const testSelection = document.getElementById('testSelection');
+        const quizPage = document.getElementById('quizPage');
+        const resultsPage = document.getElementById('resultsPage');
+        
+        if (testSelection) testSelection.classList.add('active');
+        if (quizPage) quizPage.classList.remove('active');
+        if (resultsPage) resultsPage.classList.remove('active');
+    },
+    
+    /**
+     * SON TAB'I YÜKLE
+     */
+    loadLastTab() {
+        try {
+            const lastTab = localStorage.getItem('testify_last_tab');
+            if (lastTab && lastTab !== 'dashboard') {
+                this.switchTab(lastTab);
+            }
+        } catch (e) {
+            console.warn('Son tab yüklenemedi:', e);
+        }
+    },
+    
+    /**
+     * EVENT LISTENER'LARI KUR
+     */
+    setupEventListeners() {
+        // Nav tab'larına tıklama
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.getAttribute('data-tab');
+                if (tabName) {
+                    this.switchTab(tabName);
+                }
+            });
+            
+            // Keyboard navigation
+            btn.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const tabName = btn.getAttribute('data-tab');
+                    if (tabName) {
+                        this.switchTab(tabName);
+                    }
+                }
+            });
         });
-
-        // Ayarlar formu
-        const settingsForm = document.getElementById('settingsForm');
-        if (settingsForm) {
-            settingsForm.addEventListener('submit', (e) => this.saveSettings(e));
-        }
-
-        // Ayarları sıfırla
-        const resetBtn = document.getElementById('resetBtn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => this.resetSettings());
-        }
-
-        // Dosya yükleme
-        const fileUpload = document.getElementById('fileUpload');
-        if (fileUpload) {
-            fileUpload.addEventListener('change', (e) => this.handleFileUpload(e));
-        }
-
-        // Test oluşturma formu
-        const createForm = document.getElementById('createTestForm');
-        if (createForm) {
-            createForm.addEventListener('submit', (e) => this.handleCreateTest(e));
-        }
-
-        // Not ekleme butonu
-        const addNoteBtn = document.getElementById('addNoteBtn');
-        if (addNoteBtn) {
-            addNoteBtn.addEventListener('click', () => this.addNote());
-        }
-
-        // Tema değiştir
-        window.themeManager = this.themeManager;
+        
+        console.log('✅ Tab event listeners kuruldu');
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('📑 Tab Manager başlatılıyor...');
+        this.setupEventListeners();
+        // Son tab'ı yükleme (opsiyonel)
+        // this.loadLastTab();
+        console.log('✅ Tab Manager hazır');
     }
 };
 
-// Uygulamayı başlat
-document.addEventListener('DOMContentLoaded', () => {
-    App.init();
-});
+// ============================================
+// THEME MANAGER
+// ============================================
 
-// Export
+const ThemeManager = {
+    currentTheme: 'light',
+    
+    /**
+     * TEMA DEĞİŞTİR
+     */
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.applyTheme(this.currentTheme);
+        this.saveTheme(this.currentTheme);
+        
+        console.log(`🎨 Tema değiştirildi: ${this.currentTheme}`);
+    },
+    
+    /**
+     * TEMA UYGULA
+     */
+    applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Theme icon'u güncelle
+        const themeIcon = document.querySelector('.theme-icon');
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        // Theme toggle slider
+        const toggle = document.getElementById('themeToggle');
+        if (toggle) {
+            if (theme === 'dark') {
+                toggle.classList.add('dark');
+            } else {
+                toggle.classList.remove('dark');
+            }
+        }
+    },
+    
+    /**
+     * TEMA KAYDET
+     */
+    saveTheme(theme) {
+        try {
+            localStorage.setItem('testify_theme', theme);
+        } catch (e) {
+            console.warn('Tema tercihi kaydedilemedi:', e);
+        }
+    },
+    
+    /**
+     * TEMA YÜKLE
+     */
+    loadTheme() {
+        try {
+            const savedTheme = localStorage.getItem('testify_theme');
+            
+            if (savedTheme) {
+                this.currentTheme = savedTheme;
+            } else {
+                // Sistem tercihini kontrol et
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                this.currentTheme = prefersDark ? 'dark' : 'light';
+            }
+            
+            this.applyTheme(this.currentTheme);
+            console.log(`✅ Tema yüklendi: ${this.currentTheme}`);
+            
+        } catch (e) {
+            console.warn('Tema yüklenemedi:', e);
+            this.applyTheme('light');
+        }
+    },
+    
+    /**
+     * SİSTEM TEMA DEĞİŞİKLİĞİNİ DİNLE
+     */
+    watchSystemTheme() {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        mediaQuery.addEventListener('change', (e) => {
+            // Sadece kullanıcı manuel değiştirmediyse sistem temasını uygula
+            const savedTheme = localStorage.getItem('testify_theme');
+            if (!savedTheme) {
+                this.currentTheme = e.matches ? 'dark' : 'light';
+                this.applyTheme(this.currentTheme);
+            }
+        });
+    },
+    
+    /**
+     * EVENT LISTENER'LARI KUR
+     */
+    setupEventListeners() {
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+            
+            // Keyboard support
+            themeToggle.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleTheme();
+                }
+            });
+            
+            console.log('✅ Theme toggle event listener kuruldu');
+        } else {
+            console.warn('⚠️ Theme toggle butonu bulunamadı');
+        }
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('🎨 Theme Manager başlatılıyor...');
+        this.loadTheme();
+        this.setupEventListeners();
+        this.watchSystemTheme();
+        console.log('✅ Theme Manager hazır');
+    }
+};
+
+// ============================================
+// NOTIFICATION MANAGER
+// ============================================
+
+const NotificationManager = {
+    
+    /**
+     * TARAYICI BİLDİRİM İZNİ İSTE
+     */
+    async requestPermission() {
+        if (!('Notification' in window)) {
+            console.log('ℹ️ Tarayıcı bildirimleri desteklemiyor');
+            return false;
+        }
+        
+        if (Notification.permission === 'granted') {
+            return true;
+        }
+        
+        if (Notification.permission !== 'denied') {
+            const permission = await Notification.requestPermission();
+            return permission === 'granted';
+        }
+        
+        return false;
+    },
+    
+    /**
+     * BİLDİRİM GÖSTER
+     */
+    show(title, options = {}) {
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, {
+                icon: 'assets/favicon.png',
+                badge: 'assets/favicon.png',
+                ...options
+            });
+            
+            // Tıklanınca pencereyi focus et
+            notification.onclick = () => {
+                window.focus();
+                notification.close();
+            };
+            
+            return notification;
+        }
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('🔔 Notification Manager başlatılıyor...');
+        // İsteğe bağlı: Bildirimi otomatik iste
+        // this.requestPermission();
+        console.log('✅ Notification Manager hazır');
+    }
+};
+
+// ============================================
+// KEYBOARD SHORTCUTS
+// ============================================
+
+const KeyboardShortcuts = {
+    shortcuts: {
+        'Escape': () => {
+            // Modal'ları kapat
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.remove();
+            });
+            
+            // Dropdown'ları kapat
+            document.querySelectorAll('.language-dropdown.show').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        },
+        'F1': (e) => {
+            e.preventDefault();
+            TabManager.switchTab('dashboard');
+        },
+        'F2': (e) => {
+            e.preventDefault();
+            TabManager.switchTab('test');
+        },
+        'F3': (e) => {
+            e.preventDefault();
+            TabManager.switchTab('my-quizzes');
+        },
+        'F4': (e) => {
+            e.preventDefault();
+            TabManager.switchTab('create');
+        },
+        'Alt+T': (e) => {
+            e.preventDefault();
+            ThemeManager.toggleTheme();
+        },
+        'Alt+L': (e) => {
+            e.preventDefault();
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) langBtn.click();
+        }
+    },
+    
+    /**
+     * EVENT LISTENER KUR
+     */
+    setupEventListeners() {
+        document.addEventListener('keydown', (e) => {
+            let key = e.key;
+            
+            // Modifier tuşlarını ekle
+            if (e.altKey) key = 'Alt+' + key;
+            if (e.ctrlKey) key = 'Ctrl+' + key;
+            if (e.shiftKey) key = 'Shift+' + key;
+            
+            // Kısayol varsa çalıştır
+            if (this.shortcuts[key]) {
+                this.shortcuts[key](e);
+            }
+        });
+        
+        console.log('✅ Keyboard shortcuts kuruldu');
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('⌨️ Keyboard Shortcuts başlatılıyor...');
+        this.setupEventListeners();
+        console.log('✅ Keyboard Shortcuts hazır');
+    }
+};
+
+// ============================================
+// PERFORMANCE MONITOR
+// ============================================
+
+const PerformanceMonitor = {
+    
+    /**
+     * PERFORMANS METRİKLERİNİ GÖSTER
+     */
+    logMetrics() {
+        if (!window.performance) return;
+        
+        const perfData = window.performance.timing;
+        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+        const connectTime = perfData.responseEnd - perfData.requestStart;
+        const renderTime = perfData.domComplete - perfData.domLoading;
+        
+        console.log('📊 Performance Metrics:');
+        console.log(`  - Sayfa yükleme: ${pageLoadTime}ms`);
+        console.log(`  - Bağlantı: ${connectTime}ms`);
+        console.log(`  - Render: ${renderTime}ms`);
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.logMetrics();
+            }, 0);
+        });
+    }
+};
+
+// ============================================
+// ERROR HANDLER
+// ============================================
+
+const ErrorHandler = {
+    
+    /**
+     * GLOBAL HATA YAKALAYICI
+     */
+    setupGlobalErrorHandler() {
+        window.addEventListener('error', (event) => {
+            console.error('💥 Global Error:', event.error);
+            
+            // Kullanıcıya göster (production'da kapat)
+            if (window.Utils) {
+                Utils.showToast('Bir hata oluştu. Lütfen sayfayı yenileyin.', 'error');
+            }
+            
+            // Analytics'e gönder (opsiyonel)
+            // this.sendToAnalytics(event.error);
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('💥 Unhandled Promise Rejection:', event.reason);
+            
+            if (window.Utils) {
+                Utils.showToast('Beklenmeyen bir hata oluştu.', 'error');
+            }
+        });
+        
+        console.log('✅ Global error handler kuruldu');
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('🛡️ Error Handler başlatılıyor...');
+        this.setupGlobalErrorHandler();
+        console.log('✅ Error Handler hazır');
+    }
+};
+
+// ============================================
+// SERVICE WORKER (PWA için)
+// ============================================
+
+const ServiceWorkerManager = {
+    
+    /**
+     * SERVICE WORKER KAYDET
+     */
+    async register() {
+        if (!('serviceWorker' in navigator)) {
+            console.log('ℹ️ Service Worker desteklenmiyor');
+            return;
+        }
+        
+        try {
+            // Service worker dosyası oluşturulduktan sonra aktif et
+            // const registration = await navigator.serviceWorker.register('/sw.js');
+            // console.log('✅ Service Worker kaydedildi:', registration);
+        } catch (error) {
+            console.warn('⚠️ Service Worker kaydedilemedi:', error);
+        }
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('📱 Service Worker Manager başlatılıyor...');
+        // this.register();
+        console.log('ℹ️ Service Worker şu an devre dışı');
+    }
+};
+
+// ============================================
+// ANALYTICS (İsteğe bağlı)
+// ============================================
+
+const Analytics = {
+    
+    /**
+     * SAYFA GÖRÜNTÜLENME
+     */
+    trackPageView(pageName) {
+        console.log(`📊 Page View: ${pageName}`);
+        
+        // Google Analytics
+        if (window.gtag) {
+            gtag('config', 'GA_MEASUREMENT_ID', {
+                page_path: `/${pageName}`
+            });
+        }
+    },
+    
+    /**
+     * EVENT TAKIP
+     */
+    trackEvent(category, action, label, value) {
+        console.log(`📊 Event: ${category} - ${action} - ${label}`);
+        
+        // Google Analytics
+        if (window.gtag) {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: value
+            });
+        }
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('📊 Analytics başlatılıyor...');
+        // Analytics kodunu buraya ekle
+        console.log('ℹ️ Analytics şu an devre dışı');
+    }
+};
+
+// ============================================
+// ONLINE/OFFLINE DETECTOR
+// ============================================
+
+const ConnectionMonitor = {
+    
+    /**
+     * BAĞLANTI DURUMUNU KONTROL ET
+     */
+    checkConnection() {
+        if (navigator.onLine) {
+            console.log('🟢 Çevrimiçi');
+            if (window.Utils) {
+                Utils.showToast('İnternet bağlantısı tekrar kuruldu', 'success', 3000);
+            }
+        } else {
+            console.log('🔴 Çevrimdışı');
+            if (window.Utils) {
+                Utils.showToast('İnternet bağlantısı yok!', 'warning', 5000);
+            }
+        }
+    },
+    
+    /**
+     * EVENT LISTENER'LARI KUR
+     */
+    setupEventListeners() {
+        window.addEventListener('online', () => {
+            this.checkConnection();
+        });
+        
+        window.addEventListener('offline', () => {
+            this.checkConnection();
+        });
+        
+        console.log('✅ Connection monitor kuruldu');
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('🌐 Connection Monitor başlatılıyor...');
+        this.setupEventListeners();
+        console.log('✅ Connection Monitor hazır');
+    }
+};
+
+// ============================================
+// AUTO SAVE (İsteğe bağlı)
+// ============================================
+
+const AutoSave = {
+    interval: null,
+    
+    /**
+     * OTOMATİK KAYDETMEYI BAŞLAT
+     */
+    start() {
+        // Her 30 saniyede bir kaydet
+        this.interval = setInterval(() => {
+            if (window.QuizManager && QuizManager.state.questions.length > 0) {
+                QuizManager.saveState();
+                console.log('💾 Otomatik kaydedildi');
+            }
+        }, 30000);
+    },
+    
+    /**
+     * DURDUR
+     */
+    stop() {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+    },
+    
+    /**
+     * BAŞLAT
+     */
+    init() {
+        console.log('💾 Auto Save başlatılıyor...');
+        this.start();
+        console.log('✅ Auto Save hazır (30s interval)');
+    }
+};
+
+// ============================================
+// APP INITIALIZATION
+// ============================================
+
+const App = {
+    version: '1.0.0',
+    
+    /**
+     * UYGULAMAYI BAŞLAT
+     */
+    init() {
+        console.log('');
+        console.log('🎓 =======================================');
+        console.log('   TESTIFY - AI Destekli Test Platformu');
+        console.log(`   Version: ${this.version}`);
+        console.log('🎓 =======================================');
+        console.log('');
+        
+        // Modülleri başlat
+        ThemeManager.init();
+        TabManager.init();
+        NotificationManager.init();
+        KeyboardShortcuts.init();
+        ErrorHandler.init();
+        ServiceWorkerManager.init();
+        Analytics.init();
+        ConnectionMonitor.init();
+        AutoSave.init();
+        PerformanceMonitor.init();
+        
+        // Sayfa yüklendikten sonra
+        this.onPageLoad();
+        
+        console.log('');
+        console.log('✅ Testify başarıyla başlatıldı!');
+        console.log('');
+    },
+    
+    /**
+     * SAYFA YÜKLEME SONRASI
+     */
+    onPageLoad() {
+        window.addEventListener('load', () => {
+            // Loading ekranını gizle (varsa)
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 300);
+            }
+            
+            // İlk aktivasyonları yap
+            this.initialActivations();
+        });
+    },
+    
+    /**
+     * İLK AKTİVASYONLAR
+     */
+    initialActivations() {
+        // Dashboard'ı yükle
+        if (window.DashboardManager) {
+            DashboardManager.loadDashboard();
+        }
+        
+        // Hoş geldin mesajı (ilk giriş)
+        const isFirstVisit = !localStorage.getItem('testify_visited');
+        if (isFirstVisit) {
+            localStorage.setItem('testify_visited', 'true');
+            
+            setTimeout(() => {
+                if (window.Utils) {
+                    Utils.showToast('🎓 Testify\'a hoş geldiniz! Haydi test çözmeye başlayalım!', 'success', 5000);
+                }
+            }, 1000);
+        }
+    }
+};
+
+// ============================================
+// WINDOW GLOBAL EXPORTS
+// ============================================
+
 window.App = App;
+window.TabManager = TabManager;
+window.ThemeManager = ThemeManager;
+window.NotificationManager = NotificationManager;
+window.KeyboardShortcuts = KeyboardShortcuts;
+window.PerformanceMonitor = PerformanceMonitor;
+window.ErrorHandler = ErrorHandler;
+window.ServiceWorkerManager = ServiceWorkerManager;
+window.Analytics = Analytics;
+window.ConnectionMonitor = ConnectionMonitor;
+window.AutoSave = AutoSave;
+
+// ============================================
+// AUTO START
+// ============================================
+
+// Sayfa yüklendiğinde otomatik başlat
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        App.init();
+    });
+} else {
+    App.init();
+}
+
+// ============================================
+// DEBUG MODE (Development için)
+// ============================================
+
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    console.log('🔧 DEBUG MODE ACTIVE');
+    
+    // Debug komutları
+    window.debug = {
+        switchTab: (tab) => TabManager.switchTab(tab),
+        toggleTheme: () => ThemeManager.toggleTheme(),
+        clearData: () => {
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log('🗑️ Tüm veriler temizlendi');
+            location.reload();
+        },
+        generateTestData: () => {
+            // Test verisi oluştur
+            if (window.StorageManager) {
+                for (let i = 0; i < 5; i++) {
+                    StorageManager.saveTestResult({
+                        mode: 'practice',
+                        totalQuestions: 10,
+                        correctAnswers: Math.floor(Math.random() * 10),
+                        wrongAnswers: Math.floor(Math.random() * 5),
+                        unanswered: 0,
+                        successRate: Math.floor(Math.random() * 100),
+                        time: Math.floor(Math.random() * 600),
+                        timestamp: Date.now() - (i * 86400000)
+                    });
+                }
+                console.log('✅ Test verisi oluşturuldu');
+                if (window.DashboardManager) {
+                    DashboardManager.loadDashboard();
+                }
+            }
+        },
+        stats: () => {
+            if (window.AdsManager) {
+                console.log('📊 Ads Stats:', AdsManager.getStats());
+            }
+        },
+        version: () => {
+            console.log(`Testify v${App.version}`);
+        }
+    };
+    
+    console.log('💡 Debug komutları kullanılabilir: window.debug');
+}
