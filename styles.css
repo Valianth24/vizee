@@ -1947,6 +1947,18 @@ a:hover {
     flex: 1;
 }
 
+/* Pulse animasyonu */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0);
+    }
+}
+
 /* ============================================
    AI MESSAGE FORMATTING
    ============================================ */
