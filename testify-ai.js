@@ -13,7 +13,7 @@ const TestifyAI = {
         getApiKey() {
             // Kullanıcıdan API key iste veya env'den al
             return localStorage.getItem('testify_api_key') || 
-                   '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';
+                   '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';
         }
     },
 
