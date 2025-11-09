@@ -71,9 +71,9 @@
     --z-tooltip: 1070;
 }
 
-/* Dark Mode - True Black with High Contrast ✨ */
+/* Dark Mode - PROFESYONEL RENKLER ✨ */
 [data-theme="dark"] {
-    /* Vibrant Color Palette */
+    /* Vibrant Renkler */
     --primary: #818cf8;
     --primary-dark: #6366f1;
     --primary-light: #a5b4fc;
@@ -83,37 +83,454 @@
     --warning: #fbbf24;
     --info: #60a5fa;
     
-    /* True Black Background + Visible Cards */
-    --bg: #000000;
-    --bg-secondary: #18181b;
-    --bg-tertiary: #27272a;
+    /* DÜZELTME: Katmanlı Siyah Tonlar (Belirginlik için) */
+    --bg: #0a0a0a;              /* En koyu - Ana arkaplan */
+    --bg-secondary: #1a1a1a;     /* Kartlar */
+    --bg-tertiary: #2a2a2a;      /* Hover durumları */
     --bg-hover: rgba(129, 140, 248, 0.15);
     
-    /* Crystal Clear Typography */
-    --text-primary: #fafafa;
-    --text-secondary: #d4d4d8;
-    --text-tertiary: #a1a1aa;
+    /* DÜZELTME: Yüksek Kontrast Metin */
+    --text-primary: #f5f5f5;     /* Ana metin - Parlak beyaz */
+    --text-secondary: #d4d4d8;   /* İkincil metin */
+    --text-tertiary: #a1a1aa;    /* Üçüncül metin */
     
-    /* Strong Borders for Separation */
-    --border: #27272a;
-    --border-light: #18181b;
-    --border-dark: #3f3f46;
+    /* DÜZELTME: Belirgin Kenarlıklar */
+    --border: #3a3a3a;           /* Ana kenarlık */
+    --border-light: #2a2a2a;     /* Açık kenarlık */
+    --border-dark: #4a4a4a;      /* Koyu kenarlık */
     
-    /* Contrasting Card Surfaces */
-    --card-bg: #18181b;
-    --card-hover: #27272a;
+    /* DÜZELTME: Kontrast Kartlar */
+    --card-bg: #1a1a1a;          /* Kart arkaplanı */
+    --card-hover: #2a2a2a;       /* Kart hover */
     
-    /* Deep Shadows with Subtle Glow */
+    /* DÜZELTME: Işıltılı Gölgeler */
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.9);
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(129, 140, 248, 0.1);
     --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(129, 140, 248, 0.12);
     --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.97), 0 0 0 1px rgba(129, 140, 248, 0.15);
     --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.98), 0 0 0 1px rgba(129, 140, 248, 0.2);
     
-    /* Accent Glow Effects */
+    /* Accent Işıltı */
     --glow-primary: 0 0 24px rgba(129, 140, 248, 0.5);
     --glow-success: 0 0 24px rgba(52, 211, 153, 0.5);
     --glow-danger: 0 0 24px rgba(248, 113, 113, 0.5);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - HEADER
+   ============================================ */
+
+[data-theme="dark"] .header {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - NAV TABS
+   ============================================ */
+
+[data-theme="dark"] .nav-tab {
+    color: var(--text-secondary);
+    background: transparent;
+    border-bottom: 2px solid transparent;
+}
+
+[data-theme="dark"] .nav-tab:hover {
+    color: var(--primary);
+    background: var(--bg-hover);
+}
+
+[data-theme="dark"] .nav-tab.active {
+    color: var(--primary);
+    background: var(--bg-secondary);
+    border-bottom-color: var(--primary);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - KARTLAR
+   ============================================ */
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .test-option-card,
+[data-theme="dark"] .note-card,
+[data-theme="dark"] .activity-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .stat-card:hover,
+[data-theme="dark"] .test-option-card:hover,
+[data-theme="dark"] .note-card:hover {
+    background: var(--card-hover);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg), var(--glow-primary);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - BUTONLAR
+   ============================================ */
+
+[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.5);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-dark);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - INPUT
+   ============================================ */
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] input:hover,
+[data-theme="dark"] select:hover,
+[data-theme="dark"] textarea:hover {
+    border-color: var(--border-dark);
+    background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+    border-color: var(--primary);
+    background: var(--bg-tertiary);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - AI SIDEBAR
+   ============================================ */
+
+[data-theme="dark"] .ai-sidebar {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .ai-chat {
+    background: var(--bg);
+}
+
+[data-theme="dark"] .ai-message .message-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .user-message .message-content {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    box-shadow: 0 2px 8px rgba(129, 140, 248, 0.3);
+}
+
+[data-theme="dark"] .ai-input-container {
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - MAIN CONTENT
+   ============================================ */
+
+[data-theme="dark"] .main-content {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - TABLE
+   ============================================ */
+
+[data-theme="dark"] .leaderboard-table th {
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .leaderboard-table td {
+    border-bottom: 1px solid var(--border);
+}
+
+[data-theme="dark"] .leaderboard-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - QUIZ
+   ============================================ */
+
+[data-theme="dark"] .question-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .option-item {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+}
+
+[data-theme="dark"] .option-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(129, 140, 248, 0.3);
+}
+
+[data-theme="dark"] .option-item.selected {
+    border-color: var(--primary);
+    background: rgba(129, 140, 248, 0.15);
+}
+
+[data-theme="dark"] .option-item.correct {
+    border-color: var(--success);
+    background: rgba(52, 211, 153, 0.15);
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
+}
+
+[data-theme="dark"] .option-item.incorrect {
+    border-color: var(--danger);
+    background: rgba(248, 113, 113, 0.15);
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.3);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - STAT BADGES
+   ============================================ */
+
+[data-theme="dark"] .stat-badge {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .stat-badge:hover {
+    background: var(--bg-tertiary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(129, 140, 248, 0.2);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - PROGRESS BAR
+   ============================================ */
+
+[data-theme="dark"] .quiz-progress-bar {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .quiz-progress-fill {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    box-shadow: 0 0 12px rgba(129, 140, 248, 0.5);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - THEME TOGGLE
+   ============================================ */
+
+[data-theme="dark"] .theme-toggle {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(129, 140, 248, 0.3);
+}
+
+[data-theme="dark"] .theme-toggle-slider {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    box-shadow: 0 2px 8px rgba(129, 140, 248, 0.4);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - EMPTY STATE
+   ============================================ */
+
+[data-theme="dark"] .empty-state {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .empty-state-icon {
+    opacity: 0.4;
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - SCROLLBAR
+   ============================================ */
+
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg);
+    border-radius: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-dark);
+    border-radius: 10px;
+    border: 2px solid var(--bg);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+    box-shadow: 0 0 8px rgba(129, 140, 248, 0.5);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - TOAST
+   ============================================ */
+
+[data-theme="dark"] .toast {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-xl);
+}
+
+[data-theme="dark"] .toast.success {
+    border-left-color: var(--success);
+    box-shadow: var(--shadow-xl), -4px 0 0 var(--success);
+}
+
+[data-theme="dark"] .toast.error {
+    border-left-color: var(--danger);
+    box-shadow: var(--shadow-xl), -4px 0 0 var(--danger);
+}
+
+[data-theme="dark"] .toast.warning {
+    border-left-color: var(--warning);
+    box-shadow: var(--shadow-xl), -4px 0 0 var(--warning);
+}
+
+[data-theme="dark"] .toast.info {
+    border-left-color: var(--info);
+    box-shadow: var(--shadow-xl), -4px 0 0 var(--info);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - LEADERBOARD
+   ============================================ */
+
+[data-theme="dark"] .leaderboard-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .leaderboard-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - RESULTS
+   ============================================ */
+
+[data-theme="dark"] .results-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-xl);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - FILE UPLOAD
+   ============================================ */
+
+[data-theme="dark"] .file-upload-area {
+    border: 2px dashed var(--border);
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .file-upload-area:hover {
+    border-color: var(--primary);
+    background: var(--bg-hover);
+    box-shadow: 0 0 20px rgba(129, 140, 248, 0.2);
+}
+
+/* ============================================
+   DARK MODE İYİLEŞTİRMELERİ - AÇIKLAMA
+   ============================================ */
+
+[data-theme="dark"] .question-explanation {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--info);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   DARK MODE - KONTRAST İYİLEŞTİRMESİ
+   ============================================ */
+
+/* Ana başlıklar için ekstra kontrast */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
+    color: var(--text-primary);
+    text-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+}
+
+/* Önemli metinler için vurgulama */
+[data-theme="dark"] strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Link'ler için daha belirgin renk */
+[data-theme="dark"] a {
+    color: var(--primary-light);
+}
+
+[data-theme="dark"] a:hover {
+    color: var(--primary);
+    text-shadow: 0 0 8px rgba(129, 140, 248, 0.5);
+}
+
+/* ============================================
+   DARK MODE - İKONLAR VE EMOJİLER
+   ============================================ */
+
+[data-theme="dark"] .stat-icon,
+[data-theme="dark"] .test-option-icon,
+[data-theme="dark"] .empty-state-icon {
+    filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.3));
+}
+
+/* ============================================
+   DARK MODE - HOVER EFEKTLERİ
+   ============================================ */
+
+[data-theme="dark"] *:hover {
+    transition: all var(--transition-base);
+}
+
+/* Smooth geçişler için */
+[data-theme="dark"] * {
+    transition: background var(--transition-base),
+                border var(--transition-base),
+                color var(--transition-base),
+                box-shadow var(--transition-base);
 }
 
 /* ============================================
