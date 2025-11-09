@@ -1,29 +1,47 @@
 /**
- * TESTIFY QUIZ MANAGER - AI TEST DESTEĞİ
+ * TESTIFY QUIZ MANAGER - TAM TAMAMLANMIŞ SÜRÜM
+ * AI Test Desteği + Tüm Özellikler
  */
 
 'use strict';
 
 const QuizManager = {
-    // ... (mevcut kodlar)
-    
+    // Quiz durumu
+    state: {
+        currentMode: null,
+        questions: [],
+        currentIndex: 0,
+        answers: [],
+        startTime: null,
+        timerInterval: null,
+        elapsedSeconds: 0,
+        isReviewing: false,
+        testTitle: null,
+        testDescription: null
+    },
+
     /**
      * AI TARAFINDAN OLUŞTURULAN TESTİ YÜKLE
      */
     loadAIGeneratedTest() {
         try {
             const aiTest = localStorage.getItem('testify_generated_test');
-            if (!aiTest) return null;
+            if (!aiTest) {
+                console.log('ℹ️ AI testi bulunamadı');
+                return null;
+            }
             
             const testData = JSON.parse(aiTest);
             
             // Süresi dolmuş mu kontrol et (24 saat)
-            if (Date.now() - testData.createdAt > 86400000) {
+            if (testData.expiresAt && Date.now() > testData.expiresAt) {
+                console.log('⏰ AI testi süresi dolmuş');
                 localStorage.removeItem('testify_generated_test');
                 return null;
             }
             
             console.log('✅ AI testi yüklendi:', testData.title);
+            console.log('📊 Soru sayısı:', testData.questions.length);
             return testData;
             
         } catch (error) {
@@ -33,14 +51,16 @@ const QuizManager = {
     },
 
     /**
-     * Quiz'i başlatır - MODİFİYE EDİLMİŞ
+     * Quiz'i başlatır - AI TEST DESTEĞİ İLE
      */
     startQuiz(mode) {
         try {
             // Önce AI testi var mı kontrol et
             const aiTest = this.loadAIGeneratedTest();
             
-            if (aiTest) {
+            if (aiTest && aiTest.questions && aiTest.questions.length > 0) {
+                console.log('🤖 AI testi kullanılıyor');
+                
                 // AI testini kullan
                 this.state = {
                     currentMode: 'ai',
@@ -57,13 +77,19 @@ const QuizManager = {
                 
                 this.state.answers = new Array(aiTest.questions.length).fill(null);
                 
-                // Test başlığını göster
-                Utils.showToast(`🎯 ${aiTest.title} - ${aiTest.questions.length} soru`, 'info', 4000);
+                // AI testini kullandıktan sonra sil (tek kullanımlık)
+                // localStorage.removeItem('testify_generated_test'); // İsterseniz silebilirsiniz
+                
+                // Bildirim göster
+                Utils.showToast(`🤖 AI Testi: ${aiTest.title} - ${aiTest.questions.length} soru`, 'info', 4000);
                 
             } else {
-                // Mevcut soru bankasını kullan (eski sistem)
+                console.log('📚 Varsayılan sorular kullanılıyor');
+                
+                // Soru bankası kontrolü
                 if (!window.questionBank || !Array.isArray(window.questionBank)) {
                     Utils.showToast('Soru bankası yüklenemedi!', 'error');
+                    console.error('questionBank bulunamadı!');
                     return;
                 }
 
@@ -72,6 +98,7 @@ const QuizManager = {
                     return;
                 }
 
+                // Tüm soruları karıştır ve al
                 const allQuestions = [...window.questionBank];
                 
                 this.state = {
@@ -82,11 +109,15 @@ const QuizManager = {
                     startTime: Date.now(),
                     timerInterval: null,
                     elapsedSeconds: 0,
-                    isReviewing: false
+                    isReviewing: false,
+                    testTitle: null,
+                    testDescription: null
                 };
                 
                 this.state.answers = new Array(this.state.questions.length).fill(null);
             }
+
+            console.log(`✅ ${this.state.questions.length} soru yüklendi`);
 
             // Sayfaları değiştir
             const testSelection = document.getElementById('testSelection');
@@ -224,7 +255,7 @@ const QuizManager = {
     },
 
     /**
-     * Seçenekleri gösterir - EXPLANATION EKLENDİ
+     * Seçenekleri gösterir
      */
     displayOptions(question) {
         const optionsList = document.getElementById('optionsList');
@@ -283,7 +314,7 @@ const QuizManager = {
             optionsList.appendChild(optionDiv);
         });
 
-        // DÜZELTME: Review modunda açıklama göster
+        // Review modunda açıklama göster
         if (this.state.isReviewing && question.explanation) {
             const explanationDiv = document.createElement('div');
             explanationDiv.className = 'question-explanation';
@@ -337,7 +368,7 @@ const QuizManager = {
                 }
             });
 
-            // Açıklamayı göster (yanlış cevapsa veya her zaman)
+            // Açıklamayı göster
             this.showExplanation(question, isCorrect);
 
             // State'i kaydet
@@ -475,6 +506,9 @@ const QuizManager = {
             // Quiz state'i temizle
             StorageManager.clearQuizState();
 
+            // AI testini de sil (kullanıldı)
+            localStorage.removeItem('testify_generated_test');
+
             // Sonuç sayfasını göster
             this.showResults(results);
         } catch (error) {
@@ -516,7 +550,8 @@ const QuizManager = {
             unanswered: unanswered,
             successRate: successRate,
             time: this.state.elapsedSeconds,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            testTitle: this.state.testTitle
         };
     },
 
@@ -574,7 +609,7 @@ const QuizManager = {
     },
 
     /**
-     * Cevapları inceler - EXPLANATION GÖRÜNÜR
+     * Cevapları inceler
      */
     reviewAnswers() {
         try {
@@ -640,8 +675,13 @@ const QuizManager = {
                 startTime: null,
                 timerInterval: null,
                 elapsedSeconds: 0,
-                isReviewing: false
+                isReviewing: false,
+                testTitle: null,
+                testDescription: null
             };
+
+            // AI testini temizle
+            localStorage.removeItem('testify_generated_test');
 
             // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -681,9 +721,9 @@ const QuizManager = {
     }
 };
 
-// Event Listeners - Performance optimize edilmiş
+// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Test mode kartlarına tıklama - Event delegation
+    // Test mode kartlarına tıklama
     const testOptions = document.querySelector('.test-options');
     if (testOptions) {
         const modes = ['practice', 'exam', 'ai', 'custom'];
@@ -743,15 +783,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Kaydedilmiş quiz state'i yükle
     const savedState = StorageManager.getQuizState();
     if (savedState && savedState.questionCount > 0) {
-        // Kullanıcıya devam etmek isteyip istemediğini sor
         setTimeout(async () => {
             const continueQuiz = await Utils.confirm(
                 'Yarım kalan bir testiniz var. Devam etmek ister misiniz?'
             );
             
             if (continueQuiz) {
-                // State'i yükle ve devam et
-                // Bu özellik ileride geliştirilebilir
                 Utils.showToast('Devam etme özelliği yakında eklenecek', 'info');
             } else {
                 StorageManager.clearQuizState();
@@ -760,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Sayfa kapatılırken uyarı (eğer test devam ediyorsa)
+// Sayfa kapatılırken uyarı
 window.addEventListener('beforeunload', (e) => {
     if (QuizManager.state.questions.length > 0 && !QuizManager.state.isReviewing) {
         e.preventDefault();
