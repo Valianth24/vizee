@@ -1,42 +1,35 @@
-/**
- * TESTIFY AI - OPTİMİZE EDİLMİŞ EĞİTİM ASİSTANI
- * Bismillahirrahmanirrahim
- * Minimum API kullanımı, maksimum yerel zeka ve detaylı açıklamalar
- */
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, BookOpen, Brain, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 
-'use strict';
+const TestifyAI = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [stats, setStats] = useState({
+    totalQuestions: 0,
+    correctAnswers: 0,
+    streak: 0,
+    level: 1
+  });
+  const [showStats, setShowStats] = useState(false);
+  const chatRef = useRef(null);
 
-const TestifyAI = {
-    // Sistem yapılandırması
-    config: {
-        name: 'Testify Eğitim Asistanı',
-        version: '4.0',
-        mode: 'local-first',
-        apiUsage: 'minimal',
-        features: {
-            smartQuestions: true,
-            detailedExplanations: true,
-            adaptiveLearning: true,
-            performanceTracking: true
-        }
-    },
-
-    // Gelişmiş soru havuzu
-    questionBank: {
-        week1: {
-            windows: [
-                {
-                    id: 'w1-win-001',
-                    question: "Windows Registry nedir ve ne işe yarar?",
-                    options: [
-                        "Sistem ayarlarının saklandığı merkezi veritabanı",
-                        "Dosya yedekleme sistemi",
-                        "Antivirüs programı",
-                        "İnternet geçmişi"
-                    ],
-                    correctAnswer: "Sistem ayarlarının saklandığı merkezi veritabanı",
-                    difficulty: "hard",
-                    explanation: `📚 WINDOWS REGISTRY DETAYLI AÇIKLAMA:
+  // Soru bankası
+  const questionBank = {
+    windows: [
+      {
+        id: 'w1',
+        question: "Windows Registry nedir ve ne işe yarar?",
+        options: [
+          "Sistem ayarlarının saklandığı merkezi veritabanı",
+          "Dosya yedekleme sistemi",
+          "Antivirüs programı",
+          "İnternet geçmişi"
+        ],
+        correct: 0,
+        difficulty: "hard",
+        explanation: `📚 WINDOWS REGISTRY DETAYLI AÇIKLAMA:
 
 🔍 NEDİR?
 Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik veritabanıdır.
@@ -48,511 +41,298 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
 • HKEY_USERS (HKU) → Tüm kullanıcı profilleri
 • HKEY_CURRENT_CONFIG (HKCC) → Donanım profilleri
 
-⚙️ KULLANIM ALANLARI:
-1. Program ayarları saklanır
-2. Windows özellikleri yapılandırılır
-3. Donanım bilgileri tutulur
-4. Kullanıcı tercihleri kaydedilir
-
-🛠️ REGISTRY EDİTÖR:
-• Açmak için: Win+R → regedit
-• ⚠️ DİKKAT: Yanlış değişiklik sistemi bozabilir!
-• Değişiklik öncesi yedek alın
-
 💡 GERÇEK HAYAT ÖRNEĞİ:
-Bir programı kaldırdıktan sonra hala "Aç" menüsünde görünüyorsa, Registry'de kalmış olabilir.
-
-🎯 İPUCU: Registry temizleme programları (CCleaner gibi) gereksiz kayıtları temizler.`,
-                    tips: [
-                        "Registry'yi düzenlemeden önce mutlaka yedek alın",
-                        "Sistem geri yükleme noktası oluşturun",
-                        "Bilmediğiniz anahtarları değiştirmeyin"
-                    ],
-                    relatedTopics: ["Sistem Dosyaları", "Windows Yapısı", "Sistem Optimizasyonu"]
-                },
-                {
-                    id: 'w1-win-002',
-                    question: "Windows'ta Blue Screen of Death (BSOD) ne anlama gelir?",
-                    options: [
-                        "Kritik sistem hatası ve çökme",
-                        "Ekran koruyucu",
-                        "Güncelleme bildirimi",
-                        "Uyku modu"
-                    ],
-                    correctAnswer: "Kritik sistem hatası ve çökme",
-                    difficulty: "medium",
-                    explanation: `💙 BLUE SCREEN OF DEATH (BSOD) ANALİZİ:
+Bir programı kaldırdıktan sonra hala "Aç" menüsünde görünüyorsa, Registry'de kalmış olabilir.`
+      },
+      {
+        id: 'w2',
+        question: "Windows'ta Blue Screen of Death (BSOD) ne anlama gelir?",
+        options: [
+          "Kritik sistem hatası ve çökme",
+          "Ekran koruyucu",
+          "Güncelleme bildirimi",
+          "Uyku modu"
+        ],
+        correct: 0,
+        difficulty: "medium",
+        explanation: `💙 BLUE SCREEN OF DEATH (BSOD) ANALİZİ:
 
 🚨 NEDİR?
 Windows'un kritik bir hatayla karşılaştığında gösterdiği mavi hata ekranıdır.
 
 ❓ NEDEN OLUR?
-1. 🔧 Donanım Sorunları:
-   • Bozuk RAM
-   • Aşırı ısınma
-   • Uyumsuz donanım
-
-2. 💿 Yazılım Sorunları:
-   • Bozuk sürücüler (driver)
-   • Sistem dosyası hasarı
-   • Uyumsuz yazılımlar
-
-3. 🦠 Diğer Sebepler:
-   • Virüsler
-   • Güç kesintileri
-   • BIOS ayarları
-
-📊 HATA KODLARI:
-• IRQL_NOT_LESS_OR_EQUAL → Sürücü sorunu
-• PAGE_FAULT_IN_NONPAGED_AREA → RAM sorunu
-• SYSTEM_SERVICE_EXCEPTION → Sistem dosyası hatası
-• KERNEL_SECURITY_CHECK_FAILURE → Güvenlik ihlali
+1. 🔧 Donanım Sorunları
+2. 💿 Bozuk sürücüler
+3. 🦠 Virüsler
 
 🔧 ÇÖZÜM YÖNTEMLERİ:
-1. Güvenli modda başlat (F8)
-2. Son donanım/yazılım değişikliklerini geri al
-3. Sürücüleri güncelle
-4. RAM testi yap (Windows Memory Diagnostic)
-5. Sistem dosyalarını onar (sfc /scannow)
+• Güvenli modda başlat (F8)
+• Sürücüleri güncelle
+• RAM testi yap`
+      }
+    ],
+    linux: [
+      {
+        id: 'l1',
+        question: "Linux'ta chmod 755 komutu ne yapar?",
+        options: [
+          "Sahip: okuma+yazma+çalıştırma, Diğerleri: okuma+çalıştırma",
+          "Tüm izinleri kaldırır",
+          "Sadece okuma izni verir",
+          "Dosyayı siler"
+        ],
+        correct: 0,
+        difficulty: "hard",
+        explanation: `🔐 CHMOD 755 AÇILIMI:
 
-💡 ÖNLEYİCİ TEDBİRLER:
-• Düzenli Windows güncellemeleri
-• Sürücüleri güncel tut
-• Antivirüs kullan
-• Sistem temizliği yap
-• Aşırı ısınmayı önle
-
-🎯 MODERN WINDOWS: Windows 10/11'de BSOD artık QR kod gösterir!`,
-                    tips: [
-                        "BSOD hata kodunu not alın",
-                        "Event Viewer'da detaylı bilgi bulabilirsiniz",
-                        "Minidump dosyaları analiz edilebilir"
-                    ]
-                }
-            ],
-            linux: [
-                {
-                    id: 'w1-linux-001',
-                    question: "Linux'ta chmod 755 komutu ne yapar?",
-                    options: [
-                        "Sahip: okuma+yazma+çalıştırma, Diğerleri: okuma+çalıştırma",
-                        "Tüm izinleri kaldırır",
-                        "Sadece okuma izni verir",
-                        "Dosyayı siler"
-                    ],
-                    correctAnswer: "Sahip: okuma+yazma+çalıştırma, Diğerleri: okuma+çalıştırma",
-                    difficulty: "hard",
-                    explanation: `🔐 CHMOD ve LINUX İZİN SİSTEMİ:
-
-📊 İZİN YAPISI:
-Linux'ta her dosya/klasör için 3 grup izin vardır:
-• Owner (Sahip) - u
-• Group (Grup) - g  
-• Others (Diğerleri) - o
-
-🔢 SAYI SİSTEMİ:
-• 4 = Read (Okuma) - r
-• 2 = Write (Yazma) - w
-• 1 = Execute (Çalıştırma) - x
-
-📐 CHMOD 755 AÇILIMI:
-• 7 (Sahip) = 4+2+1 = rwx (Okuma+Yazma+Çalıştırma)
-• 5 (Grup) = 4+0+1 = r-x (Okuma+Çalıştırma)
-• 5 (Diğer) = 4+0+1 = r-x (Okuma+Çalıştırma)
+📐 CHMOD 755:
+• 7 (Sahip) = rwx (Okuma+Yazma+Çalıştırma)
+• 5 (Grup) = r-x (Okuma+Çalıştırma)
+• 5 (Diğer) = r-x (Okuma+Çalıştırma)
 
 💻 ÖRNEKLER:
-chmod 777 dosya → Herkes her şeyi yapabilir (⚠️ Tehlikeli!)
-chmod 644 dosya → Sahip: rw-, Diğerleri: r--
-chmod 600 dosya → Sadece sahip okuyup yazabilir
-chmod 755 script.sh → Tipik script izni
-
-🔤 HARF YÖNTEMİ:
-chmod u+x dosya → Sahibe çalıştırma izni ekle
-chmod g-w dosya → Gruptan yazma iznini kaldır
-chmod o=r dosya → Diğerlerine sadece okuma
-
-🎯 KULLANIM ALANLARI:
-• Web sunucuları: 755 (klasörler), 644 (dosyalar)
-• Script dosyaları: 755 veya 775
-• Özel dosyalar: 600
-• Public dosyalar: 644
-
-⚠️ GÜVENLİK İPUÇLARI:
-• 777 kullanmaktan kaçının
-• /etc altındaki dosyalara dikkat
-• Script dosyalarını kontrol edin`,
-                    tips: [
-                        "ls -la komutu ile izinleri görebilirsiniz",
-                        "umask komutu varsayılan izinleri ayarlar",
-                        "sudo gerekebilir sistem dosyaları için"
-                    ]
-                }
-            ]
-        },
-        week3: {
-            memory: [
-                {
-                    id: 'w3-mem-001',
-                    question: "Page Fault ne zaman oluşur?",
-                    options: [
-                        "İstenen sayfa RAM'de olmayıp disk'te olduğunda",
-                        "RAM dolduğunda",
-                        "CPU meşgul olduğunda",
-                        "Program çöktüğünde"
-                    ],
-                    correctAnswer: "İstenen sayfa RAM'de olmayıp disk'te olduğunda",
-                    difficulty: "hard",
-                    explanation: `📄 PAGE FAULT (SAYFA HATASI) DETAYLI ANALİZ:
+chmod 777 → Herkes her şeyi yapabilir (⚠️ Tehlikeli!)
+chmod 644 → Sahip: rw-, Diğerleri: r--
+chmod 600 → Sadece sahip okuyup yazabilir`
+      }
+    ],
+    memory: [
+      {
+        id: 'm1',
+        question: "Page Fault ne zaman oluşur?",
+        options: [
+          "İstenen sayfa RAM'de olmayıp disk'te olduğunda",
+          "RAM dolduğunda",
+          "CPU meşgul olduğunda",
+          "Program çöktüğünde"
+        ],
+        correct: 0,
+        difficulty: "hard",
+        explanation: `📄 PAGE FAULT DETAYLI ANALİZ:
 
 🔍 PAGE FAULT NEDİR?
-CPU'nun erişmek istediği bellek sayfası (page) RAM'de değil, disk'te (swap/page file) olduğunda oluşan durum.
+CPU'nun erişmek istediği bellek sayfası RAM'de değil, disk'te olduğunda oluşan durum.
 
-📊 PAGE FAULT TÜRLERİ:
+📊 TÜRLERİ:
+1️⃣ MINOR (SOFT) - Çok hızlı
+2️⃣ MAJOR (HARD) - Yavaş (disk erişimi)
+3️⃣ INVALID - Program crash
 
-1️⃣ MINOR (SOFT) PAGE FAULT:
-• Sayfa bellekte var ama page table'da işaretli değil
-• Çok hızlı çözülür
-• Örnek: Paylaşılan kütüphane ilk kez yüklenirken
-
-2️⃣ MAJOR (HARD) PAGE FAULT:
-• Sayfa disk'ten yüklenmeli
-• Yavaş (1000x daha yavaş)
-• Sistem performansını etkiler
-• Örnek: Swap'tan veri geri yükleme
-
-3️⃣ INVALID PAGE FAULT:
-• Geçersiz bellek erişimi
-• Program crash'i
-• Segmentation fault (Linux)
-
-⚙️ ÇALIŞMA MEKANİZMASI:
-1. Program bellek adresi ister
-2. MMU (Memory Management Unit) kontrol eder
-3. Sayfa RAM'de yoksa → Page Fault interrupt
-4. İşletim sistemi devreye girer
-5. Sayfa disk'ten RAM'e yüklenir
-6. Page table güncellenir
-7. Program kaldığı yerden devam eder
-
-📈 PERFORMANS ETKİSİ:
-• RAM Erişimi: ~100 nanosaniye
-• Disk Erişimi: ~10 milisaniye
-• 100,000x daha yavaş!
-
-🔧 OPTİMİZASYON:
-• Daha fazla RAM ekle
-• Swap kullanımını azalt
-• Working set'i küçült
-• Prefetching kullan
-
-💡 GERÇEK HAYAT:
-Photoshop'ta büyük resim açarken donma → Page fault!
-Chrome'da çok sekme → Sürekli page fault!`,
-                    tips: [
-                        "Windows: Performance Monitor ile izleyin",
-                        "Linux: vmstat komutu page fault gösterir",
-                        "SSD kullanmak page fault süresini azaltır"
-                    ]
-                }
-            ]
-        },
-        week5: {
-            scheduling: [
-                {
-                    id: 'w5-sch-001',
-                    question: "Convoy Effect hangi zamanlama algoritmasında görülür?",
-                    options: [
-                        "FCFS (First Come First Serve)",
-                        "Round Robin",
-                        "SJF (Shortest Job First)",
-                        "Priority Scheduling"
-                    ],
-                    correctAnswer: "FCFS (First Come First Serve)",
-                    difficulty: "hard",
-                    explanation: `🚛 CONVOY EFFECT (KONVOY ETKİSİ):
+📈 PERFORMANS:
+• RAM: ~100 nanosaniye
+• Disk: ~10 milisaniye
+• 100,000x daha yavaş!`
+      }
+    ],
+    scheduling: [
+      {
+        id: 's1',
+        question: "Convoy Effect hangi zamanlama algoritmasında görülür?",
+        options: [
+          "FCFS (First Come First Serve)",
+          "Round Robin",
+          "SJF (Shortest Job First)",
+          "Priority Scheduling"
+        ],
+        correct: 0,
+        difficulty: "hard",
+        explanation: `🚛 CONVOY EFFECT:
 
 📖 TANIM:
-Kısa işlemlerin uzun bir işlemin arkasında beklemesi durumu. FCFS'te görülür.
+Kısa işlemlerin uzun bir işlemin arkasında beklemesi. FCFS'te görülür.
 
-🎭 GERÇEK HAYAT ÖRNEĞİ:
-🚗🚗🚗🚛🚗🚗 (Otoyolda kamyon arkasındaki arabalar)
-Kamyon yavaş → Arkadakiler de yavaş gitmek zorunda!
+🎭 ÖRNEK:
+🚗🚗🚗🚛🚗🚗 (Kamyon arkasındaki arabalar)
 
-📊 PROBLEM SENARYOSU:
-İşlemler: P1(24ms), P2(3ms), P3(3ms)
+💡 ÇÖZÜM:
+• SJF kullan
+• Round Robin kullan
+• Preemptive scheduling`
+      }
+    ]
+  };
 
-FCFS Sıralaması:
-P1 → P2 → P3
-0   24  27  30
+  // Storage'dan veri yükle
+  useEffect(() => {
+    loadStats();
+  }, []);
 
-Bekleme Süreleri:
-• P1: 0ms
-• P2: 24ms (!) 
-• P3: 27ms (!)
-Ortalama: 17ms 😱
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-SJF Sıralaması:
-P2 → P3 → P1
-0   3   6   30
+  const loadStats = async () => {
+    try {
+      const result = await window.storage.get('testify-stats');
+      if (result) {
+        setStats(JSON.parse(result.value));
+      }
+    } catch (error) {
+      console.log('İlk kullanım - istatistik yok');
+    }
+  };
 
-Bekleme Süreleri:
-• P2: 0ms
-• P3: 3ms
-• P1: 6ms
-Ortalama: 3ms 😊
+  const saveStats = async (newStats) => {
+    try {
+      await window.storage.set('testify-stats', JSON.stringify(newStats));
+      setStats(newStats);
+    } catch (error) {
+      console.error('İstatistik kaydedilemedi:', error);
+    }
+  };
 
-🔴 CONVOY EFFECT ZARARLARI:
-• CPU kullanımı düşer
-• Throughput azalır
-• Response time artar
-• Sistem verimsizleşir
+  const addMessage = (text, sender = 'ai', type = 'text') => {
+    setMessages(prev => [...prev, { 
+      text, 
+      sender, 
+      type,
+      timestamp: Date.now() 
+    }]);
+  };
 
-💡 ÇÖZÜMLER:
-1. SJF kullan (en kısa iş önce)
-2. Round Robin kullan (adil paylaşım)
-3. Multilevel Queue (öncelik sıraları)
-4. Preemptive scheduling
+  const getRandomQuestion = (difficulty = null) => {
+    const allQuestions = [
+      ...questionBank.windows,
+      ...questionBank.linux,
+      ...questionBank.memory,
+      ...questionBank.scheduling
+    ];
+    
+    const filtered = difficulty 
+      ? allQuestions.filter(q => q.difficulty === difficulty)
+      : allQuestions;
+    
+    return filtered[Math.floor(Math.random() * filtered.length)];
+  };
 
-🎯 MODERN SİSTEMLERDE:
-• Windows/Linux FCFS kullanmaz
-• Multilevel Feedback Queue kullanır
-• Convoy effect önlenir`,
-                    tips: [
-                        "FCFS basit ama verimsiz",
-                        "Batch sistemlerde kabul edilebilir",
-                        "İnteraktif sistemlerde kesinlikle kullanılmaz"
-                    ]
-                }
-            ],
-            synchronization: [
-                {
-                    id: 'w5-sync-001',
-                    question: "Dining Philosophers Problem neyi gösterir?",
-                    options: [
-                        "Deadlock ve resource allocation problemlerini",
-                        "Memory leak problemini",
-                        "Cache tutarlılığını",
-                        "Network güvenliğini"
-                    ],
-                    correctAnswer: "Deadlock ve resource allocation problemlerini",
-                    difficulty: "hard",
-                    explanation: `🍝 DINING PHILOSOPHERS PROBLEM:
+  const showQuestion = (difficulty = null) => {
+    const question = getRandomQuestion(difficulty);
+    setCurrentQuestion(question);
+    
+    addMessage(
+      `📝 **SORU** (${question.difficulty === 'easy' ? 'Kolay' : question.difficulty === 'medium' ? 'Orta' : 'Zor'})
 
-📖 PROBLEM TANIMI:
-5 filozof yuvarlak masada oturuyor. Her filozofun:
-• Önünde bir tabak makarna
-• Sağında ve solunda birer çatal (toplam 5 çatal)
-• Yemek için 2 çatal gerekli
+${question.question}`,
+      'ai',
+      'question'
+    );
+  };
 
-🤔 FİLOZOF DAVRANIŞI:
-1. Düşün
-2. Aç ol
-3. Sol çatalı al
-4. Sağ çatalı al
-5. Ye
-6. Çatalları bırak
-7. Tekrarla
+  const checkAnswer = (answerIndex) => {
+    if (!currentQuestion) return;
+    
+    const isCorrect = answerIndex === currentQuestion.correct;
+    const newStats = { ...stats };
+    
+    newStats.totalQuestions++;
+    
+    if (isCorrect) {
+      newStats.correctAnswers++;
+      newStats.streak++;
+      
+      // Seviye sistemi
+      if (newStats.correctAnswers % 5 === 0) {
+        newStats.level++;
+      }
+      
+      addMessage(
+        `✅ **DOĞRU!** 🎉
 
-⚠️ DEADLOCK SENARYOSU:
-Hepsi aynı anda sol çatalı alırsa:
-• F1 sol çatalı aldı, sağı bekliyor
-• F2 sol çatalı aldı, sağı bekliyor
-• F3 sol çatalı aldı, sağı bekliyor
-• F4 sol çatalı aldı, sağı bekliyor
-• F5 sol çatalı aldı, sağı bekliyor
-= DEADLOCK! Kimse yiyemez! 🔒
+${currentQuestion.explanation}
 
-🔧 ÇÖZÜM YÖNTEMLERİ:
+**İstatistikler:**
+• Toplam Soru: ${newStats.totalQuestions}
+• Doğru: ${newStats.correctAnswers}
+• Başarı: ${Math.round((newStats.correctAnswers / newStats.totalQuestions) * 100)}%
+• Seri: ${newStats.streak} 🔥
+• Seviye: ${newStats.level}`,
+        'ai'
+      );
+    } else {
+      newStats.streak = 0;
+      
+      addMessage(
+        `❌ **YANLIŞ!**
 
-1️⃣ RESOURCE HIERARCHY:
-• Çatalları numrala (1-5)
-• Önce küçük numaralıyı al
-• Döngüsel bekleme önlenir
+Doğru cevap: **${currentQuestion.options[currentQuestion.correct]}**
 
-2️⃣ ARBITRATOR (WAITER):
-• Merkezi kontrol (Mutex)
-• Waiter'dan izin al
-• Maximum 4 filozof yiyebilir
+${currentQuestion.explanation}
 
-3️⃣ CHANDY/MISRA:
-• Çatallar "kirli" veya "temiz"
-• Temiz çatal istenirse verilir
-• Asimetrik çözüm
+Seri bitti 💔 Ama vazgeçme! Bir sonraki soruyu dene! 💪`,
+        'ai'
+      );
+    }
+    
+    saveStats(newStats);
+    setCurrentQuestion(null);
+  };
 
-4️⃣ TRY-WAIT:
-• Çatal alamazsan bekle
-• Timeout kullan
-• Başarısızlıkta bırak ve tekrar dene
-
-🎯 GERÇEK HAYAT:
-• Database lock yönetimi
-• İşletim sistemi kaynak tahsisi
-• Network protokolleri
-• Distributed systems`,
-                    tips: [
-                        "Sadece 4 filozofun yemesine izin vermek deadlock'u önler",
-                        "Banker's Algorithm benzer prensiple çalışır",
-                        "Modern veritabanları bu problemi çözer"
-                    ]
-                }
-            ]
-        }
-    },
-
-    // Akıllı yanıt sistemi
-    responseSystem: {
-        generateResponse(message) {
-            const lowerMsg = message.toLowerCase();
-            
-            if (this.isGreeting(lowerMsg)) {
-                return this.greetingResponse();
-            }
-            
-            if (this.wantsQuestion(lowerMsg)) {
-                return this.provideQuestion(lowerMsg);
-            }
-            
-            if (this.wantsExplanation(lowerMsg)) {
-                return this.provideExplanation(lowerMsg);
-            }
-            
-            if (this.needsHelp(lowerMsg)) {
-                return this.provideHelp(lowerMsg);
-            }
-            
-            if (this.needsMotivation(lowerMsg)) {
-                return this.motivate(lowerMsg);
-            }
-            
-            return this.defaultResponse();
-        },
+  const handleAIResponse = async (userMessage) => {
+    const msg = userMessage.toLowerCase();
+    
+    // Komutlar
+    if (msg.includes('/stats')) {
+      setShowStats(true);
+      return;
+    }
+    
+    if (msg.includes('/clear') || msg.includes('temizle')) {
+      setMessages([]);
+      addMessage("Sohbet temizlendi! Yeni bir başlangıç 🎯", 'ai');
+      return;
+    }
+    
+    // Selamlaşma
+    if (['merhaba', 'selam', 'hey', 'günaydın'].some(g => msg.includes(g))) {
+      addMessage(
+        "Merhaba! 👋 Ben Testify, senin eğitim arkadaşın! Bugün hangi konuyu öğrenmek istersin?\n\n" +
+        "• **'soru ver'** - Rastgele soru\n" +
+        "• **'kolay/orta/zor soru'** - Seviye seç\n" +
+        "• **'page fault nedir'** - Konu öğren\n" +
+        "• **'/stats'** - İstatistiklerini gör",
+        'ai'
+      );
+      return;
+    }
+    
+    // Soru isteme
+    if (msg.includes('soru') || msg.includes('test') || msg.includes('quiz')) {
+      let difficulty = null;
+      if (msg.includes('kolay')) difficulty = 'easy';
+      else if (msg.includes('orta')) difficulty = 'medium';
+      else if (msg.includes('zor')) difficulty = 'hard';
+      
+      showQuestion(difficulty);
+      return;
+    }
+    
+    // Konu açıklaması
+    if (msg.includes('nedir') || msg.includes('açıkla') || msg.includes('anlat')) {
+      if (msg.includes('page fault')) {
+        addMessage(questionBank.memory[0].explanation, 'ai');
+      } else if (msg.includes('convoy')) {
+        addMessage(questionBank.scheduling[0].explanation, 'ai');
+      } else if (msg.includes('registry')) {
+        addMessage(questionBank.windows[0].explanation, 'ai');
+      } else if (msg.includes('bsod')) {
+        addMessage(questionBank.windows[1].explanation, 'ai');
+      } else if (msg.includes('chmod')) {
+        addMessage(questionBank.linux[0].explanation, 'ai');
+      } else {
+        // Claude API kullan
+        await askClaudeAPI(userMessage);
+      }
+      return;
+    }
+    
+    // Motivasyon
+    if (['yapamıyorum', 'zor', 'anlamıyorum', 'bıktım'].some(k => msg.includes(k))) {
+      addMessage(
+        `💪 **HİÇ PES ETME!**
         
-        isGreeting(msg) {
-            const greetings = ['merhaba', 'selam', 'hey', 'günaydın', 'iyi günler'];
-            return greetings.some(g => msg.includes(g));
-        },
-        
-        greetingResponse() {
-            const responses = [
-                "Merhaba! 👋 Ben Testify, senin eğitim arkadaşın! Bugün hangi konuyu öğrenmek istersin?",
-                "Selam! 🌟 Öğrenmeye hazır mısın? İşletim sistemleri, bellek yönetimi, process konuları... Hangisi?",
-                "Hoş geldin! 🎓 Sana nasıl yardımcı olabilirim? Soru çözebilir, konu anlatabilirim!"
-            ];
-            return responses[Math.floor(Math.random() * responses.length)];
-        },
-        
-        wantsQuestion(msg) {
-            const keywords = ['soru', 'test', 'quiz', 'sınav', 'alıştırma', 'pratik'];
-            return keywords.some(k => msg.includes(k));
-        },
-        
-        provideQuestion(msg) {
-            let difficulty = 'medium';
-            if (msg.includes('kolay')) difficulty = 'easy';
-            if (msg.includes('zor')) difficulty = 'hard';
-            
-            const allQuestions = [];
-            Object.values(TestifyAI.questionBank).forEach(week => {
-                Object.values(week).forEach(category => {
-                    allQuestions.push(...category.filter(q => q.difficulty === difficulty));
-                });
-            });
-            
-            if (allQuestions.length === 0) {
-                return "Bu zorlukta soru bulunamadı. Başka bir zorluk seviyesi deneyin!";
-            }
-            
-            const question = allQuestions[Math.floor(Math.random() * allQuestions.length)];
-            
-            return `📝 **SORU** (${difficulty === 'easy' ? 'Kolay' : difficulty === 'medium' ? 'Orta' : 'Zor'})
-
-${question.question}
-
-A) ${question.options[0]}
-B) ${question.options[1]}
-C) ${question.options[2]}
-D) ${question.options[3]}
-
-💡 *İpucu ister misin? "ipucu" yaz*
-📖 *Açıklama için cevap verdikten sonra "açıkla" yaz*`;
-        },
-        
-        wantsExplanation(msg) {
-            const keywords = ['açıkla', 'anlat', 'nedir', 'nasıl', 'neden', 'ne zaman'];
-            return keywords.some(k => msg.includes(k));
-        },
-        
-        provideExplanation(msg) {
-            if (msg.includes('page fault') || msg.includes('sayfa hatası')) {
-                return TestifyAI.questionBank.week3.memory[0].explanation;
-            }
-            
-            if (msg.includes('convoy') || msg.includes('konvoy')) {
-                return TestifyAI.questionBank.week5.scheduling[0].explanation;
-            }
-            
-            if (msg.includes('dining') || msg.includes('filozof')) {
-                return TestifyAI.questionBank.week5.synchronization[0].explanation;
-            }
-            
-            return `📚 Hangi konuyu açıklamamı istersin? Örnekler:
-
-• **Page Fault** - Sayfa hataları ve bellek yönetimi
-• **Convoy Effect** - FCFS algoritmasındaki problem
-• **Dining Philosophers** - Deadlock problemi
-• **Registry** - Windows kayıt defteri
-• **BSOD** - Mavi ekran hatası
-• **chmod** - Linux dosya izinleri
-
-Konuyu belirt, detaylı açıklayayım! 🎯`;
-        },
-        
-        needsHelp(msg) {
-            return msg.includes('yardım') || msg.includes('help') || msg.includes('nasıl kullan');
-        },
-        
-        provideHelp(msg) {
-            return `🆘 **TESTIFY KULLANIM KILAVUZU**
-
-Ben sana şu konularda yardımcı olabilirim:
-
-📝 **TEST & SORULAR:**
-• "Kolay soru ver" - Kolay seviye soru
-• "Orta soru" - Orta seviye soru
-• "Zor soru göster" - Zor seviye soru
-• "Test başlat" - Soru serisi
-
-📚 **KONU ANLATIMI:**
-• "Page fault nedir?"
-• "Process ve thread farkı"
-• "Deadlock açıkla"
-• "Virtual memory anlat"
-
-💡 **İPUÇLARI:**
-• "İpucu ver" - Mevcut soru için ipucu
-• "Örnek göster" - Konu örnekleri
-
-📊 **ANALİZ:**
-• "Performansım nasıl?"
-• "Hangi konuları çalışmalıyım?"
-
-🎯 **ÖZEL KOMUTLAR:**
-• /clear - Sohbeti temizle
-• /stats - İstatistiklerini gör
-
-Ne yapmak istersin? 😊`;
-        },
-        
-        needsMotivation(msg) {
-            const keywords = ['yapamıyorum', 'zor', 'anlamıyorum', 'başaramadım', 'sıkıldım', 'bıktım'];
-            return keywords.some(k => msg.includes(k));
-        },
-        
-        motivate(msg) {
-            const motivations = [
-                `💪 **HİÇ PES ETME!**
-                
-Her uzman bir zamanlar acemiydi. Steve Jobs, Bill Gates, Linus Torvalds... Hepsi senin gibi başladı!
+Her uzman bir zamanlar acemiydi. Steve Jobs, Bill Gates... Hepsi senin gibi başladı!
 
 Unutma:
 • Hata yapmak öğrenmenin bir parçası
@@ -560,239 +340,252 @@ Unutma:
 • Küçük adımlar büyük başarılara götürür
 
 Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
-                
-                `🌈 **SEN YAPABİLİRSİN!**
-                
-Einstein "Herkes dâhidir. Ama bir balığı ağaca tırmanma yeteneğine göre yargılarsanız, hayatı boyunca aptal olduğuna inanır" demiş.
-
-Belki bu konu senin tarzın değil, ama mutlaka güçlü olduğun konular var!
-
-• Farklı bir konu deneyelim mi?
-• Daha basit sorularla başlayalım mı?
-• Biraz ara verip sonra devam edelim mi?
-
-Seçim senin! 😊`
-            ];
-            
-            return motivations[Math.floor(Math.random() * motivations.length)];
-        },
-        
-        defaultResponse() {
-            return `🎓 **TESTIFY - EĞİTİM ASİSTANIN**
-
-Tam olarak ne yapmak istediğini anlayamadım. İşte yapabileceklerim:
-
-**🔹 Soru çözmek için:**
-"Bana soru sor" / "Test başlat" / "Kolay/Orta/Zor soru"
-
-**🔹 Konu öğrenmek için:**
-"X konusunu açıkla" / "X nedir?" / "X nasıl çalışır?"
-
-**🔹 Diğer:**
-"Yardım" / "İpucu" / "Motivasyon"
-
-Örnek: "Page fault nedir?" veya "Zor bir soru sor"
-
-Ne yapmak istersin? 🤔`;
-        }
-    },
-
-    // Mesaj yönetimi
-    messages: [],
-    isTyping: false,
-    
-    /**
-     * Mesaj gönder - DÜZELTİLDİ
-     */
-    sendMessage(event) {
-        // ÇÖZÜM: Event kontrolü ekledik
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        
-        const input = document.getElementById('aiInput');
-        if (!input) return;
-        
-        const message = input.value.trim();
-        
-        if (!message) return;
-        
-        // Kullanıcı mesajını ekle
-        this.addMessage(message, 'user');
-        
-        // Input'u temizle
-        input.value = '';
-        
-        // Focus'u koru
-        input.focus();
-        
-        // Yanıt oluştur
-        this.generateLocalResponse(message);
-    },
-    
-    /**
-     * Yerel yanıt oluştur
-     */
-    generateLocalResponse(message) {
-        this.showTypingIndicator();
-        
-        setTimeout(() => {
-            const response = this.responseSystem.generateResponse(message);
-            this.hideTypingIndicator();
-            this.addMessage(response, 'ai');
-        }, 800 + Math.random() * 700);
-    },
-    
-    /**
-     * Mesajı ekle
-     */
-    addMessage(text, sender = 'ai') {
-        const chatContainer = document.getElementById('aiChat');
-        if (!chatContainer) return;
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = sender === 'user' ? 'ai-message user-message' : 'ai-message';
-        
-        if (sender === 'ai') {
-            const formattedText = this.formatMessage(text);
-            messageDiv.innerHTML = `
-                <div class="ai-avatar">T</div>
-                <div class="message-content">${formattedText}</div>
-            `;
-        } else {
-            messageDiv.innerHTML = `
-                <div class="message-content">${this.sanitizeHTML(text)}</div>
-            `;
-        }
-        
-        chatContainer.appendChild(messageDiv);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        
-        this.messages.push({ text, sender, timestamp: Date.now() });
-    },
-    
-    /**
-     * Mesaj formatlama
-     */
-    formatMessage(text) {
-        return text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/`(.*?)`/g, '<code>$1</code>')
-            .replace(/\n/g, '<br>')
-            .replace(/•/g, '&bull;')
-            .replace(/→/g, '&rarr;')
-            .replace(/📝|📚|💡|📊|🎯|🔹|💪|🌈|🎓|🤔|😊|🌟|👋|⚠️|✅|❌/g, match => match);
-    },
-    
-    /**
-     * HTML temizle
-     */
-    sanitizeHTML(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    },
-    
-    /**
-     * Typing indicator
-     */
-    showTypingIndicator() {
-        this.isTyping = true;
-        const chatContainer = document.getElementById('aiChat');
-        if (!chatContainer) return;
-        
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'ai-message typing-indicator';
-        typingDiv.id = 'typingIndicator';
-        typingDiv.innerHTML = `
-            <div class="ai-avatar">T</div>
-            <div class="message-content">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        `;
-        
-        chatContainer.appendChild(typingDiv);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    },
-    
-    hideTypingIndicator() {
-        this.isTyping = false;
-        const indicator = document.getElementById('typingIndicator');
-        if (indicator) {
-            indicator.remove();
-        }
-    },
-    
-    /**
-     * Enter tuşu ile gönderme
-     */
-    setupEnterKeyListener() {
-        const input = document.getElementById('aiInput');
-        if (!input) return;
-        
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.sendMessage(e);
-            }
-        });
-    },
-    
-    /**
-     * Form submit listener
-     */
-    setupFormListener() {
-        const form = document.querySelector('.ai-input-group');
-        if (!form) return;
-        
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.sendMessage(e);
-        });
-    },
-    
-    /**
-     * Başlangıç
-     */
-    init() {
-        console.log('🎓 Testify AI v4.0 başlatıldı');
-        console.log('✨ Özellikler: Zengin soru bankası, detaylı açıklamalar, akıllı yanıtlar');
-        console.log('🚀 API kullanımı: Minimum (sadece gerektiğinde)');
-        console.log('💪 Yerel zeka: Maksimum performans');
-        
-        // Event listener'ları ekle
-        this.setupFormListener();
-        this.setupEnterKeyListener();
-        
-        // Hoş geldin mesajı
-        setTimeout(() => {
-            this.addMessage(
-                "Merhaba! 👋 Ben Testify AI, senin kişisel eğitim asistanınım. Sana nasıl yardımcı olabilirim?\n\n" +
-                "• **Soru çözmek** için: 'Soru sor' veya 'Test başlat'\n" +
-                "• **Konu öğrenmek** için: 'Page fault nedir?' gibi sorular sor\n" +
-                "• **Yardım** için: 'Yardım' yaz\n\n" +
-                "Hadi başlayalım! 🚀",
-                'ai'
-            );
-        }, 500);
+        'ai'
+      );
+      return;
     }
+    
+    // Varsayılan: Claude'a sor
+    await askClaudeAPI(userMessage);
+  };
+
+  const askClaudeAPI = async (question) => {
+    try {
+      setIsTyping(true);
+      
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        body: JSON.stringify({
+          model: "gpt-5-nano",
+          messages: [
+            { 
+              role: "system", 
+              content: "Sen Testify AI'sın, bir işletim sistemleri eğitim asistanısın. Emoji kullan, basit ve anlaşılır ol, örnekler ver, kısa ve öz yaz (max 500 kelime)."
+            },
+            { 
+              role: "user", 
+              content: question
+            }
+          ],
+          max_tokens: 1000,
+          temperature: 0.7
+        })
+      });
+
+      const data = await response.json();
+      const aiResponse = data.choices?.[0]?.message?.content;
+      
+      setIsTyping(false);
+      addMessage(aiResponse || "Üzgünüm, yanıt alamadım. Tekrar dener misin?", 'ai');
+      
+    } catch (error) {
+      setIsTyping(false);
+      addMessage(
+        "⚠️ API bağlantısı kurulamadı. Ancak soru bankasından sana yardımcı olabilirim!\n\n" +
+        "Şunu dene:\n• 'Soru ver'\n• 'Registry nedir'\n• 'Page fault açıkla'",
+        'ai'
+      );
+    }
+  };
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+    
+    const userMsg = input.trim();
+    setInput('');
+    addMessage(userMsg, 'user');
+    
+    // Cevap kontrolü
+    if (currentQuestion) {
+      const answer = userMsg.toUpperCase();
+      if (['A', 'B', 'C', 'D'].includes(answer)) {
+        checkAnswer(answer.charCodeAt(0) - 65);
+        return;
+      }
+    }
+    
+    setTimeout(() => handleAIResponse(userMsg), 500);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-t-2xl shadow-lg p-6 border-b-4 border-indigo-500">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                T
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-800">Testify AI</h1>
+                <p className="text-sm text-gray-500">İşletim Sistemleri Eğitim Asistanı</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowStats(!showStats)}
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors"
+            >
+              <Trophy className="w-5 h-5" />
+              <span className="font-semibold">İstatistikler</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Stats Panel */}
+        {showStats && (
+          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <BarChart3 className="w-6 h-6" />
+                Performans İstatistiklerin
+              </h3>
+              <button
+                onClick={() => setShowStats(false)}
+                className="text-white/80 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                <div className="text-3xl font-bold">{stats.totalQuestions}</div>
+                <div className="text-sm opacity-90">Toplam Soru</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                <div className="text-3xl font-bold text-green-300">{stats.correctAnswers}</div>
+                <div className="text-sm opacity-90">Doğru</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                <div className="text-3xl font-bold">
+                  {stats.totalQuestions > 0 
+                    ? Math.round((stats.correctAnswers / stats.totalQuestions) * 100)
+                    : 0}%
+                </div>
+                <div className="text-sm opacity-90">Başarı</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                <div className="text-3xl font-bold text-orange-300">{stats.streak} 🔥</div>
+                <div className="text-sm opacity-90">Seri</div>
+              </div>
+            </div>
+            <div className="mt-4 bg-white/10 backdrop-blur rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">Seviye {stats.level}</span>
+                <span className="text-sm opacity-90">
+                  {stats.correctAnswers % 5} / 5 sonraki seviyeye
+                </span>
+              </div>
+              <div className="mt-2 bg-white/20 rounded-full h-2 overflow-hidden">
+                <div 
+                  className="bg-white h-full rounded-full transition-all duration-500"
+                  style={{ width: `${(stats.correctAnswers % 5) * 20}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Chat Area */}
+        <div ref={chatRef} className="bg-white h-[500px] overflow-y-auto p-6 space-y-4">
+          {messages.length === 0 && (
+            <div className="text-center text-gray-400 mt-20">
+              <Brain className="w-16 h-16 mx-auto mb-4 opacity-50" />
+              <p>Merhaba! Sana nasıl yardımcı olabilirim?</p>
+              <p className="text-sm mt-2">Başlamak için "soru ver" veya "yardım" yaz</p>
+            </div>
+          )}
+          
+          {messages.map((msg, idx) => (
+            <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                msg.sender === 'user' 
+                  ? 'bg-indigo-600 text-white ml-auto' 
+                  : 'bg-gray-100 text-gray-800'
+              }`}>
+                {msg.type === 'question' && currentQuestion && (
+                  <div className="space-y-3 mt-2">
+                    <div className="whitespace-pre-wrap">{msg.text}</div>
+                    <div className="space-y-2">
+                      {currentQuestion.options.map((opt, i) => (
+                        <button
+                          key={i}
+                          onClick={() => checkAnswer(i)}
+                          className="w-full text-left px-4 py-3 bg-white border-2 border-indigo-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-all"
+                        >
+                          <span className="font-bold text-indigo-600">
+                            {String.fromCharCode(65 + i)})
+                          </span> {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {msg.type === 'text' && (
+                  <div className="whitespace-pre-wrap">{msg.text}</div>
+                )}
+              </div>
+            </div>
+          ))}
+          
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-gray-100 rounded-2xl px-4 py-3">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Input Area */}
+        <div className="bg-white rounded-b-2xl shadow-lg p-4 border-t">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Mesajını yaz... (Enter'a bas veya ⬆️ tuşuna tıkla)"
+              className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none"
+            />
+            <button
+              onClick={handleSend}
+              disabled={!input.trim()}
+              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button onClick={() => { setInput('Soru ver'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+              📝 Soru Ver
+            </button>
+            <button onClick={() => { setInput('Page fault nedir'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+              📚 Konu Öğren
+            </button>
+            <button onClick={() => { setInput('/stats'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+              📊 İstatistikler
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-// Sistemi başlat
-document.addEventListener('DOMContentLoaded', () => {
-    TestifyAI.init();
-    
-    // Global erişim
-    if (window.aiChat) {
-        window.aiChat = TestifyAI;
-    }
-});
-
-// Export
-window.TestifyAI = TestifyAI;
-window.aiChat = TestifyAI;
+export default TestifyAI;
