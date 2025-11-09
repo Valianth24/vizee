@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, BookOpen, Brain, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
+import { Send, BookOpen, Brain, Trophy, TrendingUp, BarChart3, X } from 'lucide-react';
 
 const TestifyAI = () => {
   const [messages, setMessages] = useState([]);
@@ -155,13 +155,22 @@ Kısa işlemlerin uzun bir işlemin arkasında beklemesi. FCFS'te görülür.
   // Storage'dan veri yükle
   useEffect(() => {
     loadStats();
+    // Hoş geldin mesajı
+    addMessage(
+      "Merhaba! 👋 Ben Testify AI, senin kişisel eğitim asistanınım. Sana nasıl yardımcı olabilirim?\n\n" +
+      "• **'soru ver'** - Rastgele soru\n" +
+      "• **'kolay/orta/zor soru'** - Seviye seç\n" +
+      "• **'page fault nedir'** - Konu öğren\n" +
+      "• **'/stats'** - İstatistiklerini gör",
+      'ai'
+    );
   }, []);
 
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const loadStats = async () => {
     try {
@@ -322,7 +331,7 @@ Seri bitti 💔 Ama vazgeçme! Bir sonraki soruyu dene! 💪`,
         addMessage(questionBank.linux[0].explanation, 'ai');
       } else {
         // Claude API kullan
-        await askClaudeAPI(userMessage);
+        await askGPTAPI(userMessage);
       }
       return;
     }
@@ -345,11 +354,11 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
       return;
     }
     
-    // Varsayılan: Claude'a sor
-    await askClaudeAPI(userMessage);
+    // Varsayılan: GPT'ye sor
+    await askGPTAPI(userMessage);
   };
 
-  const askClaudeAPI = async (question) => {
+  const askGPTAPI = async (question) => {
     try {
       setIsTyping(true);
       
@@ -360,7 +369,7 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
           "Authorization": "Bearer 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"
         },
         body: JSON.stringify({
-          model: "gpt-5-nano",
+          model: "gpt-4o-mini",
           messages: [
             { 
               role: "system", 
@@ -377,12 +386,18 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
       });
 
       const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message || 'API hatası');
+      }
+      
       const aiResponse = data.choices?.[0]?.message?.content;
       
       setIsTyping(false);
       addMessage(aiResponse || "Üzgünüm, yanıt alamadım. Tekrar dener misin?", 'ai');
       
     } catch (error) {
+      console.error('API Hatası:', error);
       setIsTyping(false);
       addMessage(
         "⚠️ API bağlantısı kurulamadı. Ancak soru bankasından sana yardımcı olabilirim!\n\n" +
@@ -393,7 +408,7 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
   };
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isTyping) return;
     
     const userMsg = input.trim();
     setInput('');
@@ -455,7 +470,7 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
                 onClick={() => setShowStats(false)}
                 className="text-white/80 hover:text-white"
               >
-                ✕
+                <X className="w-6 h-6" />
               </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -499,14 +514,6 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
 
         {/* Chat Area */}
         <div ref={chatRef} className="bg-white h-[500px] overflow-y-auto p-6 space-y-4">
-          {messages.length === 0 && (
-            <div className="text-center text-gray-400 mt-20">
-              <Brain className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Merhaba! Sana nasıl yardımcı olabilirim?</p>
-              <p className="text-sm mt-2">Başlamak için "soru ver" veya "yardım" yaz</p>
-            </div>
-          )}
-          
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
@@ -559,26 +566,45 @@ Hadi, bir soru daha deneyelim! Bu sefer başaracaksın! 🌟`,
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Mesajını yaz... (Enter'a bas veya ⬆️ tuşuna tıkla)"
-              className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none"
+              onKeyDown={handleKeyPress}
+              placeholder="Mesajını yaz... (Enter'a bas)"
+              disabled={isTyping}
+              className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               onClick={handleSend}
-              disabled={!input.trim()}
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!input.trim() || isTyping}
+              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               <Send className="w-5 h-5" />
             </button>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            <button onClick={() => { setInput('Soru ver'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+            <button 
+              onClick={() => { 
+                setInput('Soru ver'); 
+                setTimeout(() => handleSend(), 100);
+              }} 
+              className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors"
+            >
               📝 Soru Ver
             </button>
-            <button onClick={() => { setInput('Page fault nedir'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+            <button 
+              onClick={() => { 
+                setInput('Page fault nedir'); 
+                setTimeout(() => handleSend(), 100);
+              }} 
+              className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors"
+            >
               📚 Konu Öğren
             </button>
-            <button onClick={() => { setInput('/stats'); handleSend(); }} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200">
+            <button 
+              onClick={() => { 
+                setInput('/stats'); 
+                setTimeout(() => handleSend(), 100);
+              }} 
+              className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors"
+            >
               📊 İstatistikler
             </button>
           </div>
