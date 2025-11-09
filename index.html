@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <!-- SEO Meta Tags -->
     <title>Testify - Yapay Zeka Destekli Akıllı Eğitim Platformu | Online Test Çözme</title>
@@ -428,7 +429,13 @@
                      TÜM QUİZLERİM TAB
                      ============================================ -->
                 <section class="tab-content" id="myQuizzesContent" role="tabpanel" aria-labelledby="tab-my-quizzes">
-                    <!-- Dinamik olarak doldurulacak (my-quizzes.js tarafından) -->
+                    <h2 class="section-title">📚 Tüm Quizlerim</h2>
+                    <div id="myQuizzesList" class="quizzes-list">
+                        <div class="empty-state">
+                            <span class="empty-state-icon" aria-hidden="true">📚</span>
+                            <p>Henüz quiz çözmediniz. Hemen başlayın!</p>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- ============================================
@@ -584,6 +591,7 @@
     <!-- Core Utilities (En önce yüklenmeli) -->
     <script src="js/utils.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/config.js"></script>
     
     <!-- Internationalization -->
     <script src="js/i18n.js"></script>
