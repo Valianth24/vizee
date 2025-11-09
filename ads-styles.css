@@ -1,0 +1,258 @@
+/* ============================================
+   REKLAM KONTEYNERLERİ - MAXIMUM VISIBILITY
+   ============================================ */
+
+.ad-container {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ad-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    opacity: 0.6;
+}
+
+/* ============================================
+   SIDEBAR REKLAM - STICKY (EN KARLI)
+   ============================================ */
+
+.sidebar-ad-sticky {
+    position: sticky;
+    top: 80px;
+    margin-top: 24px;
+    z-index: 100;
+}
+
+/* ============================================
+   DASHBOARD REKLAMLARI
+   ============================================ */
+
+.dashboard-top-ad {
+    margin: 0 0 32px 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.dashboard-bottom-ad {
+    margin: 32px 0 0 0;
+    padding: 20px;
+}
+
+/* ============================================
+   SORU ARASI REKLAM - PROMINENT
+   ============================================ */
+
+.question-ad {
+    margin: 32px 0;
+    padding: 24px;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border: 2px solid var(--border);
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   SONUÇ SAYFASI REKLAMLARI - MAXIMUM CPM
+   ============================================ */
+
+.results-top-ad,
+.results-bottom-ad {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--card-bg);
+    border: 2px solid var(--primary);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(129, 140, 248, 0.15);
+}
+
+.results-top-ad {
+    order: -1; /* En üste çık */
+}
+
+/* ============================================
+   INTERSTITIAL REKLAM (Full-screen)
+   ============================================ */
+
+.ad-interstitial {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.interstitial-content {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.interstitial-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+}
+
+.interstitial-close:not([disabled]) {
+    cursor: pointer;
+    background: var(--success);
+}
+
+.interstitial-close:not([disabled]):hover {
+    background: var(--success);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+}
+
+/* ============================================
+   MOBİL ANCHOR AD (Yapışkan alt reklam)
+   ============================================ */
+
+.ad-anchor-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+    max-height: 100px;
+}
+
+/* ============================================
+   ADSENSE RESPONSIVE
+   ============================================ */
+
+.adsbygoogle {
+    display: block;
+    min-width: 250px;
+    min-height: 90px;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+[data-theme="dark"] .ad-container {
+    background: var(--bg-secondary);
+    border-color: var(--border-dark);
+}
+
+[data-theme="dark"] .question-ad {
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    border-color: var(--border-dark);
+}
+
+[data-theme="dark"] .results-top-ad,
+[data-theme="dark"] .results-bottom-ad {
+    border-color: var(--primary);
+    box-shadow: 0 8px 24px rgba(129, 140, 248, 0.25);
+}
+
+/* ============================================
+   RESPONSIVE - MOBİL
+   ============================================ */
+
+@media (max-width: 768px) {
+    .ad-container {
+        margin: 16px 0;
+        padding: 12px;
+    }
+    
+    .sidebar-ad-sticky {
+        display: none !important; /* Mobilde sidebar yok */
+    }
+    
+    .question-ad {
+        margin: 24px -16px; /* Full width on mobile */
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .dashboard-top-ad,
+    .dashboard-bottom-ad {
+        padding: 16px;
+        margin: 16px 0;
+    }
+    
+    .results-top-ad,
+    .results-bottom-ad {
+        padding: 20px;
+        margin: 24px 0;
+    }
+}
+
+/* ============================================
+   LOADING PLACEHOLDER
+   ============================================ */
+
+.ad-container:empty::before {
+    content: 'Reklam yükleniyor...';
+    color: var(--text-tertiary);
+    font-size: 12px;
+    padding: 40px 0;
+    display: block;
+    text-align: center;
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.ad-container:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
