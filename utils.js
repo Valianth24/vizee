@@ -1,6 +1,5 @@
 /**
  * TESTIFY UTILITY FUNCTIONS
- * Güvenli ve optimize edilmiş yardımcı fonksiyonlar
  */
 
 'use strict';
