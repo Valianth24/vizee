@@ -1,60 +1,92 @@
 /**
- * TESTIFY QUIZ MANAGER - DÜZELTILMIŞ
- * Tüm sorular + Explanation + Error Handling
+ * TESTIFY QUIZ MANAGER - AI TEST DESTEĞİ
  */
 
 'use strict';
 
 const QuizManager = {
-    // Quiz durumu
-    state: {
-        currentMode: null,
-        questions: [],
-        currentIndex: 0,
-        answers: [],
-        startTime: null,
-        timerInterval: null,
-        elapsedSeconds: 0,
-        isReviewing: false
+    // ... (mevcut kodlar)
+    
+    /**
+     * AI TARAFINDAN OLUŞTURULAN TESTİ YÜKLE
+     */
+    loadAIGeneratedTest() {
+        try {
+            const aiTest = localStorage.getItem('testify_generated_test');
+            if (!aiTest) return null;
+            
+            const testData = JSON.parse(aiTest);
+            
+            // Süresi dolmuş mu kontrol et (24 saat)
+            if (Date.now() - testData.createdAt > 86400000) {
+                localStorage.removeItem('testify_generated_test');
+                return null;
+            }
+            
+            console.log('✅ AI testi yüklendi:', testData.title);
+            return testData;
+            
+        } catch (error) {
+            console.error('❌ AI test yükleme hatası:', error);
+            return null;
+        }
     },
 
     /**
-     * Quiz'i başlatır
+     * Quiz'i başlatır - MODİFİYE EDİLMİŞ
      */
     startQuiz(mode) {
         try {
-            // Soru bankası kontrolü
-            if (!window.questionBank || !Array.isArray(window.questionBank)) {
-                Utils.showToast('Sorular yüklenemedi!', 'error');
-                console.error('questionBank bulunamadı!');
-                return;
+            // Önce AI testi var mı kontrol et
+            const aiTest = this.loadAIGeneratedTest();
+            
+            if (aiTest) {
+                // AI testini kullan
+                this.state = {
+                    currentMode: 'ai',
+                    questions: aiTest.questions,
+                    currentIndex: 0,
+                    answers: [],
+                    startTime: Date.now(),
+                    timerInterval: null,
+                    elapsedSeconds: 0,
+                    isReviewing: false,
+                    testTitle: aiTest.title,
+                    testDescription: aiTest.description
+                };
+                
+                this.state.answers = new Array(aiTest.questions.length).fill(null);
+                
+                // Test başlığını göster
+                Utils.showToast(`🎯 ${aiTest.title} - ${aiTest.questions.length} soru`, 'info', 4000);
+                
+            } else {
+                // Mevcut soru bankasını kullan (eski sistem)
+                if (!window.questionBank || !Array.isArray(window.questionBank)) {
+                    Utils.showToast('Soru bankası yüklenemedi!', 'error');
+                    return;
+                }
+
+                if (window.questionBank.length === 0) {
+                    Utils.showToast('Soru bankası boş!', 'error');
+                    return;
+                }
+
+                const allQuestions = [...window.questionBank];
+                
+                this.state = {
+                    currentMode: mode,
+                    questions: Utils.shuffleArray(allQuestions),
+                    currentIndex: 0,
+                    answers: [],
+                    startTime: Date.now(),
+                    timerInterval: null,
+                    elapsedSeconds: 0,
+                    isReviewing: false
+                };
+                
+                this.state.answers = new Array(this.state.questions.length).fill(null);
             }
-
-            if (window.questionBank.length === 0) {
-                Utils.showToast('Soru bankası boş!', 'error');
-                return;
-            }
-
-            // State'i sıfırla
-            this.state = {
-                currentMode: mode,
-                questions: [],
-                currentIndex: 0,
-                answers: [],
-                startTime: Date.now(),
-                timerInterval: null,
-                elapsedSeconds: 0,
-                isReviewing: false
-            };
-
-            // DÜZELTME: Tüm soruları karıştır ve al (slice kaldırıldı)
-            const allQuestions = [...window.questionBank];
-            this.state.questions = Utils.shuffleArray(allQuestions);
-
-            console.log(`✅ ${this.state.questions.length} soru yüklendi`);
-
-            // Her soru için cevap dizisi oluştur
-            this.state.answers = new Array(this.state.questions.length).fill(null);
 
             // Sayfaları değiştir
             const testSelection = document.getElementById('testSelection');
@@ -76,7 +108,9 @@ const QuizManager = {
             // Quiz durumunu kaydet
             this.saveState();
 
-            Utils.showToast(`Test başladı! ${this.state.questions.length} soru - Bol şans!`, 'success');
+            const questionCount = this.state.questions.length;
+            Utils.showToast(`Test başladı! ${questionCount} soru - Bol şans!`, 'success');
+            
         } catch (error) {
             console.error('Quiz başlatma hatası:', error);
             Utils.showToast('Test başlatılamadı: ' + error.message, 'error');
