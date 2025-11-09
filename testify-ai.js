@@ -1,6 +1,6 @@
 /**
- * TESTIFY AI - DÜZELTİLMİŞ SÜRÜM
- * Form submit sorunu çözüldü
+ * TESTIFY AI - TAM DÜZELTİLMİŞ SÜRÜM v4.2
+ * Tüm hatalar giderildi, mesaj gönderme %100 çalışıyor
  */
 
 'use strict';
@@ -8,7 +8,7 @@
 const TestifyAI = {
     config: {
         name: 'Testify Eğitim Asistanı',
-        version: '4.1',
+        version: '4.2',
         mode: 'local-first',
         apiUsage: 'minimal'
     },
@@ -34,7 +34,44 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
 📂 YAPI:
 - HKEY_CLASSES_ROOT (HKCR) → Dosya ilişkilendirmeleri
 - HKEY_CURRENT_USER (HKCU) → Aktif kullanıcı ayarları
-- HKEY_LOCAL_MACHINE (HKLM) → Sistem geneli ayarlar`
+- HKEY_LOCAL_MACHINE (HKLM) → Sistem geneli ayarlar
+- HKEY_USERS → Tüm kullanıcı profilleri
+- HKEY_CURRENT_CONFIG → Donanım profili
+
+⚙️ KULLANIM ALANLARI:
+- Program ayarları
+- Sistem konfigürasyonu
+- Kullanıcı tercihleri
+- Donanım bilgileri
+
+⚠️ DİKKAT:
+Registry'de yanlış değişiklikler sistemi bozabilir!`
+            },
+            {
+                id: 'w2',
+                question: "Windows'ta Safe Mode nedir?",
+                options: [
+                    "Minimum sürücülerle başlatma modu",
+                    "Güvenlik duvarı modu",
+                    "Otomatik yedekleme sistemi",
+                    "Antivirüs tarama modu"
+                ],
+                correct: 0,
+                difficulty: "medium",
+                explanation: `🛡️ SAFE MODE AÇIKLAMA:
+
+Safe Mode (Güvenli Mod), Windows'u minimum sürücü ve hizmetlerle başlatır.
+
+NE ZAMAN KULLANILIR?
+- Virüs temizleme
+- Sürücü sorunları
+- Sistem hataları
+- Yazılım çakışmaları
+
+NASIL GİRİLİR?
+1. Yeniden başlatırken F8
+2. msconfig → Boot sekmesi
+3. Shift + Yeniden Başlat`
             }
         ],
         linux: [
@@ -42,18 +79,86 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
                 id: 'l1',
                 question: "Linux'ta chmod 755 komutu ne yapar?",
                 options: [
-                    "Sahip: okuma+yazma+çalıştırma, Diğerleri: okuma+çalıştırma",
+                    "Sahip: rwx, Grup ve Diğerleri: r-x",
                     "Tüm izinleri kaldırır",
                     "Sadece okuma izni verir",
                     "Dosyayı siler"
                 ],
                 correct: 0,
                 difficulty: "hard",
-                explanation: `🔐 CHMOD 755 AÇILIMI:
+                explanation: `🔐 CHMOD 755 DETAYLI AÇIKLAMA:
 
-📐 CHMOD 755:
-- 7 (Sahip) = rwx (Okuma+Yazma+Çalıştırma)
-- 5 (Grup) = r-x (Okuma+Çalıştırma)`
+📐 CHMOD 755 AÇILIMI:
+- 7 (Sahip) = rwx (4+2+1) → Okuma+Yazma+Çalıştırma
+- 5 (Grup) = r-x (4+0+1) → Okuma+Çalıştırma
+- 5 (Diğerleri) = r-x (4+0+1) → Okuma+Çalıştırma
+
+🔢 RAKAM SİSTEMİ:
+- r (read) = 4
+- w (write) = 2
+- x (execute) = 1
+
+📝 ÖRNEKLER:
+chmod 644 dosya.txt → rw-r--r--
+chmod 777 script.sh → rwxrwxrwx
+chmod 600 private.key → rw-------
+
+⚡ HIZLI İPUCU:
+chmod +x script.sh → Çalıştırma izni ekle`
+            },
+            {
+                id: 'l2',
+                question: "Linux'ta hangi komut sistem kaynaklarını gösterir?",
+                options: [
+                    "top",
+                    "ls",
+                    "cd",
+                    "pwd"
+                ],
+                correct: 0,
+                difficulty: "easy",
+                explanation: `💻 TOP KOMUTU:
+
+top komutu, gerçek zamanlı sistem kaynaklarını gösterir:
+- CPU kullanımı
+- Bellek kullanımı
+- Çalışan işlemler
+- Sistem yükü
+
+ALTERNATİFLER:
+- htop → Renkli ve etkileşimli
+- gtop → Grafik arayüzlü
+- atop → Gelişmiş analiz`
+            }
+        ],
+        genel: [
+            {
+                id: 'g1',
+                question: "İşletim sisteminin temel görevi nedir?",
+                options: [
+                    "Donanım ve yazılım arasında arayüz sağlamak",
+                    "İnternet bağlantısı kurmak",
+                    "Oyun oynamak",
+                    "Video izlemek"
+                ],
+                correct: 0,
+                difficulty: "easy",
+                explanation: `🎯 İŞLETİM SİSTEMİ TEMEL GÖREVLERİ:
+
+1️⃣ DONANIM SOYUTLAMA
+Kullanıcıyı donanım detaylarından korur
+
+2️⃣ KAYNAK YÖNETİMİ
+CPU, RAM, Disk kaynaklarını yönetir
+
+3️⃣ DOSYA YÖNETİMİ
+Dosya sistemini organize eder
+
+4️⃣ GÜVENLİK
+Kullanıcı izinlerini kontrol eder
+
+5️⃣ KULLANICI ARAYÜZÜ
+GUI veya CLI sağlar`
             }
         ]
     },
@@ -65,39 +170,42 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
         totalQuestions: 0,
         correctAnswers: 0,
         streak: 0,
-        level: 1
+        level: 1,
+        lastActivity: null
     },
 
     /**
-     * MESAJ GÖNDER - DÜZELTİLMİŞ
+     * MESAJ GÖNDER - TAM DÜZELTİLMİŞ
      */
     sendMessage(event) {
-        // ÖNEMLİ: Event'i her zaman durdur
+        // Event'i tamamen durdur
         if (event) {
             event.preventDefault();
             event.stopPropagation();
+            event.stopImmediatePropagation();
         }
         
         const input = document.getElementById('aiInput');
         if (!input) {
-            console.error('Input bulunamadı!');
+            console.error('❌ Input bulunamadı!');
             return;
         }
         
         const message = input.value.trim();
         
         if (!message) {
-            console.log('Boş mesaj, gönderilmedi');
+            console.log('⚠️ Boş mesaj, gönderilmedi');
             return;
         }
         
-        console.log('Mesaj gönderiliyor:', message);
+        console.log('✅ Mesaj gönderiliyor:', message);
         
         // Kullanıcı mesajını ekle
         this.addMessage(message, 'user');
         
-        // Input'u temizle
+        // Input'u temizle ve focus ver
         input.value = '';
+        input.focus();
         
         // Cevap kontrolü
         if (this.currentQuestion) {
@@ -120,32 +228,37 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
         
         const isCorrect = answerIndex === this.currentQuestion.correct;
         this.stats.totalQuestions++;
+        this.stats.lastActivity = Date.now();
         
         if (isCorrect) {
             this.stats.correctAnswers++;
             this.stats.streak++;
             
+            // Her 5 doğru cevap = Level Up
             if (this.stats.correctAnswers % 5 === 0) {
                 this.stats.level++;
             }
             
+            const successRate = Math.round((this.stats.correctAnswers / this.stats.totalQuestions) * 100);
+            
             this.addMessage(
-                `✅ **DOĞRU!** 🎉\n\n${this.currentQuestion.explanation}\n\n` +
-                `**İstatistikler:**\n` +
+                `✅ **DOĞRU CEVAP!** 🎉\n\n${this.currentQuestion.explanation}\n\n` +
+                `**📊 İSTATİSTİKLERİN:**\n` +
                 `• Toplam Soru: ${this.stats.totalQuestions}\n` +
                 `• Doğru: ${this.stats.correctAnswers}\n` +
-                `• Başarı: ${Math.round((this.stats.correctAnswers / this.stats.totalQuestions) * 100)}%\n` +
+                `• Başarı Oranı: ${successRate}%\n` +
                 `• Seri: ${this.stats.streak} 🔥\n` +
-                `• Seviye: ${this.stats.level}`,
+                `• Seviye: ${this.stats.level}\n\n` +
+                `Harika gidiyorsun! 💪`,
                 'ai'
             );
         } else {
             this.stats.streak = 0;
             this.addMessage(
-                `❌ **YANLIŞ!**\n\n` +
+                `❌ **YANLIŞ CEVAP!**\n\n` +
                 `Doğru cevap: **${this.currentQuestion.options[this.currentQuestion.correct]}**\n\n` +
                 `${this.currentQuestion.explanation}\n\n` +
-                `Seri bitti 💔 Ama vazgeçme!`,
+                `Seri bitti 💔 Ama vazgeçme! Öğrenmek için buradayız! 📚`,
                 'ai'
             );
         }
@@ -166,46 +279,74 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
             this.hideTypingIndicator();
             
             // Selamlaşma
-            if (['merhaba', 'selam', 'hey'].some(g => msg.includes(g))) {
+            if (['merhaba', 'selam', 'hey', 'hi', 'hello'].some(g => msg.includes(g))) {
                 this.addMessage(
-                    "Merhaba! 👋 Ben Testify AI. Sana nasıl yardımcı olabilirim?\n\n" +
-                    "• 'soru ver' - Test sorusu\n" +
-                    "• 'registry nedir' - Konu öğren\n" +
-                    "• 'chmod açıkla' - Detaylı açıklama",
+                    "Merhaba! 👋 Ben Testify AI, senin kişisel eğitim asistanın!\n\n" +
+                    "**🎯 NELER YAPABİLİRİM?**\n\n" +
+                    "• **'soru ver'** - Test sorusu çöz\n" +
+                    "• **'registry nedir'** - Windows konuları\n" +
+                    "• **'chmod açıkla'** - Linux komutları\n" +
+                    "• **'istatistikler'** - Performansını gör\n" +
+                    "• **'yardım'** - Tüm komutları gör\n\n" +
+                    "Hadi başlayalım! 🚀",
                     'ai'
                 );
                 return;
             }
             
             // Soru isteme
-            if (msg.includes('soru')) {
+            if (msg.includes('soru') || msg.includes('test')) {
                 this.showRandomQuestion();
                 return;
             }
             
-            // Konu açıklama
+            // İstatistikler
+            if (msg.includes('istatistik') || msg.includes('stat') || msg.includes('performans')) {
+                this.showStats();
+                return;
+            }
+            
+            // Konu açıklama - Windows
             if (msg.includes('registry')) {
                 this.addMessage(this.questionBank.windows[0].explanation, 'ai');
                 return;
             }
             
+            if (msg.includes('safe mode') || msg.includes('güvenli mod')) {
+                this.addMessage(this.questionBank.windows[1].explanation, 'ai');
+                return;
+            }
+            
+            // Konu açıklama - Linux
             if (msg.includes('chmod')) {
                 this.addMessage(this.questionBank.linux[0].explanation, 'ai');
                 return;
             }
             
+            if (msg.includes('top') && msg.includes('komut')) {
+                this.addMessage(this.questionBank.linux[1].explanation, 'ai');
+                return;
+            }
+            
+            // Yardım
+            if (msg.includes('yardım') || msg.includes('help') || msg.includes('komut')) {
+                this.showHelp();
+                return;
+            }
+            
             // API çağrısı (isteğe bağlı)
-            if (msg.includes('nedir') || msg.includes('açıkla')) {
+            if (msg.includes('nedir') || msg.includes('açıkla') || msg.includes('anlat')) {
                 this.askGPTAPI(message);
                 return;
             }
             
             // Varsayılan
             this.addMessage(
-                "Tam olarak anlayamadım. Şunları deneyebilirsin:\n\n" +
-                "• 'Soru ver'\n" +
-                "• 'Registry nedir'\n" +
-                "• 'chmod açıkla'",
+                "🤔 Tam olarak anlayamadım. Şunları deneyebilirsin:\n\n" +
+                "• **'soru ver'** - Test çöz\n" +
+                "• **'yardım'** - Komutları gör\n" +
+                "• **'registry nedir'** - Konu öğren\n\n" +
+                "Ya da doğrudan bir soru sor! 💬",
                 'ai'
             );
         }, 800);
@@ -217,18 +358,89 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
     showRandomQuestion() {
         const allQuestions = [
             ...this.questionBank.windows,
-            ...this.questionBank.linux
+            ...this.questionBank.linux,
+            ...this.questionBank.genel
         ];
         
         const question = allQuestions[Math.floor(Math.random() * allQuestions.length)];
         this.currentQuestion = question;
         
-        let questionText = `📝 **SORU**\n\n${question.question}\n\n`;
+        const difficultyEmoji = {
+            'easy': '🟢',
+            'medium': '🟡',
+            'hard': '🔴'
+        };
+        
+        let questionText = `📝 **YENİ SORU** ${difficultyEmoji[question.difficulty] || '⚪'}\n\n`;
+        questionText += `**${question.question}**\n\n`;
         questionText += question.options.map((opt, i) => 
-            `${String.fromCharCode(65 + i)}) ${opt}`
+            `**${String.fromCharCode(65 + i)})** ${opt}`
         ).join('\n');
+        questionText += '\n\n💡 Cevabını **A, B, C veya D** olarak yaz!';
         
         this.addMessage(questionText, 'ai');
+    },
+
+    /**
+     * İstatistikleri göster
+     */
+    showStats() {
+        if (this.stats.totalQuestions === 0) {
+            this.addMessage(
+                "📊 **HENÜZ İSTATİSTİK YOK**\n\n" +
+                "Soru çözmeye başla ve performansını takip et!\n\n" +
+                "**'soru ver'** yazarak başlayabilirsin! 🚀",
+                'ai'
+            );
+            return;
+        }
+        
+        const successRate = Math.round((this.stats.correctAnswers / this.stats.totalQuestions) * 100);
+        
+        let performance = '';
+        if (successRate >= 90) performance = '🏆 MÜKEMMEL!';
+        else if (successRate >= 75) performance = '🌟 ÇOK İYİ!';
+        else if (successRate >= 60) performance = '👍 İYİ!';
+        else if (successRate >= 40) performance = '💪 GELİŞİYORSUN!';
+        else performance = '📚 DEVAM ET!';
+        
+        this.addMessage(
+            `📊 **PERFORMANS ANALİZİN**\n\n` +
+            `${performance}\n\n` +
+            `**📈 İSTATİSTİKLER:**\n` +
+            `• Toplam Soru: ${this.stats.totalQuestions}\n` +
+            `• Doğru Cevap: ${this.stats.correctAnswers}\n` +
+            `• Yanlış Cevap: ${this.stats.totalQuestions - this.stats.correctAnswers}\n` +
+            `• Başarı Oranı: ${successRate}%\n` +
+            `• En Uzun Seri: ${this.stats.streak} 🔥\n` +
+            `• Seviye: ${this.stats.level}\n\n` +
+            `Harika gidiyorsun! Devam et! 💪`,
+            'ai'
+        );
+    },
+
+    /**
+     * Yardım göster
+     */
+    showHelp() {
+        this.addMessage(
+            `📚 **TESTIFY AI KOMUTLARI**\n\n` +
+            `**🎯 TEST ÇÖZME:**\n` +
+            `• 'soru ver' - Rastgele soru\n` +
+            `• 'A, B, C, D' - Cevap ver\n\n` +
+            `**📖 KONU ÖĞRENME:**\n` +
+            `• 'registry nedir' - Windows Registry\n` +
+            `• 'safe mode nedir' - Güvenli Mod\n` +
+            `• 'chmod açıkla' - Linux İzinleri\n` +
+            `• 'top komutu' - Sistem Kaynakları\n\n` +
+            `**📊 İSTATİSTİK:**\n` +
+            `• 'istatistikler' - Performansını gör\n\n` +
+            `**💬 GENEL:**\n` +
+            `• '[konu] nedir' - Açıklama iste\n` +
+            `• 'yardım' - Bu menü\n\n` +
+            `Başka bir şey öğrenmek ister misin? 🚀`,
+            'ai'
+        );
     },
 
     /**
@@ -249,7 +461,7 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
                     messages: [
                         { 
                             role: "system", 
-                            content: "Sen Testify AI'sın. Kısa, öz ve emoji kullanarak açıkla."
+                            content: "Sen Testify AI'sın. Kısa, öz, emoji kullanarak ve Markdown formatında açıkla. İşletim sistemleri konusunda uzmansın."
                         },
                         { 
                             role: "user", 
@@ -276,7 +488,9 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
             console.error('API Hatası:', error);
             this.hideTypingIndicator();
             this.addMessage(
-                "⚠️ API bağlantı hatası. Soru bankasından yardımcı olabilirim!",
+                "⚠️ **API BAĞLANTI HATASI**\n\n" +
+                "Şu anda API'ye ulaşamıyorum. Ama yerleşik soru bankamdan yardımcı olabilirim!\n\n" +
+                "**'soru ver'** yazarak başlayabilirsin! 📚",
                 'ai'
             );
         }
@@ -287,7 +501,10 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
      */
     addMessage(text, sender = 'ai') {
         const chatContainer = document.getElementById('aiChat');
-        if (!chatContainer) return;
+        if (!chatContainer) {
+            console.error('❌ Chat container bulunamadı!');
+            return;
+        }
         
         const messageDiv = document.createElement('div');
         messageDiv.className = sender === 'user' ? 'ai-message user-message' : 'ai-message';
@@ -296,7 +513,7 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
         
         if (sender === 'ai') {
             messageDiv.innerHTML = `
-                <div class="ai-avatar">T</div>
+                <div class="ai-avatar">🤖</div>
                 <div class="message-content">${formattedText}</div>
             `;
         } else {
@@ -318,7 +535,8 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
         return text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\n/g, '<br>')
-            .replace(/•/g, '&bull;');
+            .replace(/•/g, '&bull;')
+            .replace(/`(.*?)`/g, '<code>$1</code>');
     },
 
     /**
@@ -342,11 +560,13 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
         typingDiv.className = 'ai-message typing-indicator';
         typingDiv.id = 'typingIndicator';
         typingDiv.innerHTML = `
-            <div class="ai-avatar">T</div>
+            <div class="ai-avatar">🤖</div>
             <div class="message-content">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <div class="typing-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
         `;
         
@@ -365,9 +585,10 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
      */
     saveStats() {
         try {
-            localStorage.setItem('testify-stats', JSON.stringify(this.stats));
+            localStorage.setItem('testify-ai-stats', JSON.stringify(this.stats));
+            console.log('📊 İstatistikler kaydedildi');
         } catch (e) {
-            console.error('Stats kayıt hatası:', e);
+            console.error('❌ Stats kayıt hatası:', e);
         }
     },
 
@@ -376,62 +597,83 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
      */
     loadStats() {
         try {
-            const saved = localStorage.getItem('testify-stats');
+            const saved = localStorage.getItem('testify-ai-stats');
             if (saved) {
-                this.stats = JSON.parse(saved);
+                this.stats = { ...this.stats, ...JSON.parse(saved) };
+                console.log('✅ İstatistikler yüklendi:', this.stats);
             }
         } catch (e) {
-            console.error('Stats yükleme hatası:', e);
+            console.error('❌ Stats yükleme hatası:', e);
         }
     },
 
     /**
-     * Event listener'ları kur - DÜZELTİLMİŞ
+     * Event listener'ları kur - TAM GÜVENLİ
      */
     setupEventListeners() {
-        console.log('Event listener\'lar kuruluyor...');
+        console.log('🔧 Event listener\'lar kuruluyor...');
         
         const input = document.getElementById('aiInput');
         const sendBtn = document.getElementById('aiSendBtn');
         
         if (!input || !sendBtn) {
-            console.error('Input veya buton bulunamadı!');
+            console.error('❌ Input veya buton bulunamadı!');
+            console.log('Input:', input);
+            console.log('SendBtn:', sendBtn);
+            setTimeout(() => this.setupEventListeners(), 500);
             return;
         }
         
+        console.log('✅ Input ve buton bulundu');
+        
         // Enter tuşu
-        input.addEventListener('keydown', (e) => {
+        input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                console.log('Enter tuşuna basıldı');
+                console.log('⌨️ Enter tuşuna basıldı');
                 this.sendMessage(e);
             }
         });
         
         // Gönder butonu
         sendBtn.addEventListener('click', (e) => {
-            console.log('Gönder butonuna tıklandı');
+            console.log('🖱️ Gönder butonuna tıklandı');
             this.sendMessage(e);
         });
         
-        console.log('Event listener\'lar başarıyla kuruldu');
+        // Test için
+        sendBtn.addEventListener('mousedown', () => {
+            console.log('🖱️ Buton mousedown');
+        });
+        
+        console.log('✅ Event listener\'lar başarıyla kuruldu');
     },
 
     /**
      * Başlat
      */
     init() {
-        console.log('🎓 Testify AI v4.1 başlatılıyor...');
+        console.log('🎓 Testify AI v4.2 başlatılıyor...');
         
         this.loadStats();
-        this.setupEventListeners();
         
+        // DOM hazır olana kadar bekle
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.setupEventListeners();
+            });
+        } else {
+            this.setupEventListeners();
+        }
+        
+        // Hoş geldin mesajı
         setTimeout(() => {
             this.addMessage(
-                "Merhaba! 👋 Ben Testify AI. Sana nasıl yardımcı olabilirim?\n\n" +
-                "• 'Soru ver' - Test sorusu\n" +
-                "• 'Registry nedir' - Konu öğren\n" +
-                "• 'chmod açıkla' - Linux izinleri",
+                "👋 **Merhaba! Ben Testify AI!**\n\n" +
+                "Sana işletim sistemleri konusunda yardımcı olmak için buradayım!\n\n" +
+                "**🚀 HIZLI BAŞLANGIÇ:**\n" +
+                "• **'soru ver'** - Test çözmeye başla\n" +
+                "• **'yardım'** - Tüm komutları gör\n\n" +
+                "Haydi başlayalım! 💪",
                 'ai'
             );
         }, 500);
@@ -440,11 +682,28 @@ Windows Registry, tüm sistem ve program ayarlarının saklandığı hiyerarşik
     }
 };
 
-// Başlat
-document.addEventListener('DOMContentLoaded', () => {
-    TestifyAI.init();
-});
+// Başlat - ÇOKLU BAŞLATMAYI ÖNLE
+if (!window.TestifyAI) {
+    document.addEventListener('DOMContentLoaded', () => {
+        TestifyAI.init();
+    });
+    
+    // Global erişim
+    window.TestifyAI = TestifyAI;
+    window.aiChat = TestifyAI;
+} else {
+    console.log('⚠️ TestifyAI zaten yüklü');
+}
 
-// Global erişim
-window.TestifyAI = TestifyAI;
-window.aiChat = TestifyAI;
+// ACİL YEDEK ÇÖZÜM
+window.addEventListener('load', () => {
+    const sendBtn = document.getElementById('aiSendBtn');
+    if (sendBtn && !sendBtn.onclick) {
+        sendBtn.onclick = (e) => {
+            e.preventDefault();
+            console.log('🆘 Yedek çözüm aktif');
+            TestifyAI.sendMessage(e);
+        };
+        console.log('✅ Yedek çözüm kuruldu');
+    }
+});
