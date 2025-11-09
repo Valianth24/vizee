@@ -1,7 +1,4 @@
-/**
- * TESTIFY INTERNATIONALIZATION (i18n)
- * TR, EN, DE, ES Desteği
- */
+
 
 'use strict';
 
